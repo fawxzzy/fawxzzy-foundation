@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-04-29T18:02:03.438Z",
+  "updatedAt": "2026-04-29T19:18:00.000Z",
   "source": "initial-bootstrap-from-connected-github-and-vercel-inventory",
   "owner": "fawxzzy",
   "principles": [
@@ -16,7 +16,7 @@
       "kind": "control-plane",
       "status": "incubating",
       "priority": 1,
-      "summary": "Remote-created control-plane registry and console repo; promotion to active control-plane remains blocked on observable Vercel project and deployment proof.",
+      "summary": "Remote-created control-plane registry and console repo with verified live Vercel deployment proof; promotion to active control-plane still awaits fully green commit/check confirmation.",
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-foundation",
@@ -28,8 +28,14 @@
       },
       "vercel": {
         "projectName": "fawxzzy-foundation",
-        "exists": false,
-        "teamSlug": "fawxzzy"
+        "exists": true,
+        "teamSlug": "fawxzzy",
+        "projects": [
+          {
+            "name": "fawxzzy-foundation",
+            "id": "prj_o37CPLlESB6Zybe8GB74BX3wrkpy"
+          }
+        ]
       },
       "stack": [
         "Node >=22",
@@ -44,22 +50,24 @@
         "packages/contracts/foundation.schema.json"
       ],
       "promotion": {
-        "label": "remote-created / incubating",
+        "label": "remote-created + deployed / incubating",
         "targetLabel": "active control-plane",
-        "blockedOn": "Vercel/deployment proof",
+        "blockedOn": "Fully green commit/check confirmation",
         "notes": [
           "GitHub Actions lane: Foundation CI succeeded at 2026-04-29 17:14:02Z.",
-          "Overall commit/check state: not fully green yet because a Vercel check suite is still queued/pending on the same SHA."
+          "Vercel production deployment verified at https://fawxzzy-foundation.vercel.app on 2026-04-29."
         ],
         "sourceNote": "The connector surface I have here did not expose that push workflow run directly, and the combined-status lookup returned no status entries, so your GitHub UI/API observation is the source of truth for the CI detail.",
         "registryCommit": {
+          "label": "GitHub remote registration commit",
           "sha": "b83cea80e82231f15f435abd64be45e565df2d0f",
           "message": "Register Foundation GitHub remote"
         },
         "vercelObservation": {
           "projectName": "fawxzzy-foundation",
-          "status": "not found / 404",
+          "status": "project created + production deployment verified",
           "visibleProjects": [
+            "foundation",
             "fitness",
             "fitness-prod-deploy",
             "trove",
@@ -102,19 +110,19 @@
           },
           {
             "label": "Vercel project exists",
-            "done": false
+            "done": true
           },
           {
             "label": "Vercel deployment exists",
-            "done": false
+            "done": true
           },
           {
             "label": "Vercel deployment verified",
-            "done": false
+            "done": true
           },
           {
             "label": "Registry records Vercel deployment proof",
-            "done": false
+            "done": true
           },
           {
             "label": "Foundation promoted to active control-plane",
@@ -122,20 +130,14 @@
           }
         ],
         "nextValidMove": [
-          "Create/link Vercel project: fawxzzy-foundation",
-          "Deploy Foundation",
-          "Verify deployment is observable",
-          "Update Foundation registry with Vercel project/deployment proof",
-          "Run pnpm build and pnpm verify:local",
+          "Confirm the overall GitHub/Vercel commit check state is fully green",
+          "Promote Foundation from incubating to active control-plane",
           "Commit and push the registry/deployment proof update"
         ]
       },
       "nextActions": [
-        "Create/link Vercel project: fawxzzy-foundation",
-        "Deploy Foundation",
-        "Verify deployment is observable",
-        "Update Foundation registry with Vercel project/deployment proof",
-        "Run pnpm build and pnpm verify:local",
+        "Confirm the overall GitHub/Vercel commit check state is fully green",
+        "Promote Foundation from incubating to active control-plane",
         "Commit and push the registry/deployment proof update"
       ]
     },

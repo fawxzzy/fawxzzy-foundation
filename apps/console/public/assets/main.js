@@ -31,7 +31,7 @@ function renderPromotion(project) {
   if (promotion.blockedOn) facts.push(`<p><strong>Blocked on:</strong> ${text(promotion.blockedOn)}</p>`);
   if (promotion.registryCommit?.sha && promotion.registryCommit?.message) {
     facts.push(
-      `<p><strong>Registry commit:</strong> ${text(promotion.registryCommit.sha)} (${text(promotion.registryCommit.message)})</p>`
+      `<p><strong>${text(promotion.registryCommit.label ?? "Registry commit")}:</strong> ${text(promotion.registryCommit.sha)} (${text(promotion.registryCommit.message)})</p>`
     );
   }
   if (promotion.vercelObservation?.projectName && promotion.vercelObservation?.status) {

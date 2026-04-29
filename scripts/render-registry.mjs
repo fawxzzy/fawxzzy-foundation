@@ -37,7 +37,9 @@ function renderPromotion(project) {
   if (promotion.sourceNote) lines.push(`- ${promotion.sourceNote}`);
 
   if (promotion.registryCommit?.sha && promotion.registryCommit?.message) {
-    lines.push(`- Latest registry commit: \`${promotion.registryCommit.sha}\` (${promotion.registryCommit.message})`);
+    lines.push(
+      `- ${promotion.registryCommit.label ?? "Registry commit"}: \`${promotion.registryCommit.sha}\` (${promotion.registryCommit.message})`
+    );
   }
 
   if (promotion.vercelObservation?.projectName && promotion.vercelObservation?.status) {

@@ -25,6 +25,7 @@ export type FoundationPromotion = {
   notes?: string[];
   sourceNote?: string;
   registryCommit?: {
+    label?: string;
     sha: string;
     message: string;
   };
