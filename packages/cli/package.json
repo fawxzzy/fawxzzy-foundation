@@ -1,0 +1,9 @@
+{
+  "name": "@fawxzzy-foundation/cli",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "foundation": "./bin/foundation.mjs"
+  }
+}

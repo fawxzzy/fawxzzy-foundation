@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fawxzzy Foundation</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">Fawxzzy Foundation</p>
+        <h1>Project control plane</h1>
+        <p class="lede">Registry, governance map, deployment inventory, and next actions for the Fawxzzy stack.</p>
+      </section>
+
+      <section class="summary" aria-label="Foundation summary">
+        <article>
+          <span id="totalProjects">—</span>
+          <p>Projects</p>
+        </article>
+        <article>
+          <span id="activeProjects">—</span>
+          <p>Active</p>
+        </article>
+        <article>
+          <span id="deploymentMappedProjects">—</span>
+          <p>Deployment mapped</p>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Registry</p>
+            <h2>Projects</h2>
+          </div>
+          <p id="updatedAt" class="muted">Loading registry…</p>
+        </div>
+        <div id="projectGrid" class="project-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="panel compact">
+        <p class="eyebrow">Operating contract</p>
+        <h2>Next local commands</h2>
+        <pre><code>pnpm build
+pnpm verify:local
+pnpm foundation status</code></pre>
+      </section>
+    </main>
+    <script type="module" src="/assets/main.js"></script>
+  </body>
+</html>

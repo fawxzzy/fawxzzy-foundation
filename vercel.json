@@ -1,0 +1,6 @@
+{
+  "buildCommand": "pnpm build",
+  "outputDirectory": "apps/console/public",
+  "installCommand": "pnpm install --frozen-lockfile=false",
+  "framework": null
+}

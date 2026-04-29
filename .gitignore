@@ -1,0 +1,29 @@
+# Dependencies and package managers
+node_modules/
+.pnp.*
+
+# Build output
+.next/
+dist/
+build/
+coverage/
+
+# Platform metadata
+.vercel/
+.env
+.env.*
+!.env.example
+
+# Foundation runtime artifacts
+.foundation/*
+!.foundation/.gitkeep
+
+# Playbook runtime artifacts. Keep the stable AI contract checked in.
+.playbook/*
+!.playbook/ai-contract.json
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

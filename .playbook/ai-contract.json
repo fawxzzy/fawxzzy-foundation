@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "project": "fawxzzy-foundation",
+  "purpose": "Foundation-level control plane for Fawxzzy projects.",
+  "sourceOfTruth": [
+    "foundation.config.json",
+    "data/projects.json",
+    "packages/contracts/foundation.schema.json",
+    "docs/architecture/FOUNDATION_BLUEPRINT.md"
+  ],
+  "canonicalCommands": {
+    "verify": "pnpm verify:local",
+    "build": "pnpm build",
+    "projectStatus": "pnpm foundation status",
+    "projectList": "pnpm foundation projects"
+  },
+  "mutationRules": [
+    "Update data/projects.json before changing generated registry docs.",
+    "Run pnpm build after registry changes.",
+    "Run pnpm verify:local before handing off changes.",
+    "Generated runtime artifacts belong under .foundation/ and stay private-first."
+  ]
+}

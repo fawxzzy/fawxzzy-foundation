@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-04-29T00:00:00.000Z",
+  "source": "initial-bootstrap-from-connected-github-and-vercel-inventory",
+  "owner": "fawxzzy",
+  "principles": [
+    "private-first runtime artifacts",
+    "deterministic project registry",
+    "brief-thin human surfaces with machine-readable JSON truth",
+    "modular repos under a shared governance layer"
+  ],
+  "projects": [
+    {
+      "slug": "foundation",
+      "name": "Fawxzzy Foundation",
+      "kind": "control-plane",
+      "status": "bootstrap",
+      "priority": 1,
+      "summary": "Top-level operating layer for project registry, governance contracts, deployment map, and operator console.",
+      "repo": {
+        "owner": "fawxzzy",
+        "name": "fawxzzy-foundation",
+        "fullName": "fawxzzy/fawxzzy-foundation",
+        "url": "https://github.com/fawxzzy/fawxzzy-foundation",
+        "exists": false,
+        "defaultBranch": "main"
+      },
+      "vercel": {
+        "projectName": "fawxzzy-foundation",
+        "exists": false,
+        "teamSlug": "fawxzzy"
+      },
+      "stack": [
+        "Node >=22",
+        "pnpm 10.23.0",
+        "ESM scripts",
+        "static console",
+        "Playbook-compatible contracts"
+      ],
+      "contracts": [
+        "foundation.config.json",
+        "data/projects.json",
+        "packages/contracts/foundation.schema.json"
+      ],
+      "nextActions": [
+        "create GitHub repository",
+        "push bootstrap commit",
+        "link optional Vercel project",
+        "run pnpm verify:local"
+      ]
+    },
+    {
+      "slug": "atlas",
+      "name": "ATLAS",
+      "kind": "workspace-architecture",
+      "status": "active",
+      "priority": 2,
+      "summary": "Architecture and workspace inventory layer for the broader Fawxzzy stack.",
+      "repo": {
+        "owner": "fawxzzy",
+        "name": "ATLAS",
+        "fullName": "fawxzzy/ATLAS",
+        "url": "https://github.com/fawxzzy/ATLAS",
+        "exists": true,
+        "visibility": "public",
+        "defaultBranch": "main"
+      },
+      "stack": [
+        "docs",
+        "architecture",
+        "workspace inventory"
+      ],
+      "contracts": [
+        "docs/architecture/atlas-current-tree.md"
+      ],
+      "nextActions": [
+        "sync Foundation registry from ATLAS workspace observations"
+      ]
+    },
+    {
+      "slug": "playbook",
+      "name": "Fawxzzy Playbook",
+      "kind": "governance-runtime",
+      "status": "active",
+      "priority": 1,
+      "summary": "Deterministic repo intelligence, governance, verification, and safe remediation runtime.",
+      "repo": {
+        "owner": "fawxzzy",
+        "name": "fawxzzy-playbook",
+        "fullName": "fawxzzy/fawxzzy-playbook",
+        "url": "https://github.com/fawxzzy/fawxzzy-playbook",
+        "exists": true,
+        "visibility": "public",
+        "defaultBranch": "main"
+      },
+      "stack": [
+        "Node >=22",
+        "pnpm",
+        "TypeScript",
+        "CLI",
+        "contracts"
+      ],
+      "contracts": [
+        "AGENTS.md",
+        ".playbook/ai-contract.json",
+        "docs/contracts/command-truth.json"
+      ],
+      "nextActions": [
+        "adopt Playbook bootstrap in Foundation once package install is available"
+      ]
+    },
+    {
+      "slug": "lifeline",
+      "name": "Fawxzzy Lifeline",
+      "kind": "operator-runtime",
+      "status": "active",
+      "priority": 2,
+      "summary": "Local runtime/operator layer and restart/status flow for app targets.",
+      "repo": {
+        "owner": "fawxzzy",
+        "name": "fawxzzy-lifeline",
+        "fullName": "fawxzzy/fawxzzy-lifeline",
+        "url": "https://github.com/fawxzzy/fawxzzy-lifeline",
+        "exists": true,
+        "visibility": "public",
+        "defaultBranch": "main"
+      },
+      "stack": [
+        "TypeScript",
+        "CLI/runtime",
+        "examples",
+        "fixtures"
+      ],
+      "contracts": [
+        ".lifeline",
+        ".playbook"
+      ],
+      "nextActions": [
+        "define Foundation lifeline target once deployment runtime is chosen"
+      ]
+    },
+    {
+      "slug": "fitness",
+      "name": "Fawxzzy Fitness",
+      "kind": "application",
+      "status": "active",
+      "priority": 2,
+      "summary": "Fitness and wellness app surface.",
+      "repo": {
+        "owner": "fawxzzy",
+        "name": "fawxzzy-fitness",
+        "fullName": "fawxzzy/fawxzzy-fitness",
+        "url": "https://github.com/fawxzzy/fawxzzy-fitness",
+        "exists": true,
+        "visibility": "public",
+        "defaultBranch": "main"
+      },
+      "vercel": {
+        "exists": true,
+        "teamSlug": "fawxzzy",
+        "projects": [
+          {
+            "name": "fawxzzy-fitness",
+            "id": "prj_rtlFVOMFAWCRoJ3SQjHloi89881K"
+          },
+          {
+            "name": "fawxzzy-fitness-prod-deploy",
+            "id": "prj_8oWpoLP21Lg2aO34F6z2FGyPpuor"
+          }
+        ]
+      },
+      "stack": [
+        "Next.js app",
+        "Supabase",
+        "tests",
+        "Playbook/Lifeline metadata"
+      ],
+      "contracts": [
+        "AGENT.md",
+        ".lifeline",
+        ".playbook"
+      ],
+      "nextActions": [
+        "normalize AGENT.md to AGENTS.md convention",
+        "surface deployment health in Foundation console"
+      ]
+    },
+    {
+      "slug": "mazer",
+      "name": "Fawxzzy Mazer",
+      "kind": "application-game",
+      "status": "active",
+      "priority": 3,
+      "summary": "Interactive/game application surface.",
+      "repo": {
+        "owner": "fawxzzy",
+        "name": "fawxzzy-mazer",
+        "fullName": "fawxzzy/fawxzzy-mazer",
+        "url": "https://github.com/fawxzzy/fawxzzy-mazer",
+        "exists": true,
+        "visibility": "public",
+        "defaultBranch": "main"
+      },
+      "vercel": {
+        "exists": true,
+        "teamSlug": "fawxzzy",
+        "projects": [
+          {
+            "name": "fawxzzy-mazer",
+            "id": "prj_t3zothbtj9DExrh3FjMsH98hwwSZ"
+          }
+        ]
+      },
+      "stack": [
+        "Vite",
+        "TypeScript",
+        "Phaser",
+        "tests"
+      ],
+      "contracts": [
+        "AGENTS.md",
+        "docs/ops"
+      ],
+      "nextActions": [
+        "surface build/runtime proof in Foundation console"
+      ]
+    },
+    {
+      "slug": "trove",
+      "name": "Fawxzzy Trove",
+      "kind": "content-data",
+      "status": "active",
+      "priority": 3,
+      "summary": "Curated content/data collection project surface.",
+      "repo": {
+        "owner": "fawxzzy",
+        "name": "fawxzzy-trove",
+        "fullName": "fawxzzy/fawxzzy-trove",
+        "url": "https://github.com/fawxzzy/fawxzzy-trove",
+        "exists": true,
+        "visibility": "public",
+        "defaultBranch": "main"
+      },
+      "vercel": {
+        "exists": true,
+        "teamSlug": "fawxzzy",
+        "projects": [
+          {
+            "name": "fawxzzy-trove",
+            "id": "prj_vhUyajI4AL6BgCF40VnKtdxrBLuV"
+          }
+        ]
+      },
+      "stack": [
+        "content/data",
+        "deployment surface"
+      ],
+      "contracts": [],
+      "nextActions": [
+        "add repo-local AI/governance contract when ready"
+      ]
+    },
+    {
+      "slug": "nat-1-games",
+      "name": "Nat 1 Games",
+      "kind": "application",
+      "status": "observed-deployment",
+      "priority": 4,
+      "summary": "Vercel deployment surface observed under the Fawxzzy team; GitHub canonical repo still needs confirmation.",
+      "repo": {
+        "owner": "fawxzzy",
+        "name": "nat-1-games",
+        "fullName": "fawxzzy/nat-1-games",
+        "url": "https://github.com/fawxzzy/nat-1-games",
+        "exists": null,
+        "defaultBranch": "main"
+      },
+      "vercel": {
+        "exists": true,
+        "teamSlug": "fawxzzy",
+        "projects": [
+          {
+            "name": "nat-1-games",
+            "id": "prj_yDWmp04vLD6lR83dIRlEmaMntpWC"
+          }
+        ]
+      },
+      "stack": [
+        "app",
+        "deployment surface"
+      ],
+      "contracts": [],
+      "nextActions": [
+        "confirm canonical GitHub repository",
+        "add registry contract"
+      ]
+    }
+  ]
+}

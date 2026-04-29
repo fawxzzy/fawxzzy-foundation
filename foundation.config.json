@@ -1,0 +1,39 @@
+{
+  "$schema": "./packages/contracts/foundation.schema.json",
+  "name": "fawxzzy-foundation",
+  "version": "0.0.1",
+  "owner": "fawxzzy",
+  "purpose": "Control plane for Fawxzzy project registry, governance contracts, deployment map, and operator console.",
+  "rootProjectSlug": "foundation",
+  "registryPath": "data/projects.json",
+  "runtimeArtifactsDir": ".foundation",
+  "console": {
+    "publicDir": "apps/console/public",
+    "dataFile": "apps/console/public/foundation.projects.json",
+    "localPort": 4310
+  },
+  "governance": {
+    "canonicalInvocation": "pnpm foundation",
+    "verificationCommand": "pnpm verify:local",
+    "humanSurfacePolicy": "brief-thin",
+    "machineTruthPolicy": "JSON contracts first",
+    "runtimeArtifactPolicy": "private-first; generated artifacts stay out of git unless explicitly promoted"
+  },
+  "integrations": {
+    "github": {
+      "owner": "fawxzzy",
+      "plannedRepository": "fawxzzy/fawxzzy-foundation"
+    },
+    "vercel": {
+      "teamSlug": "fawxzzy",
+      "plannedProject": "fawxzzy-foundation"
+    },
+    "playbook": {
+      "preferredBootstrap": [
+        "pnpm playbook ai-context --json",
+        "pnpm playbook ai-contract --json",
+        "pnpm playbook verify --local --json"
+      ]
+    }
+  }
+}

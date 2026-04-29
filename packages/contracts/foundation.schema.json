@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fawxzzy.dev/contracts/foundation.schema.json",
+  "title": "Fawxzzy Foundation Contract",
+  "type": "object",
+  "required": ["name", "version", "owner", "rootProjectSlug", "registryPath", "governance"],
+  "properties": {
+    "name": { "type": "string" },
+    "version": { "type": "string" },
+    "owner": { "type": "string" },
+    "purpose": { "type": "string" },
+    "rootProjectSlug": { "type": "string" },
+    "registryPath": { "type": "string" },
+    "runtimeArtifactsDir": { "type": "string" },
+    "console": {
+      "type": "object",
+      "properties": {
+        "publicDir": { "type": "string" },
+        "dataFile": { "type": "string" },
+        "localPort": { "type": "number" }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "required": ["canonicalInvocation", "verificationCommand"],
+      "properties": {
+        "canonicalInvocation": { "type": "string" },
+        "verificationCommand": { "type": "string" },
+        "humanSurfacePolicy": { "type": "string" },
+        "machineTruthPolicy": { "type": "string" },
+        "runtimeArtifactPolicy": { "type": "string" }
+      }
+    },
+    "integrations": { "type": "object" }
+  }
+}

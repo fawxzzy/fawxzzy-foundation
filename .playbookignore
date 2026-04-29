@@ -1,0 +1,8 @@
+node_modules/
+.next/
+dist/
+build/
+coverage/
+.vercel/
+.foundation/runtime/
+apps/console/public/foundation.projects.json

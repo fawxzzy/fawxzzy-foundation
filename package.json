@@ -1,0 +1,23 @@
+{
+  "name": "fawxzzy-foundation",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.23.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "foundation": "node packages/cli/bin/foundation.mjs",
+    "build": "node scripts/render-registry.mjs && node scripts/render-console-data.mjs",
+    "dev": "node scripts/serve-console.mjs",
+    "console:serve": "node scripts/serve-console.mjs",
+    "registry:render": "node scripts/render-registry.mjs",
+    "console:data": "node scripts/render-console-data.mjs",
+    "verify": "node scripts/verify.mjs",
+    "verify:local": "node scripts/verify.mjs",
+    "doctor": "node packages/cli/bin/foundation.mjs doctor",
+    "projects": "node packages/cli/bin/foundation.mjs projects"
+  },
+  "devDependencies": {}
+}
