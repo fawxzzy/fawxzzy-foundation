@@ -2,7 +2,7 @@
 
 Generated from `data/projects.json`. Do not hand-edit this file unless the generator is also updated.
 
-Updated: 2026-04-29T00:00:00.000Z
+Updated: 2026-04-29T16:00:00.000Z
 
 ## Summary
 
@@ -15,7 +15,7 @@ Updated: 2026-04-29T00:00:00.000Z
 
 | Slug | Name | Kind | Status | Repo | Repo exists | Vercel | First next action |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| foundation | Fawxzzy Foundation | control-plane | bootstrap | fawxzzy/fawxzzy-foundation | no | fawxzzy-foundation | create GitHub repository |
+| foundation | Fawxzzy Foundation | control-plane | incubating | fawxzzy/fawxzzy-foundation | yes | fawxzzy-foundation | capture remote CI/status evidence |
 | playbook | Fawxzzy Playbook | governance-runtime | active | fawxzzy/fawxzzy-playbook | yes | - | adopt Playbook bootstrap in Foundation once package install is available |
 | atlas | ATLAS | workspace-architecture | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
 | fitness | Fawxzzy Fitness | application | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness, fawxzzy-fitness-prod-deploy | normalize AGENT.md to AGENTS.md convention |

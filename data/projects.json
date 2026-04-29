@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-04-29T00:00:00.000Z",
+  "updatedAt": "2026-04-29T16:00:00.000Z",
   "source": "initial-bootstrap-from-connected-github-and-vercel-inventory",
   "owner": "fawxzzy",
   "principles": [
@@ -14,7 +14,7 @@
       "slug": "foundation",
       "name": "Fawxzzy Foundation",
       "kind": "control-plane",
-      "status": "bootstrap",
+      "status": "incubating",
       "priority": 1,
       "summary": "Top-level operating layer for project registry, governance contracts, deployment map, and operator console.",
       "repo": {
@@ -22,7 +22,8 @@
         "name": "fawxzzy-foundation",
         "fullName": "fawxzzy/fawxzzy-foundation",
         "url": "https://github.com/fawxzzy/fawxzzy-foundation",
-        "exists": false,
+        "exists": true,
+        "visibility": "public",
         "defaultBranch": "main"
       },
       "vercel": {
@@ -43,10 +44,10 @@
         "packages/contracts/foundation.schema.json"
       ],
       "nextActions": [
-        "create GitHub repository",
-        "push bootstrap commit",
-        "link optional Vercel project",
-        "run pnpm verify:local"
+        "capture remote CI/status evidence",
+        "link Vercel project",
+        "verify Vercel deployment",
+        "update registry with deployment proof"
       ]
     },
     {
