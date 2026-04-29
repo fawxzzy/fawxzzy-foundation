@@ -138,6 +138,28 @@ h2 {
   line-height: 1.55;
 }
 
+.ledger {
+  margin: 16px 0;
+  padding: 14px;
+  border: 1px solid rgba(143, 212, 255, 0.2);
+  border-radius: 14px;
+  background: rgba(8, 11, 18, 0.45);
+}
+
+.ledger p {
+  margin-bottom: 10px;
+}
+
+.ledger-list {
+  margin: 0 0 12px;
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.ledger-list li + li {
+  margin-top: 6px;
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -158,6 +180,7 @@ h2 {
 }
 
 .status-bootstrap,
+.status-incubating,
 .status-observed-deployment {
   color: var(--warn);
 }

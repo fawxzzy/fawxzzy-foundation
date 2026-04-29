@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-04-29T16:00:00.000Z",
+  "updatedAt": "2026-04-29T18:02:03.438Z",
   "source": "initial-bootstrap-from-connected-github-and-vercel-inventory",
   "owner": "fawxzzy",
   "principles": [
@@ -16,7 +16,7 @@
       "kind": "control-plane",
       "status": "incubating",
       "priority": 1,
-      "summary": "Top-level operating layer for project registry, governance contracts, deployment map, and operator console.",
+      "summary": "Remote-created control-plane registry and console repo; promotion to active control-plane remains blocked on observable Vercel project and deployment proof.",
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-foundation",
@@ -43,11 +43,100 @@
         "data/projects.json",
         "packages/contracts/foundation.schema.json"
       ],
+      "promotion": {
+        "label": "remote-created / incubating",
+        "targetLabel": "active control-plane",
+        "blockedOn": "Vercel/deployment proof",
+        "notes": [
+          "GitHub Actions lane: Foundation CI succeeded at 2026-04-29 17:14:02Z.",
+          "Overall commit/check state: not fully green yet because a Vercel check suite is still queued/pending on the same SHA."
+        ],
+        "sourceNote": "The connector surface I have here did not expose that push workflow run directly, and the combined-status lookup returned no status entries, so your GitHub UI/API observation is the source of truth for the CI detail.",
+        "registryCommit": {
+          "sha": "b83cea80e82231f15f435abd64be45e565df2d0f",
+          "message": "Register Foundation GitHub remote"
+        },
+        "vercelObservation": {
+          "projectName": "fawxzzy-foundation",
+          "status": "not found / 404",
+          "visibleProjects": [
+            "fitness",
+            "fitness-prod-deploy",
+            "trove",
+            "nat-1-games",
+            "mazer"
+          ]
+        },
+        "checklist": [
+          {
+            "label": "GitHub repo exists",
+            "done": true
+          },
+          {
+            "label": "main pushed and tracking origin/main",
+            "done": true
+          },
+          {
+            "label": "Foundation self-registry fixed",
+            "done": true
+          },
+          {
+            "label": "Generated registry surfaces aligned",
+            "done": true
+          },
+          {
+            "label": "Local pnpm build passed",
+            "done": true
+          },
+          {
+            "label": "Local pnpm verify:local passed",
+            "done": true
+          },
+          {
+            "label": "GitHub Actions Foundation CI succeeded",
+            "done": true
+          },
+          {
+            "label": "Overall commit/check state fully green",
+            "done": false
+          },
+          {
+            "label": "Vercel project exists",
+            "done": false
+          },
+          {
+            "label": "Vercel deployment exists",
+            "done": false
+          },
+          {
+            "label": "Vercel deployment verified",
+            "done": false
+          },
+          {
+            "label": "Registry records Vercel deployment proof",
+            "done": false
+          },
+          {
+            "label": "Foundation promoted to active control-plane",
+            "done": false
+          }
+        ],
+        "nextValidMove": [
+          "Create/link Vercel project: fawxzzy-foundation",
+          "Deploy Foundation",
+          "Verify deployment is observable",
+          "Update Foundation registry with Vercel project/deployment proof",
+          "Run pnpm build and pnpm verify:local",
+          "Commit and push the registry/deployment proof update"
+        ]
+      },
       "nextActions": [
-        "capture remote CI/status evidence",
-        "link Vercel project",
-        "verify Vercel deployment",
-        "update registry with deployment proof"
+        "Create/link Vercel project: fawxzzy-foundation",
+        "Deploy Foundation",
+        "Verify deployment is observable",
+        "Update Foundation registry with Vercel project/deployment proof",
+        "Run pnpm build and pnpm verify:local",
+        "Commit and push the registry/deployment proof update"
       ]
     },
     {

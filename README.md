@@ -41,18 +41,13 @@ The local console serves from `apps/console/public` on port `4310` by default.
 PORT=4320 pnpm dev
 ```
 
-## Repo setup
+## Remote status
 
-This folder is ready to become `fawxzzy/fawxzzy-foundation`.
+The canonical GitHub remote now exists at `fawxzzy/fawxzzy-foundation`.
 
-```bash
-git init
-git add .
-git commit -m "Bootstrap Fawxzzy Foundation"
-gh repo create fawxzzy/fawxzzy-foundation --public --source=. --remote=origin --push
-```
+Foundation remains `remote-created / incubating`; promotion to `active control-plane` is still blocked on observable Vercel project and deployment proof.
 
-See [`docs/operations/GITHUB_SETUP.md`](docs/operations/GITHUB_SETUP.md) and [`docs/operations/VERCEL_SETUP.md`](docs/operations/VERCEL_SETUP.md).
+See [`docs/operations/GITHUB_SETUP.md`](docs/operations/GITHUB_SETUP.md) and [`docs/operations/VERCEL_SETUP.md`](docs/operations/VERCEL_SETUP.md) for the remaining remote and deployment handoff steps.
 
 ## Operating contract
 

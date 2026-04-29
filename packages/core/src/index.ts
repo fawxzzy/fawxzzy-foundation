@@ -13,6 +13,30 @@ export type FoundationVercelProject = {
   id?: string;
 };
 
+export type FoundationPromotionChecklistItem = {
+  label: string;
+  done: boolean;
+};
+
+export type FoundationPromotion = {
+  label: string;
+  targetLabel?: string;
+  blockedOn?: string;
+  notes?: string[];
+  sourceNote?: string;
+  registryCommit?: {
+    sha: string;
+    message: string;
+  };
+  vercelObservation?: {
+    projectName: string;
+    status: string;
+    visibleProjects?: string[];
+  };
+  checklist?: FoundationPromotionChecklistItem[];
+  nextValidMove?: string[];
+};
+
 export type FoundationProject = {
   slug: string;
   name: string;
@@ -29,6 +53,7 @@ export type FoundationProject = {
   };
   stack: string[];
   contracts: string[];
+  promotion?: FoundationPromotion;
   nextActions: string[];
 };
 

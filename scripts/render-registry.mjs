@@ -24,6 +24,47 @@ function vercelLabel(project) {
   return project.vercel.projectName ?? (project.vercel.exists ? "mapped" : "planned");
 }
 
+function renderPromotion(project) {
+  const promotion = project.promotion;
+  if (!promotion) return "";
+
+  const lines = [`### ${project.name}`];
+
+  lines.push(`- Current label: \`${promotion.label}\``);
+  if (promotion.targetLabel) lines.push(`- Promotion target: \`${promotion.targetLabel}\``);
+  if (promotion.blockedOn) lines.push(`- Blocked on: \`${promotion.blockedOn}\``);
+  for (const note of promotion.notes ?? []) lines.push(`- ${note}`);
+  if (promotion.sourceNote) lines.push(`- ${promotion.sourceNote}`);
+
+  if (promotion.registryCommit?.sha && promotion.registryCommit?.message) {
+    lines.push(`- Latest registry commit: \`${promotion.registryCommit.sha}\` (${promotion.registryCommit.message})`);
+  }
+
+  if (promotion.vercelObservation?.projectName && promotion.vercelObservation?.status) {
+    lines.push(`- Vercel project \`${promotion.vercelObservation.projectName}\`: ${promotion.vercelObservation.status}`);
+  }
+
+  if (promotion.vercelObservation?.visibleProjects?.length) {
+    lines.push(`- Visible Vercel projects: ${promotion.vercelObservation.visibleProjects.map((item) => `\`${item}\``).join(", ")}`);
+  }
+
+  if (promotion.checklist?.length) {
+    lines.push("", "| Gate | State |", "| --- | --- |");
+    for (const item of promotion.checklist) {
+      lines.push(`| ${escapeMd(item.label)} | ${item.done ? "[x]" : "[ ]"} |`);
+    }
+  }
+
+  if (promotion.nextValidMove?.length) {
+    lines.push("", "Next valid move:");
+    for (const [index, step] of promotion.nextValidMove.entries()) {
+      lines.push(`${index + 1}. ${step}`);
+    }
+  }
+
+  return lines.join("\n");
+}
+
 const registry = JSON.parse(await readFile(registryPath, "utf8"));
 const projects = [...registry.projects].sort((a, b) => {
   if (a.priority !== b.priority) return a.priority - b.priority;
@@ -40,6 +81,11 @@ const rows = projects.map((project) => [
   vercelLabel(project),
   project.nextActions?.[0] ?? "-"
 ]);
+
+const promotionSections = projects
+  .map((project) => renderPromotion(project))
+  .filter(Boolean)
+  .join("\n\n");
 
 const md = `# Project Registry
 
@@ -59,6 +105,8 @@ Updated: ${registry.updatedAt}
 | Slug | Name | Kind | Status | Repo | Repo exists | Vercel | First next action |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 ${rows.map((row) => `| ${row.map(escapeMd).join(" | ")} |`).join("\n")}
+
+${promotionSections ? `\n## Promotion Ledger\n\n${promotionSections}\n` : ""}
 
 ## Principles
 

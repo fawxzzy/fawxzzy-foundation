@@ -91,7 +91,9 @@ if (registry) {
 
   const foundation = registry.projects.find((project) => project.slug === "foundation");
   if (foundation?.repo?.exists === true) {
-    warnings.push("foundation.repo.exists is true; confirm the remote has actually been created before committing this state.");
+    if (!foundation.repo.url) errors.push("foundation.repo.url must be set when foundation.repo.exists is true");
+    if (!foundation.repo.visibility) warnings.push("foundation.repo.visibility should be recorded when foundation.repo.exists is true");
+    if (!foundation.repo.defaultBranch) warnings.push("foundation.repo.defaultBranch should be recorded when foundation.repo.exists is true");
   }
 }
 
