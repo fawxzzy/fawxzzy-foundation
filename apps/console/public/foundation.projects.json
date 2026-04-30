@@ -1,13 +1,13 @@
 {
   "build": {
-    "generatedAt": "2026-04-29T20:09:33.664Z",
+    "generatedAt": "2026-04-30T02:12:15.862Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-04-29T19:18:00.000Z",
+    "updatedAt": "2026-04-30T01:21:01.916Z",
     "totalProjects": 8,
-    "activeProjects": 6,
+    "activeProjects": 7,
     "deploymentMappedProjects": 5
   },
   "principles": [
@@ -21,9 +21,9 @@
       "slug": "foundation",
       "name": "Fawxzzy Foundation",
       "kind": "control-plane",
-      "status": "incubating",
+      "status": "active",
       "priority": 1,
-      "summary": "Remote-created control-plane registry and console repo with verified live Vercel deployment proof; promotion to active control-plane still awaits fully green commit/check confirmation.",
+      "summary": "Active control-plane registry and console repo with clean Vercel production provenance pinned to abda5a5 and successful GitHub Actions verification.",
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-foundation",
@@ -57,22 +57,21 @@
         "packages/contracts/foundation.schema.json"
       ],
       "promotion": {
-        "label": "remote-created + deployed / incubating",
-        "targetLabel": "active control-plane",
-        "blockedOn": "Fully green commit/check confirmation",
+        "label": "active control-plane",
         "notes": [
-          "GitHub Actions lane: Foundation CI succeeded at 2026-04-29 17:14:02Z.",
-          "Vercel production deployment verified at https://fawxzzy-foundation.vercel.app on 2026-04-29."
+          "GitHub Actions Foundation CI push run 25131302841 completed successfully for commit abda5a586716d356f7c2bb1e670f5783f80b0fed at 2026-04-29T20:10:19Z.",
+          "Latest Vercel production deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 reached READY at 2026-04-30T00:51:18Z and serves https://fawxzzy-foundation.vercel.app.",
+          "Clean deployment provenance is pinned to commit abda5a586716d356f7c2bb1e670f5783f80b0fed with source cli, actor codex, and no gitDirty flag."
         ],
-        "sourceNote": "The connector surface I have here did not expose that push workflow run directly, and the combined-status lookup returned no status entries, so your GitHub UI/API observation is the source of truth for the CI detail.",
+        "sourceNote": "GitHub's legacy combined-status endpoint still reports pending with zero status contexts for this commit, but the public check-runs and workflow-run APIs show a completed successful Foundation CI push run. Those check surfaces are the authoritative proof here.",
         "registryCommit": {
-          "label": "GitHub remote registration commit",
-          "sha": "b83cea80e82231f15f435abd64be45e565df2d0f",
-          "message": "Register Foundation GitHub remote"
+          "label": "Promotion proof commit",
+          "sha": "abda5a586716d356f7c2bb1e670f5783f80b0fed",
+          "message": "Record Foundation Vercel deployment proof"
         },
         "vercelObservation": {
           "projectName": "fawxzzy-foundation",
-          "status": "project created + production deployment verified",
+          "status": "latest production deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 is READY for abda5a586716d356f7c2bb1e670f5783f80b0fed on alias fawxzzy-foundation.vercel.app",
           "visibleProjects": [
             "foundation",
             "fitness",
@@ -113,7 +112,7 @@
           },
           {
             "label": "Overall commit/check state fully green",
-            "done": false
+            "done": true
           },
           {
             "label": "Vercel project exists",
@@ -133,19 +132,19 @@
           },
           {
             "label": "Foundation promoted to active control-plane",
-            "done": false
+            "done": true
           }
         ],
         "nextValidMove": [
-          "Confirm the overall GitHub/Vercel commit check state is fully green",
-          "Promote Foundation from incubating to active control-plane",
-          "Commit and push the registry/deployment proof update"
+          "Maintain green GitHub Actions and clean Vercel provenance on future control-plane commits",
+          "Keep generated registry surfaces aligned with data/projects.json",
+          "Expand deployment health coverage for downstream project surfaces"
         ]
       },
       "nextActions": [
-        "Confirm the overall GitHub/Vercel commit check state is fully green",
-        "Promote Foundation from incubating to active control-plane",
-        "Commit and push the registry/deployment proof update"
+        "Maintain green GitHub Actions and clean Vercel provenance on future control-plane commits",
+        "Keep generated registry surfaces aligned with data/projects.json",
+        "Expand deployment health coverage for downstream project surfaces"
       ]
     },
     {

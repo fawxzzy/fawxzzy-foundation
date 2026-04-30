@@ -45,7 +45,9 @@ PORT=4320 pnpm dev
 
 The canonical GitHub remote now exists at `fawxzzy/fawxzzy-foundation`.
 
-Foundation remains `remote-created / incubating`; promotion to `active control-plane` is still blocked on observable Vercel project and deployment proof.
+Foundation is now `active control-plane`.
+
+The current promotion proof is pinned to commit `abda5a586716d356f7c2bb1e670f5783f80b0fed`: GitHub Actions `Foundation CI` completed successfully for that push, and the latest Vercel production deployment `dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2` is `READY` on `fawxzzy-foundation.vercel.app` with clean CLI provenance.
 
 See [`docs/operations/GITHUB_SETUP.md`](docs/operations/GITHUB_SETUP.md) and [`docs/operations/VERCEL_SETUP.md`](docs/operations/VERCEL_SETUP.md) for the remaining remote and deployment handoff steps.
 
