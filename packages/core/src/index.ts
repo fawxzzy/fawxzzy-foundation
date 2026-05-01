@@ -41,6 +41,8 @@ export type FoundationProofHealth = FoundationHealthFacet & {
   promotionProofPinnedAt?: string;
   latestObservedDeploymentId?: string;
   latestObservedCommitSha?: string;
+  qualityStates?: string[];
+  qualitySummary?: string;
 };
 
 export type FoundationProjectHealth = {

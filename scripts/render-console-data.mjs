@@ -15,6 +15,11 @@ function isProofStale(proof, now = Date.now()) {
   return now - observedAt > proof.staleAfterHours * 60 * 60 * 1000;
 }
 
+function hasProofQualityWarning(proof) {
+  const states = Array.isArray(proof?.qualityStates) ? proof.qualityStates : [];
+  return states.some((state) => state !== "clean");
+}
+
 const registry = JSON.parse(await readFile(registryPath, "utf8"));
 const now = Date.now();
 const projects = registry.projects.map((project) => ({
@@ -41,7 +46,8 @@ const payload = {
     deploymentMappedProjects: projects.filter((project) => project.vercel?.exists).length,
     currentProofProjects: projects.filter((project) => project.health?.proof?.status === "current" && !project.health.proof.isStale).length,
     staleProofProjects: projects.filter((project) => project.health?.proof?.isStale).length,
-    pendingProofProjects: projects.filter((project) => project.health?.proof?.status === "pending-proof").length
+    pendingProofProjects: projects.filter((project) => project.health?.proof?.status === "pending-proof").length,
+    proofWarningProjects: projects.filter((project) => hasProofQualityWarning(project.health?.proof)).length
   },
   principles: registry.principles,
   projects

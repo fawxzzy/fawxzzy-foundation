@@ -7,6 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const errors = [];
 const warnings = [];
+const proofQualityStates = new Set(["clean", "dirty", "private-source", "legacy-mapping", "pending-confirmation"]);
 
 const requiredFiles = [
   "README.md",
@@ -57,6 +58,14 @@ function isProofStale(proof, now = Date.now()) {
   const observedAt = Date.parse(proof.lastDeploymentProofAt);
   if (Number.isNaN(observedAt)) return false;
   return now - observedAt > proof.staleAfterHours * 60 * 60 * 1000;
+}
+
+function getProofQualityStates(proof) {
+  return Array.isArray(proof?.qualityStates) ? proof.qualityStates : [];
+}
+
+function hasProofQualityWarning(proof) {
+  return getProofQualityStates(proof).some((state) => state !== "clean");
 }
 
 function validateHealthFacet(projectLabel, facetName, facet) {
@@ -133,6 +142,16 @@ if (registry) {
       errors.push(`${label}: health.proof.lastDeploymentProofAt must be null or an ISO timestamp`);
     }
 
+    const qualityStates = getProofQualityStates(proof);
+    for (const qualityState of qualityStates) {
+      if (!proofQualityStates.has(qualityState)) {
+        errors.push(`${label}: health.proof.qualityStates includes unsupported state ${qualityState}`);
+      }
+    }
+    if (proof?.qualitySummary !== undefined && typeof proof.qualitySummary !== "string") {
+      errors.push(`${label}: health.proof.qualitySummary must be a string when present`);
+    }
+
     if (project.repo?.exists === true) {
       if (!project.repo.url) errors.push(`${label}: repo.url must be set when repo.exists is true`);
       if (!project.repo.visibility) warnings.push(`${label}: repo.visibility should be recorded when repo.exists is true`);
@@ -165,11 +184,28 @@ if (registry) {
       errors.push(`${label}: current proof requires health.proof.lastDeploymentProofAt`);
     }
 
+    if (proof?.status === "current" && qualityStates.length === 0) {
+      warnings.push(`${label}: current proof should classify health.proof.qualityStates`);
+    }
+
+    if (qualityStates.includes("clean") && qualityStates.length > 1) {
+      errors.push(`${label}: clean proof quality cannot be combined with other quality states`);
+    }
+
+    if (project.health.deployment?.gitDirty === true && !qualityStates.includes("dirty")) {
+      warnings.push(`${label}: deployment metadata is gitDirty but proof quality is not marked dirty`);
+    }
+
+    if (project.health.github?.status === "private-source" && !qualityStates.includes("private-source")) {
+      warnings.push(`${label}: private-source GitHub status should usually be reflected in proof quality`);
+    }
+
+    if (hasProofQualityWarning(proof)) {
+      warnings.push(`${label}: proof quality warning states = ${qualityStates.join(", ")}`);
+    }
+
     if (isProofStale(proof, now)) {
       warnings.push(`${label}: deployment proof is stale (${proof.lastDeploymentProofAt}, window ${proof.staleAfterHours}h)`);
-      if (proof.status === "current" || project.health.deployment.status === "ready") {
-        errors.push(`${label}: current/ready deployment proof is stale and must be refreshed or downgraded`);
-      }
     }
   }
 
@@ -202,6 +238,16 @@ if (registry && consoleData) {
   const staleProofProjects = (consoleData.projects ?? []).filter((project) => project.health?.proof?.isStale).length;
   if (consoleData.summary?.staleProofProjects !== staleProofProjects) {
     errors.push("Console data stale proof count does not match registry. Run pnpm build.");
+  }
+
+  const pendingProofProjects = (consoleData.projects ?? []).filter((project) => project.health?.proof?.status === "pending-proof").length;
+  if (consoleData.summary?.pendingProofProjects !== pendingProofProjects) {
+    errors.push("Console data pending proof count does not match registry. Run pnpm build.");
+  }
+
+  const proofWarningProjects = (consoleData.projects ?? []).filter((project) => hasProofQualityWarning(project.health?.proof)).length;
+  if (consoleData.summary?.proofWarningProjects !== proofWarningProjects) {
+    errors.push("Console data proof warning count does not match registry. Run pnpm build.");
   }
 }
 

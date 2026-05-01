@@ -28,6 +28,12 @@ function formatTimestamp(value) {
   return value ? `\`${value}\`` : "unknown";
 }
 
+function formatProofQuality(proof) {
+  if (!Array.isArray(proof?.qualityStates) || proof.qualityStates.length === 0) return "";
+  const states = proof.qualityStates.map((state) => `\`${state}\``).join(", ");
+  return proof.qualitySummary ? `${states} - ${proof.qualitySummary}` : states;
+}
+
 function isProofStale(proof, now = Date.now()) {
   if (!proof?.lastDeploymentProofAt || typeof proof.staleAfterHours !== "number") return false;
   const observedAt = Date.parse(proof.lastDeploymentProofAt);
@@ -68,6 +74,10 @@ function renderHealth(project, now = Date.now()) {
 
   if (health.proof.lastDeploymentProofAt) {
     lines.push(`- Last deployment proof captured: ${formatTimestamp(health.proof.lastDeploymentProofAt)}`);
+  }
+  const proofQuality = formatProofQuality(health.proof);
+  if (proofQuality) {
+    lines.push(`- Proof quality: ${proofQuality}`);
   }
   if (health.proof.promotionProofCommitSha) {
     lines.push(`- Pinned promotion proof commit: \`${health.proof.promotionProofCommitSha}\``);

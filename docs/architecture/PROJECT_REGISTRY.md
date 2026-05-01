@@ -2,7 +2,7 @@
 
 Generated from `data/projects.json`. Do not hand-edit this file unless the generator is also updated.
 
-Updated: 2026-05-01T03:45:12.577Z
+Updated: 2026-05-01T04:11:46.7196890Z
 
 ## Summary
 
@@ -22,7 +22,7 @@ Updated: 2026-05-01T03:45:12.577Z
 | lifeline | Fawxzzy Lifeline | operator-runtime | active | fawxzzy/fawxzzy-lifeline | yes | - | define Foundation lifeline target once deployment runtime is chosen |
 | mazer | Fawxzzy Mazer | application-game | active | fawxzzy/fawxzzy-mazer | yes | fawxzzy-mazer | surface build/runtime proof in Foundation console |
 | trove | Fawxzzy Trove | content-data | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | add repo-local AI/governance contract when ready |
-| nat-1-games | Nat 1 Games | application | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | confirm direct GitHub access to ZachariahRedfield/nat1-games |
+| nat-1-games | Nat 1 Games | application | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | record direct GitHub access only if the private source repo is intentionally shared |
 
 
 ## Health Ledger
@@ -37,6 +37,7 @@ Updated: 2026-05-01T03:45:12.577Z
 - Proof: `current` - Pinned promotion proof remains intact at abda5a5/dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 while the latest observed production display parity is 9fff053/dpl_YQ8Vcp5LbnfQzVX1qKZFSP2iDkad. (checked `2026-05-01T03:18:52.146Z`)
 - Proof freshness window: 168h
 - Last deployment proof captured: `2026-05-01T03:18:52.146Z`
+- Proof quality: `clean` - Pinned active-control-plane proof remains clean and unchanged.
 - Pinned promotion proof commit: `abda5a586716d356f7c2bb1e670f5783f80b0fed`
 - Pinned promotion proof deployment: `dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2`
 - Latest observed deployment commit: `9fff053e264d4071f7e26503d5a4d382c3cf6285`
@@ -63,11 +64,12 @@ Updated: 2026-05-01T03:45:12.577Z
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Primary Vercel project is visible under the fawxzzy team; the legacy fawxzzy-fitness-prod-deploy mapping is not currently observable. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `fawxzzy-fitness`, `fawxzzy-fitness-prod-deploy`
-- Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app. (checked `2026-05-01T03:45:12.577Z`)
+- Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app, but the recorded deployment metadata is gitDirty. (checked `2026-05-01T03:45:12.577Z`)
 - Latest deployment facts: deployment `dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F`, target `production`, alias `fawxzzy-fitness-local.vercel.app`, commit `c55728235648a4a45bfe49a48ed1bd7a7086391e`, message "Release workspace snapshot"
-- Proof: `current` - Foundation captured a current deployment proof snapshot for Fitness from the primary Vercel project; the legacy prod-deploy project remains an open mapping question. (checked `2026-05-01T03:45:12.577Z`)
+- Proof: `current` - Foundation captured a current deployment proof snapshot for Fitness from the primary Vercel project; the proof is current but not clean because the deployment is gitDirty and the legacy prod-deploy mapping is unresolved. (checked `2026-05-01T03:45:12.577Z`)
 - Proof freshness window: 168h
 - Last deployment proof captured: `2026-05-01T03:45:12.577Z`
+- Proof quality: `dirty`, `legacy-mapping` - READY proof from the primary project is current, but it is gitDirty and the legacy prod-deploy mapping remains unresolved.
 - Latest observed deployment commit: `c55728235648a4a45bfe49a48ed1bd7a7086391e`
 - Latest observed deployment id: `dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F`
 
@@ -89,6 +91,7 @@ Updated: 2026-05-01T03:45:12.577Z
 - Proof: `current` - Foundation captured a current deployment proof snapshot for Mazer from the live production alias. (checked `2026-05-01T03:45:12.577Z`)
 - Proof freshness window: 168h
 - Last deployment proof captured: `2026-05-01T03:45:12.577Z`
+- Proof quality: `clean` - READY proof is current and the checked deployment metadata appears clean.
 - Latest observed deployment commit: `f42f472bb057b2e4d57d8ac5c06253e2c3ef5166`
 - Latest observed deployment id: `dpl_9yFBd8hRjq1uKoibCZC7bFMBtrMR`
 
@@ -97,24 +100,26 @@ Updated: 2026-05-01T03:45:12.577Z
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `fawxzzy-trove`
-- Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-trove.vercel.app. (checked `2026-05-01T03:45:12.577Z`)
+- Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-trove.vercel.app, but the recorded deployment metadata is gitDirty. (checked `2026-05-01T03:45:12.577Z`)
 - Latest deployment facts: deployment `dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo`, target `production`, alias `fawxzzy-trove.vercel.app`, commit `e0566a6b8d65d5892f0cc9defda36481eccbaa29`, message "chore: refresh app catalog media assets"
-- Proof: `current` - Foundation captured a current deployment proof snapshot for Trove from the live production alias. (checked `2026-05-01T03:45:12.577Z`)
+- Proof: `current` - Foundation captured a current deployment proof snapshot for Trove from the live production alias; the proof is current but not clean because the deployment is gitDirty. (checked `2026-05-01T03:45:12.577Z`)
 - Proof freshness window: 168h
 - Last deployment proof captured: `2026-05-01T03:45:12.577Z`
+- Proof quality: `dirty` - READY proof is current, but the observed deployment metadata includes gitDirty=1.
 - Latest observed deployment commit: `e0566a6b8d65d5892f0cc9defda36481eccbaa29`
 - Latest observed deployment id: `dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo`
 
 ### Nat 1 Games
-- Overall health: `deployment-observed` - A current Vercel production deployment is proved, but GitHub visibility still cannot be confirmed directly from public GitHub surfaces.
-- GitHub: `pending-confirmation` - GitHub public API does not expose ZachariahRedfield/nat1-games, but Vercel production metadata points to that repo on main. (checked `2026-05-01T03:45:12.577Z`)
+- Overall health: `deployment-observed` - A current Vercel production deployment is proved, and Vercel metadata confirms the GitHub source repo is private.
+- GitHub: `private-source` - GitHub public API does not expose ZachariahRedfield/nat1-games, and Vercel production metadata confirms that private source repo on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `nat-1-games`
 - Deployment: `ready` - Latest observed production deployment is READY on nat-1-games.vercel.app. (checked `2026-05-01T03:45:12.577Z`)
 - Latest deployment facts: deployment `dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq`, target `production`, alias `nat-1-games.vercel.app`, commit `ce9643465d69f76a46d92d0db6ed855d117e1bbd`, message "Merge pull request #227 from ZachariahRedfield/codex/simplify-time-zone-selection-and-auto-select Improve Start Session UI and prevent mobile input zoom"
-- Proof: `current` - Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel; GitHub repo visibility still needs direct confirmation. (checked `2026-05-01T03:45:12.577Z`)
+- Proof: `current` - Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel, and the associated GitHub source is confirmed private from Vercel metadata. (checked `2026-05-01T03:45:12.577Z`)
 - Proof freshness window: 168h
 - Last deployment proof captured: `2026-05-01T03:45:12.577Z`
+- Proof quality: `private-source` - READY proof is current, and the GitHub source is confirmed private from Vercel metadata.
 - Latest observed deployment commit: `ce9643465d69f76a46d92d0db6ed855d117e1bbd`
 - Latest observed deployment id: `dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq`
 

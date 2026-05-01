@@ -24,8 +24,21 @@ function statusClass(status) {
 
 function toneClass(status) {
   const value = String(status);
-  if (["healthy", "verified", "ready", "current"].includes(value)) return "tone-good";
-  if (["pending-proof", "tracked", "mapped", "not-applicable", "needs-deployment-proof", "pending-confirmation", "repo-tracked"].includes(value)) {
+  if (["healthy", "verified", "ready", "current", "clean"].includes(value)) return "tone-good";
+  if (
+    [
+      "pending-proof",
+      "tracked",
+      "mapped",
+      "not-applicable",
+      "needs-deployment-proof",
+      "pending-confirmation",
+      "repo-tracked",
+      "dirty",
+      "private-source",
+      "legacy-mapping"
+    ].includes(value)
+  ) {
     return "tone-warn";
   }
   if (["stale", "missing", "failed"].includes(value)) return "tone-bad";
@@ -37,18 +50,21 @@ function renderBulletList(items, formatter = (item) => text(item)) {
   return `<ul class="ledger-list">${items.map((item) => `<li>${formatter(item)}</li>`).join("")}</ul>`;
 }
 
-function renderHealthRow(label, facet, extras = []) {
+function renderHealthRow(label, facet, extras = [], badges = []) {
   if (!facet) return "";
   const facts = extras.filter(Boolean);
   const meta = [facet.checkedAt ? `checked ${formatDate(facet.checkedAt, { withTime: true })}` : "", ...facts]
     .filter(Boolean)
-    .join(" · ");
+    .join(" | ");
 
   return `
     <div class="health-row">
       <div class="health-row-header">
         <p class="health-label">${label}</p>
-        <span class="status-pill ${toneClass(facet.status)}">${text(facet.status)}</span>
+        <div class="status-pills">
+          <span class="status-pill ${toneClass(facet.status)}">${text(facet.status)}</span>
+          ${badges.map((badge) => `<span class="status-pill ${toneClass(badge)}">${text(badge)}</span>`).join("")}
+        </div>
       </div>
       <p class="health-summary">${text(facet.summary)}</p>
       ${meta ? `<p class="health-meta">${meta}</p>` : ""}
@@ -65,6 +81,7 @@ function renderHealth(project) {
       ? `proof ${formatDate(health.proof.lastDeploymentProofAt, { withTime: true })}`
       : "proof not yet recorded",
     `refresh ${health.proof.staleAfterHours}h`,
+    health.proof.qualitySummary ? health.proof.qualitySummary : "",
     health.proof.isStale ? "stale" : ""
   ];
 
@@ -87,7 +104,7 @@ function renderHealth(project) {
           health.deployment.githubCommitSha ? `commit ${health.deployment.githubCommitSha.slice(0, 7)}` : "",
           health.deployment.alias ? health.deployment.alias : ""
         ])}
-        ${renderHealthRow("Proof", health.proof, proofExtras)}
+        ${renderHealthRow("Proof", health.proof, proofExtras, health.proof.qualityStates ?? [])}
       </div>
     </section>
   `;
@@ -173,7 +190,7 @@ async function boot() {
   document.querySelector("#deploymentMappedProjects").textContent = data.summary.deploymentMappedProjects;
   document.querySelector("#currentProofProjects").textContent = data.summary.currentProofProjects;
   document.querySelector("#healthSnapshot").textContent =
-    `${data.summary.pendingProofProjects} pending proof · ${data.summary.staleProofProjects} stale`;
+    `${data.summary.pendingProofProjects} pending proof | ${data.summary.staleProofProjects} stale | ${data.summary.proofWarningProjects} quality warnings`;
   document.querySelector("#updatedAt").textContent = `Registry updated ${formatDate(data.summary.updatedAt, { withTime: true })}`;
 
   const projects = [...data.projects].sort((a, b) => {

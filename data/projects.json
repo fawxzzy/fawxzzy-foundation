@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-05-01T03:45:12.577Z",
-  "source": "initial-bootstrap-plus-live-github-vercel-proof-snapshots",
+  "updatedAt": "2026-05-01T04:11:46.7196890Z",
+  "source": "initial-bootstrap-plus-proof-quality-policy",
   "owner": "fawxzzy",
   "principles": [
     "private-first runtime artifacts",
@@ -70,6 +70,10 @@
           "checkedAt": "2026-05-01T03:18:52.146Z",
           "staleAfterHours": 168,
           "lastDeploymentProofAt": "2026-05-01T03:18:52.146Z",
+          "qualityStates": [
+            "clean"
+          ],
+          "qualitySummary": "Pinned active-control-plane proof remains clean and unchanged.",
           "promotionProofCommitSha": "abda5a586716d356f7c2bb1e670f5783f80b0fed",
           "promotionProofDeploymentId": "dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2",
           "promotionProofPinnedAt": "2026-04-30T00:51:18Z",
@@ -398,7 +402,7 @@
         },
         "deployment": {
           "status": "ready",
-          "summary": "Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app.",
+          "summary": "Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app, but the recorded deployment metadata is gitDirty.",
           "checkedAt": "2026-05-01T03:45:12.577Z",
           "target": "production",
           "deploymentId": "dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F",
@@ -409,10 +413,15 @@
         },
         "proof": {
           "status": "current",
-          "summary": "Foundation captured a current deployment proof snapshot for Fitness from the primary Vercel project; the legacy prod-deploy project remains an open mapping question.",
+          "summary": "Foundation captured a current deployment proof snapshot for Fitness from the primary Vercel project; the proof is current but not clean because the deployment is gitDirty and the legacy prod-deploy mapping is unresolved.",
           "checkedAt": "2026-05-01T03:45:12.577Z",
           "staleAfterHours": 168,
           "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
+          "qualityStates": [
+            "dirty",
+            "legacy-mapping"
+          ],
+          "qualitySummary": "READY proof from the primary project is current, but it is gitDirty and the legacy prod-deploy mapping remains unresolved.",
           "latestObservedDeploymentId": "dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F",
           "latestObservedCommitSha": "c55728235648a4a45bfe49a48ed1bd7a7086391e"
         }
@@ -492,6 +501,10 @@
           "checkedAt": "2026-05-01T03:45:12.577Z",
           "staleAfterHours": 168,
           "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
+          "qualityStates": [
+            "clean"
+          ],
+          "qualitySummary": "READY proof is current and the checked deployment metadata appears clean.",
           "latestObservedDeploymentId": "dpl_9yFBd8hRjq1uKoibCZC7bFMBtrMR",
           "latestObservedCommitSha": "f42f472bb057b2e4d57d8ac5c06253e2c3ef5166"
         }
@@ -554,7 +567,7 @@
         },
         "deployment": {
           "status": "ready",
-          "summary": "Latest observed production deployment is READY on fawxzzy-trove.vercel.app.",
+          "summary": "Latest observed production deployment is READY on fawxzzy-trove.vercel.app, but the recorded deployment metadata is gitDirty.",
           "checkedAt": "2026-05-01T03:45:12.577Z",
           "target": "production",
           "deploymentId": "dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo",
@@ -565,10 +578,14 @@
         },
         "proof": {
           "status": "current",
-          "summary": "Foundation captured a current deployment proof snapshot for Trove from the live production alias.",
+          "summary": "Foundation captured a current deployment proof snapshot for Trove from the live production alias; the proof is current but not clean because the deployment is gitDirty.",
           "checkedAt": "2026-05-01T03:45:12.577Z",
           "staleAfterHours": 168,
           "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
+          "qualityStates": [
+            "dirty"
+          ],
+          "qualitySummary": "READY proof is current, but the observed deployment metadata includes gitDirty=1.",
           "latestObservedDeploymentId": "dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo",
           "latestObservedCommitSha": "e0566a6b8d65d5892f0cc9defda36481eccbaa29"
         }
@@ -588,7 +605,7 @@
       "kind": "application",
       "status": "observed-deployment",
       "priority": 4,
-      "summary": "Production deployment proof is captured from Vercel, while the GitHub source repo remains non-public from observable GitHub surfaces.",
+      "summary": "Production deployment proof is captured from Vercel, and Vercel metadata confirms the GitHub source repo is private.",
       "repo": {
         "owner": "ZachariahRedfield",
         "name": "nat1-games",
@@ -609,10 +626,10 @@
       },
       "health": {
         "status": "deployment-observed",
-        "summary": "A current Vercel production deployment is proved, but GitHub visibility still cannot be confirmed directly from public GitHub surfaces.",
+        "summary": "A current Vercel production deployment is proved, and Vercel metadata confirms the GitHub source repo is private.",
         "github": {
-          "status": "pending-confirmation",
-          "summary": "GitHub public API does not expose ZachariahRedfield/nat1-games, but Vercel production metadata points to that repo on main.",
+          "status": "private-source",
+          "summary": "GitHub public API does not expose ZachariahRedfield/nat1-games, and Vercel production metadata confirms that private source repo on main.",
           "checkedAt": "2026-05-01T03:45:12.577Z"
         },
         "vercel": {
@@ -635,10 +652,14 @@
         },
         "proof": {
           "status": "current",
-          "summary": "Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel; GitHub repo visibility still needs direct confirmation.",
+          "summary": "Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel, and the associated GitHub source is confirmed private from Vercel metadata.",
           "checkedAt": "2026-05-01T03:45:12.577Z",
           "staleAfterHours": 168,
           "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
+          "qualityStates": [
+            "private-source"
+          ],
+          "qualitySummary": "READY proof is current, and the GitHub source is confirmed private from Vercel metadata.",
           "latestObservedDeploymentId": "dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq",
           "latestObservedCommitSha": "ce9643465d69f76a46d92d0db6ed855d117e1bbd"
         }
@@ -649,7 +670,7 @@
       ],
       "contracts": [],
       "nextActions": [
-        "confirm direct GitHub access to ZachariahRedfield/nat1-games",
+        "record direct GitHub access only if the private source repo is intentionally shared",
         "add registry contract"
       ]
     }
