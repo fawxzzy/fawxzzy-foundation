@@ -1,14 +1,17 @@
 {
   "build": {
-    "generatedAt": "2026-05-01T03:10:28.732Z",
+    "generatedAt": "2026-05-01T03:25:07.206Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-04-30T01:21:01.916Z",
+    "updatedAt": "2026-05-01T03:18:52.146Z",
     "totalProjects": 8,
     "activeProjects": 7,
-    "deploymentMappedProjects": 5
+    "deploymentMappedProjects": 5,
+    "currentProofProjects": 1,
+    "staleProofProjects": 0,
+    "pendingProofProjects": 4
   },
   "principles": [
     "private-first runtime artifacts",
@@ -23,7 +26,7 @@
       "kind": "control-plane",
       "status": "active",
       "priority": 1,
-      "summary": "Active control-plane registry and console repo with clean Vercel production provenance pinned to abda5a5 and successful GitHub Actions verification.",
+      "summary": "Active control-plane registry and console repo with pinned promotion proof, refreshed production parity, and local verification gates.",
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-foundation",
@@ -44,6 +47,47 @@
           }
         ]
       },
+      "health": {
+        "status": "healthy",
+        "summary": "Promotion proof stays pinned to the original active-control-plane deployment while the latest production parity is tracked separately.",
+        "github": {
+          "status": "verified",
+          "summary": "GitHub repo exists, is public, and tracks main as the default branch.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "vercel": {
+          "status": "verified",
+          "summary": "Vercel project is mapped under the fawxzzy team.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "projectNames": [
+            "fawxzzy-foundation"
+          ]
+        },
+        "deployment": {
+          "status": "ready",
+          "summary": "Latest production deployment is READY and reflects the parity policy commit.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "target": "production",
+          "deploymentId": "dpl_YQ8Vcp5LbnfQzVX1qKZFSP2iDkad",
+          "alias": "fawxzzy-foundation.vercel.app",
+          "githubCommitSha": "9fff053e264d4071f7e26503d5a4d382c3cf6285",
+          "message": "Record Foundation display parity policy",
+          "gitDirty": false
+        },
+        "proof": {
+          "status": "current",
+          "summary": "Pinned promotion proof remains intact at abda5a5/dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 while the latest observed production display parity is 9fff053/dpl_YQ8Vcp5LbnfQzVX1qKZFSP2iDkad.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "staleAfterHours": 168,
+          "lastDeploymentProofAt": "2026-05-01T03:18:52.146Z",
+          "promotionProofCommitSha": "abda5a586716d356f7c2bb1e670f5783f80b0fed",
+          "promotionProofDeploymentId": "dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2",
+          "promotionProofPinnedAt": "2026-04-30T00:51:18Z",
+          "latestObservedDeploymentId": "dpl_YQ8Vcp5LbnfQzVX1qKZFSP2iDkad",
+          "latestObservedCommitSha": "9fff053e264d4071f7e26503d5a4d382c3cf6285",
+          "isStale": false
+        }
+      },
       "stack": [
         "Node >=22",
         "pnpm 10.23.0",
@@ -62,7 +106,7 @@
           "GitHub Actions Foundation CI push run 25131302841 completed successfully for commit abda5a586716d356f7c2bb1e670f5783f80b0fed at 2026-04-29T20:10:19Z.",
           "Latest Vercel production deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 reached READY at 2026-04-30T00:51:18Z and serves https://fawxzzy-foundation.vercel.app.",
           "Clean deployment provenance is pinned to commit abda5a586716d356f7c2bb1e670f5783f80b0fed with source cli, actor codex, and no gitDirty flag.",
-          "Promotion proof is pinned to commit abda5a586716d356f7c2bb1e670f5783f80b0fed and deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2. Later production deployments may refresh the live console display from newer source commits, including a63a30a6f70807820915dcdab07c49d1eeeb0a24, without changing that original promotion proof."
+          "Promotion proof is pinned to commit abda5a586716d356f7c2bb1e670f5783f80b0fed and deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2. Later production deployments may refresh the live console display from newer source commits, including 9fff053e264d4071f7e26503d5a4d382c3cf6285, without changing that original promotion proof."
         ],
         "sourceNote": "GitHub's legacy combined-status endpoint still reports pending with zero status contexts for this commit, but the public check-runs and workflow-run APIs show a completed successful Foundation CI push run. Those check surfaces are the authoritative proof here.",
         "registryCommit": {
@@ -143,7 +187,7 @@
         ]
       },
       "nextActions": [
-        "Maintain green GitHub Actions and clean Vercel provenance on future control-plane commits",
+        "Automate health/proof refresh without changing the pinned active-control-plane promotion proof",
         "Keep generated registry surfaces aligned with data/projects.json",
         "Expand deployment health coverage for downstream project surfaces"
       ]
@@ -163,6 +207,33 @@
         "exists": true,
         "visibility": "public",
         "defaultBranch": "main"
+      },
+      "health": {
+        "status": "tracked",
+        "summary": "Foundation tracks the GitHub source-of-truth repo, but no deployment proof is expected from this workspace layer.",
+        "github": {
+          "status": "verified",
+          "summary": "GitHub repo exists and is recorded in Foundation.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "vercel": {
+          "status": "not-applicable",
+          "summary": "No Vercel project is mapped for the workspace inventory layer.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "deployment": {
+          "status": "not-applicable",
+          "summary": "Foundation does not expect a deployment surface for ATLAS.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "proof": {
+          "status": "repo-tracked",
+          "summary": "Repo ownership proof is recorded; deployment proof is not applicable.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "staleAfterHours": 168,
+          "lastDeploymentProofAt": null,
+          "isStale": false
+        }
       },
       "stack": [
         "docs",
@@ -191,6 +262,33 @@
         "exists": true,
         "visibility": "public",
         "defaultBranch": "main"
+      },
+      "health": {
+        "status": "tracked",
+        "summary": "GitHub repo truth is recorded; deployment proof has not been introduced into Foundation yet.",
+        "github": {
+          "status": "verified",
+          "summary": "GitHub repo exists and is recorded in Foundation.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "vercel": {
+          "status": "not-applicable",
+          "summary": "No Vercel project is mapped for Playbook in Foundation yet.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "deployment": {
+          "status": "not-applicable",
+          "summary": "Foundation has no deployment proof target for Playbook yet.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "proof": {
+          "status": "repo-tracked",
+          "summary": "Repo ownership proof is recorded; deployment proof is not applicable until a deployment surface is defined.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "staleAfterHours": 168,
+          "lastDeploymentProofAt": null,
+          "isStale": false
+        }
       },
       "stack": [
         "Node >=22",
@@ -223,6 +321,33 @@
         "exists": true,
         "visibility": "public",
         "defaultBranch": "main"
+      },
+      "health": {
+        "status": "tracked",
+        "summary": "GitHub repo truth is recorded; deployment proof will follow once Lifeline runtime targets are formalized.",
+        "github": {
+          "status": "verified",
+          "summary": "GitHub repo exists and is recorded in Foundation.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "vercel": {
+          "status": "not-applicable",
+          "summary": "No Vercel project is mapped for Lifeline.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "deployment": {
+          "status": "not-applicable",
+          "summary": "Foundation has not defined a deployment surface for Lifeline.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "proof": {
+          "status": "repo-tracked",
+          "summary": "Repo ownership proof is recorded; deployment proof is not applicable yet.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "staleAfterHours": 168,
+          "lastDeploymentProofAt": null,
+          "isStale": false
+        }
       },
       "stack": [
         "TypeScript",
@@ -268,6 +393,37 @@
           }
         ]
       },
+      "health": {
+        "status": "needs-deployment-proof",
+        "summary": "Repo and Vercel project mappings are recorded, but Foundation still needs a current deployment proof snapshot.",
+        "github": {
+          "status": "verified",
+          "summary": "GitHub repo exists and is recorded in Foundation.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "vercel": {
+          "status": "mapped",
+          "summary": "Vercel projects are mapped under the fawxzzy team.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "projectNames": [
+            "fawxzzy-fitness",
+            "fawxzzy-fitness-prod-deploy"
+          ]
+        },
+        "deployment": {
+          "status": "pending-proof",
+          "summary": "Latest deployment state has not been recorded in Foundation yet.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "proof": {
+          "status": "pending-proof",
+          "summary": "Foundation has not yet captured a latest deployment proof snapshot for Fitness.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "staleAfterHours": 168,
+          "lastDeploymentProofAt": null,
+          "isStale": false
+        }
+      },
       "stack": [
         "Next.js app",
         "Supabase",
@@ -310,6 +466,36 @@
           }
         ]
       },
+      "health": {
+        "status": "needs-deployment-proof",
+        "summary": "Repo and Vercel mapping are recorded, but Foundation still needs a current deployment proof snapshot.",
+        "github": {
+          "status": "verified",
+          "summary": "GitHub repo exists and is recorded in Foundation.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "vercel": {
+          "status": "mapped",
+          "summary": "Vercel project is mapped under the fawxzzy team.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "projectNames": [
+            "fawxzzy-mazer"
+          ]
+        },
+        "deployment": {
+          "status": "pending-proof",
+          "summary": "Latest deployment state has not been recorded in Foundation yet.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "proof": {
+          "status": "pending-proof",
+          "summary": "Foundation has not yet captured a latest deployment proof snapshot for Mazer.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "staleAfterHours": 168,
+          "lastDeploymentProofAt": null,
+          "isStale": false
+        }
+      },
       "stack": [
         "Vite",
         "TypeScript",
@@ -350,6 +536,36 @@
           }
         ]
       },
+      "health": {
+        "status": "needs-deployment-proof",
+        "summary": "Repo and Vercel mapping are recorded, but Foundation still needs a current deployment proof snapshot.",
+        "github": {
+          "status": "verified",
+          "summary": "GitHub repo exists and is recorded in Foundation.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "vercel": {
+          "status": "mapped",
+          "summary": "Vercel project is mapped under the fawxzzy team.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "projectNames": [
+            "fawxzzy-trove"
+          ]
+        },
+        "deployment": {
+          "status": "pending-proof",
+          "summary": "Latest deployment state has not been recorded in Foundation yet.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "proof": {
+          "status": "pending-proof",
+          "summary": "Foundation has not yet captured a latest deployment proof snapshot for Trove.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "staleAfterHours": 168,
+          "lastDeploymentProofAt": null,
+          "isStale": false
+        }
+      },
       "stack": [
         "content/data",
         "deployment surface"
@@ -383,6 +599,36 @@
             "id": "prj_yDWmp04vLD6lR83dIRlEmaMntpWC"
           }
         ]
+      },
+      "health": {
+        "status": "needs-deployment-proof",
+        "summary": "A Vercel project has been observed, but GitHub confirmation and deployment proof are still pending.",
+        "github": {
+          "status": "pending-confirmation",
+          "summary": "Foundation has a candidate GitHub repo path but has not confirmed whether the repo exists.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "vercel": {
+          "status": "mapped",
+          "summary": "Vercel project is visible under the fawxzzy team.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "projectNames": [
+            "nat-1-games"
+          ]
+        },
+        "deployment": {
+          "status": "pending-proof",
+          "summary": "Latest deployment state has not been recorded in Foundation yet.",
+          "checkedAt": "2026-05-01T03:18:52.146Z"
+        },
+        "proof": {
+          "status": "pending-proof",
+          "summary": "Foundation has not yet captured a latest deployment proof snapshot for Nat 1 Games.",
+          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "staleAfterHours": 168,
+          "lastDeploymentProofAt": null,
+          "isStale": false
+        }
       },
       "stack": [
         "app",

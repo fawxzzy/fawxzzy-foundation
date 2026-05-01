@@ -1,9 +1,15 @@
-const formatDate = (value) => {
+const formatDate = (value, { withTime = false } = {}) => {
   try {
     return new Intl.DateTimeFormat(undefined, {
       year: "numeric",
       month: "short",
-      day: "numeric"
+      day: "numeric",
+      ...(withTime
+        ? {
+            hour: "numeric",
+            minute: "2-digit"
+          }
+        : {})
     }).format(new Date(value));
   } catch {
     return value;
@@ -16,9 +22,75 @@ function statusClass(status) {
   return `status-${String(status).replaceAll("_", "-")}`;
 }
 
+function toneClass(status) {
+  const value = String(status);
+  if (["healthy", "verified", "ready", "current"].includes(value)) return "tone-good";
+  if (["pending-proof", "tracked", "mapped", "not-applicable", "needs-deployment-proof", "pending-confirmation", "repo-tracked"].includes(value)) {
+    return "tone-warn";
+  }
+  if (["stale", "missing", "failed"].includes(value)) return "tone-bad";
+  return "tone-neutral";
+}
+
 function renderBulletList(items, formatter = (item) => text(item)) {
   if (!items?.length) return "";
   return `<ul class="ledger-list">${items.map((item) => `<li>${formatter(item)}</li>`).join("")}</ul>`;
+}
+
+function renderHealthRow(label, facet, extras = []) {
+  if (!facet) return "";
+  const facts = extras.filter(Boolean);
+  const meta = [facet.checkedAt ? `checked ${formatDate(facet.checkedAt, { withTime: true })}` : "", ...facts]
+    .filter(Boolean)
+    .join(" · ");
+
+  return `
+    <div class="health-row">
+      <div class="health-row-header">
+        <p class="health-label">${label}</p>
+        <span class="status-pill ${toneClass(facet.status)}">${text(facet.status)}</span>
+      </div>
+      <p class="health-summary">${text(facet.summary)}</p>
+      ${meta ? `<p class="health-meta">${meta}</p>` : ""}
+    </div>
+  `;
+}
+
+function renderHealth(project) {
+  const health = project.health;
+  if (!health) return "";
+
+  const proofExtras = [
+    health.proof.lastDeploymentProofAt
+      ? `proof ${formatDate(health.proof.lastDeploymentProofAt, { withTime: true })}`
+      : "proof not yet recorded",
+    `refresh ${health.proof.staleAfterHours}h`,
+    health.proof.isStale ? "stale" : ""
+  ];
+
+  return `
+    <section class="health-panel">
+      <div class="health-panel-header">
+        <div>
+          <p class="health-kicker">Health</p>
+          <h4>${text(health.status)}</h4>
+        </div>
+        <p class="health-overview">${text(health.summary)}</p>
+      </div>
+      <div class="health-grid">
+        ${renderHealthRow("GitHub", health.github)}
+        ${renderHealthRow("Vercel", health.vercel, [
+          health.vercel.projectNames?.length ? health.vercel.projectNames.join(", ") : ""
+        ])}
+        ${renderHealthRow("Deployment", health.deployment, [
+          health.deployment.deploymentId ? `deploy ${health.deployment.deploymentId}` : "",
+          health.deployment.githubCommitSha ? `commit ${health.deployment.githubCommitSha.slice(0, 7)}` : "",
+          health.deployment.alias ? health.deployment.alias : ""
+        ])}
+        ${renderHealthRow("Proof", health.proof, proofExtras)}
+      </div>
+    </section>
+  `;
 }
 
 function renderPromotion(project) {
@@ -83,6 +155,7 @@ function projectCard(project) {
         <span class="tag">${repoLabel}</span>
         <span class="tag">${deploymentLabel}</span>
       </div>
+      ${renderHealth(project)}
       ${renderPromotion(project)}
       <p><strong>Next:</strong> ${text(next)}</p>
       ${stack.length ? `<p><strong>Stack:</strong> ${stack.join(", ")}</p>` : ""}
@@ -98,7 +171,10 @@ async function boot() {
   document.querySelector("#totalProjects").textContent = data.summary.totalProjects;
   document.querySelector("#activeProjects").textContent = data.summary.activeProjects;
   document.querySelector("#deploymentMappedProjects").textContent = data.summary.deploymentMappedProjects;
-  document.querySelector("#updatedAt").textContent = `Registry updated ${formatDate(data.summary.updatedAt)}`;
+  document.querySelector("#currentProofProjects").textContent = data.summary.currentProofProjects;
+  document.querySelector("#healthSnapshot").textContent =
+    `${data.summary.pendingProofProjects} pending proof · ${data.summary.staleProofProjects} stale`;
+  document.querySelector("#updatedAt").textContent = `Registry updated ${formatDate(data.summary.updatedAt, { withTime: true })}`;
 
   const projects = [...data.projects].sort((a, b) => {
     if (a.priority !== b.priority) return a.priority - b.priority;

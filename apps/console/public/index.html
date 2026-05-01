@@ -11,21 +11,25 @@
       <section class="hero">
         <p class="eyebrow">Fawxzzy Foundation</p>
         <h1>Project control plane</h1>
-        <p class="lede">Registry, governance map, deployment inventory, and next actions for the Fawxzzy stack.</p>
+        <p class="lede">Registry, governance map, deployment inventory, and proof health for the Fawxzzy stack.</p>
       </section>
 
       <section class="summary" aria-label="Foundation summary">
         <article>
-          <span id="totalProjects">—</span>
+          <span id="totalProjects">-</span>
           <p>Projects</p>
         </article>
         <article>
-          <span id="activeProjects">—</span>
+          <span id="activeProjects">-</span>
           <p>Active</p>
         </article>
         <article>
-          <span id="deploymentMappedProjects">—</span>
+          <span id="deploymentMappedProjects">-</span>
           <p>Deployment mapped</p>
+        </article>
+        <article>
+          <span id="currentProofProjects">-</span>
+          <p>Current proof</p>
         </article>
       </section>
 
@@ -35,7 +39,10 @@
             <p class="eyebrow">Registry</p>
             <h2>Projects</h2>
           </div>
-          <p id="updatedAt" class="muted">Loading registry…</p>
+          <div class="panel-meta">
+            <p id="updatedAt" class="muted">Loading registry...</p>
+            <p id="healthSnapshot" class="muted">Loading proof health...</p>
+          </div>
         </div>
         <div id="projectGrid" class="project-grid" aria-live="polite"></div>
       </section>

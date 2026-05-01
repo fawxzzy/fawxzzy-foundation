@@ -11,6 +11,7 @@ Foundation is the top-level operating layer for the Fawxzzy project family. It s
 - A local verification gate at `pnpm verify:local`.
 - GitHub/Vercel handoff docs in `docs/operations/`.
 - Playbook-compatible AI handoff metadata in `.playbook/ai-contract.json`.
+- Structured per-project health and proof tracking in `data/projects.json`.
 
 ## Current role
 
@@ -47,13 +48,17 @@ The canonical GitHub remote now exists at `fawxzzy/fawxzzy-foundation`.
 
 Foundation is now `active control-plane`.
 
-The current promotion proof is pinned to commit `abda5a586716d356f7c2bb1e670f5783f80b0fed`: GitHub Actions `Foundation CI` completed successfully for that push, and the latest Vercel production deployment `dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2` is `READY` on `fawxzzy-foundation.vercel.app` with clean CLI provenance.
+The current promotion proof is pinned to commit `abda5a586716d356f7c2bb1e670f5783f80b0fed`: GitHub Actions `Foundation CI` completed successfully for that push, and Vercel production deployment `dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2` is the durable active-control-plane proof on `fawxzzy-foundation.vercel.app`.
+
+The latest observed production parity is tracked separately: deployment `dpl_YQ8Vcp5LbnfQzVX1qKZFSP2iDkad` is `READY` for commit `9fff053e264d4071f7e26503d5a4d382c3cf6285` (`Record Foundation display parity policy`) without changing the pinned promotion proof.
 
 See [`docs/operations/GITHUB_SETUP.md`](docs/operations/GITHUB_SETUP.md) and [`docs/operations/VERCEL_SETUP.md`](docs/operations/VERCEL_SETUP.md) for the remaining remote and deployment handoff steps.
 
 ## Operating contract
 
 Foundation is intentionally boring at the start. The source of truth is JSON, docs are generated from that truth, and verification stays local-first.
+
+Each project now carries explicit `health.github`, `health.vercel`, `health.deployment`, and `health.proof` records so the registry and console can distinguish pinned promotion proof from the latest observed deployment state.
 
 When changing the registry:
 

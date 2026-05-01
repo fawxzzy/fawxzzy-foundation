@@ -18,6 +18,42 @@ export type FoundationPromotionChecklistItem = {
   done: boolean;
 };
 
+export type FoundationHealthFacet = {
+  status: string;
+  summary: string;
+  checkedAt: string;
+};
+
+export type FoundationDeploymentHealth = FoundationHealthFacet & {
+  target?: string;
+  deploymentId?: string;
+  alias?: string;
+  githubCommitSha?: string;
+  message?: string;
+  gitDirty?: boolean;
+};
+
+export type FoundationProofHealth = FoundationHealthFacet & {
+  staleAfterHours: number;
+  lastDeploymentProofAt?: string | null;
+  promotionProofCommitSha?: string;
+  promotionProofDeploymentId?: string;
+  promotionProofPinnedAt?: string;
+  latestObservedDeploymentId?: string;
+  latestObservedCommitSha?: string;
+};
+
+export type FoundationProjectHealth = {
+  status: string;
+  summary: string;
+  github: FoundationHealthFacet;
+  vercel: FoundationHealthFacet & {
+    projectNames?: string[];
+  };
+  deployment: FoundationDeploymentHealth;
+  proof: FoundationProofHealth;
+};
+
 export type FoundationPromotion = {
   label: string;
   targetLabel?: string;
@@ -52,6 +88,7 @@ export type FoundationProject = {
     projectName?: string;
     projects?: FoundationVercelProject[];
   };
+  health: FoundationProjectHealth;
   stack: string[];
   contracts: string[];
   promotion?: FoundationPromotion;
