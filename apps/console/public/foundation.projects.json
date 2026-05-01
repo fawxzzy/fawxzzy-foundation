@@ -1,17 +1,17 @@
 {
   "build": {
-    "generatedAt": "2026-05-01T03:25:07.206Z",
+    "generatedAt": "2026-05-01T03:47:14.973Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-01T03:18:52.146Z",
+    "updatedAt": "2026-05-01T03:45:12.577Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
-    "currentProofProjects": 1,
+    "currentProofProjects": 5,
     "staleProofProjects": 0,
-    "pendingProofProjects": 4
+    "pendingProofProjects": 0
   },
   "principles": [
     "private-first runtime artifacts",
@@ -394,33 +394,41 @@
         ]
       },
       "health": {
-        "status": "needs-deployment-proof",
-        "summary": "Repo and Vercel project mappings are recorded, but Foundation still needs a current deployment proof snapshot.",
+        "status": "deployment-observed",
+        "summary": "GitHub repo is public and the primary Vercel production deployment is proved, but the legacy fawxzzy-fitness-prod-deploy mapping is not currently observable.",
         "github": {
           "status": "verified",
-          "summary": "GitHub repo exists and is recorded in Foundation.",
-          "checkedAt": "2026-05-01T03:18:52.146Z"
+          "summary": "GitHub repo exists publicly on main.",
+          "checkedAt": "2026-05-01T03:45:12.577Z"
         },
         "vercel": {
-          "status": "mapped",
-          "summary": "Vercel projects are mapped under the fawxzzy team.",
-          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "status": "verified",
+          "summary": "Primary Vercel project is visible under the fawxzzy team; the legacy fawxzzy-fitness-prod-deploy mapping is not currently observable.",
+          "checkedAt": "2026-05-01T03:45:12.577Z",
           "projectNames": [
             "fawxzzy-fitness",
             "fawxzzy-fitness-prod-deploy"
           ]
         },
         "deployment": {
-          "status": "pending-proof",
-          "summary": "Latest deployment state has not been recorded in Foundation yet.",
-          "checkedAt": "2026-05-01T03:18:52.146Z"
+          "status": "ready",
+          "summary": "Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app.",
+          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "target": "production",
+          "deploymentId": "dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F",
+          "alias": "fawxzzy-fitness-local.vercel.app",
+          "githubCommitSha": "c55728235648a4a45bfe49a48ed1bd7a7086391e",
+          "message": "Release workspace snapshot",
+          "gitDirty": true
         },
         "proof": {
-          "status": "pending-proof",
-          "summary": "Foundation has not yet captured a latest deployment proof snapshot for Fitness.",
-          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "status": "current",
+          "summary": "Foundation captured a current deployment proof snapshot for Fitness from the primary Vercel project; the legacy prod-deploy project remains an open mapping question.",
+          "checkedAt": "2026-05-01T03:45:12.577Z",
           "staleAfterHours": 168,
-          "lastDeploymentProofAt": null,
+          "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
+          "latestObservedDeploymentId": "dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F",
+          "latestObservedCommitSha": "c55728235648a4a45bfe49a48ed1bd7a7086391e",
           "isStale": false
         }
       },
@@ -436,6 +444,7 @@
         ".playbook"
       ],
       "nextActions": [
+        "reconcile legacy fawxzzy-fitness-prod-deploy mapping against current Vercel inventory",
         "normalize AGENT.md to AGENTS.md convention",
         "surface deployment health in Foundation console"
       ]
@@ -467,32 +476,39 @@
         ]
       },
       "health": {
-        "status": "needs-deployment-proof",
-        "summary": "Repo and Vercel mapping are recorded, but Foundation still needs a current deployment proof snapshot.",
+        "status": "deployment-observed",
+        "summary": "GitHub repo is public and a current production deployment proof is captured from Vercel.",
         "github": {
           "status": "verified",
-          "summary": "GitHub repo exists and is recorded in Foundation.",
-          "checkedAt": "2026-05-01T03:18:52.146Z"
+          "summary": "GitHub repo exists publicly on main.",
+          "checkedAt": "2026-05-01T03:45:12.577Z"
         },
         "vercel": {
-          "status": "mapped",
-          "summary": "Vercel project is mapped under the fawxzzy team.",
-          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "status": "verified",
+          "summary": "Vercel project is visible under the fawxzzy team and exposes a current production target.",
+          "checkedAt": "2026-05-01T03:45:12.577Z",
           "projectNames": [
             "fawxzzy-mazer"
           ]
         },
         "deployment": {
-          "status": "pending-proof",
-          "summary": "Latest deployment state has not been recorded in Foundation yet.",
-          "checkedAt": "2026-05-01T03:18:52.146Z"
+          "status": "ready",
+          "summary": "Latest observed production deployment is READY on fawxzzy-mazer.vercel.app.",
+          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "target": "production",
+          "deploymentId": "dpl_9yFBd8hRjq1uKoibCZC7bFMBtrMR",
+          "alias": "fawxzzy-mazer.vercel.app",
+          "githubCommitSha": "f42f472bb057b2e4d57d8ac5c06253e2c3ef5166",
+          "message": "updated"
         },
         "proof": {
-          "status": "pending-proof",
-          "summary": "Foundation has not yet captured a latest deployment proof snapshot for Mazer.",
-          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "status": "current",
+          "summary": "Foundation captured a current deployment proof snapshot for Mazer from the live production alias.",
+          "checkedAt": "2026-05-01T03:45:12.577Z",
           "staleAfterHours": 168,
-          "lastDeploymentProofAt": null,
+          "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
+          "latestObservedDeploymentId": "dpl_9yFBd8hRjq1uKoibCZC7bFMBtrMR",
+          "latestObservedCommitSha": "f42f472bb057b2e4d57d8ac5c06253e2c3ef5166",
           "isStale": false
         }
       },
@@ -537,32 +553,40 @@
         ]
       },
       "health": {
-        "status": "needs-deployment-proof",
-        "summary": "Repo and Vercel mapping are recorded, but Foundation still needs a current deployment proof snapshot.",
+        "status": "deployment-observed",
+        "summary": "GitHub repo is public and a current production deployment proof is captured from Vercel.",
         "github": {
           "status": "verified",
-          "summary": "GitHub repo exists and is recorded in Foundation.",
-          "checkedAt": "2026-05-01T03:18:52.146Z"
+          "summary": "GitHub repo exists publicly on main.",
+          "checkedAt": "2026-05-01T03:45:12.577Z"
         },
         "vercel": {
-          "status": "mapped",
-          "summary": "Vercel project is mapped under the fawxzzy team.",
-          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "status": "verified",
+          "summary": "Vercel project is visible under the fawxzzy team and exposes a current production target.",
+          "checkedAt": "2026-05-01T03:45:12.577Z",
           "projectNames": [
             "fawxzzy-trove"
           ]
         },
         "deployment": {
-          "status": "pending-proof",
-          "summary": "Latest deployment state has not been recorded in Foundation yet.",
-          "checkedAt": "2026-05-01T03:18:52.146Z"
+          "status": "ready",
+          "summary": "Latest observed production deployment is READY on fawxzzy-trove.vercel.app.",
+          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "target": "production",
+          "deploymentId": "dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo",
+          "alias": "fawxzzy-trove.vercel.app",
+          "githubCommitSha": "e0566a6b8d65d5892f0cc9defda36481eccbaa29",
+          "message": "chore: refresh app catalog media assets",
+          "gitDirty": true
         },
         "proof": {
-          "status": "pending-proof",
-          "summary": "Foundation has not yet captured a latest deployment proof snapshot for Trove.",
-          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "status": "current",
+          "summary": "Foundation captured a current deployment proof snapshot for Trove from the live production alias.",
+          "checkedAt": "2026-05-01T03:45:12.577Z",
           "staleAfterHours": 168,
-          "lastDeploymentProofAt": null,
+          "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
+          "latestObservedDeploymentId": "dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo",
+          "latestObservedCommitSha": "e0566a6b8d65d5892f0cc9defda36481eccbaa29",
           "isStale": false
         }
       },
@@ -581,12 +605,12 @@
       "kind": "application",
       "status": "observed-deployment",
       "priority": 4,
-      "summary": "Vercel deployment surface observed under the Fawxzzy team; GitHub canonical repo still needs confirmation.",
+      "summary": "Production deployment proof is captured from Vercel, while the GitHub source repo remains non-public from observable GitHub surfaces.",
       "repo": {
-        "owner": "fawxzzy",
-        "name": "nat-1-games",
-        "fullName": "fawxzzy/nat-1-games",
-        "url": "https://github.com/fawxzzy/nat-1-games",
+        "owner": "ZachariahRedfield",
+        "name": "nat1-games",
+        "fullName": "ZachariahRedfield/nat1-games",
+        "url": "https://github.com/ZachariahRedfield/nat1-games",
         "exists": null,
         "defaultBranch": "main"
       },
@@ -601,32 +625,39 @@
         ]
       },
       "health": {
-        "status": "needs-deployment-proof",
-        "summary": "A Vercel project has been observed, but GitHub confirmation and deployment proof are still pending.",
+        "status": "deployment-observed",
+        "summary": "A current Vercel production deployment is proved, but GitHub visibility still cannot be confirmed directly from public GitHub surfaces.",
         "github": {
           "status": "pending-confirmation",
-          "summary": "Foundation has a candidate GitHub repo path but has not confirmed whether the repo exists.",
-          "checkedAt": "2026-05-01T03:18:52.146Z"
+          "summary": "GitHub public API does not expose ZachariahRedfield/nat1-games, but Vercel production metadata points to that repo on main.",
+          "checkedAt": "2026-05-01T03:45:12.577Z"
         },
         "vercel": {
-          "status": "mapped",
-          "summary": "Vercel project is visible under the fawxzzy team.",
-          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "status": "verified",
+          "summary": "Vercel project is visible under the fawxzzy team and exposes a current production target.",
+          "checkedAt": "2026-05-01T03:45:12.577Z",
           "projectNames": [
             "nat-1-games"
           ]
         },
         "deployment": {
-          "status": "pending-proof",
-          "summary": "Latest deployment state has not been recorded in Foundation yet.",
-          "checkedAt": "2026-05-01T03:18:52.146Z"
+          "status": "ready",
+          "summary": "Latest observed production deployment is READY on nat-1-games.vercel.app.",
+          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "target": "production",
+          "deploymentId": "dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq",
+          "alias": "nat-1-games.vercel.app",
+          "githubCommitSha": "ce9643465d69f76a46d92d0db6ed855d117e1bbd",
+          "message": "Merge pull request #227 from ZachariahRedfield/codex/simplify-time-zone-selection-and-auto-select Improve Start Session UI and prevent mobile input zoom"
         },
         "proof": {
-          "status": "pending-proof",
-          "summary": "Foundation has not yet captured a latest deployment proof snapshot for Nat 1 Games.",
-          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "status": "current",
+          "summary": "Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel; GitHub repo visibility still needs direct confirmation.",
+          "checkedAt": "2026-05-01T03:45:12.577Z",
           "staleAfterHours": 168,
-          "lastDeploymentProofAt": null,
+          "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
+          "latestObservedDeploymentId": "dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq",
+          "latestObservedCommitSha": "ce9643465d69f76a46d92d0db6ed855d117e1bbd",
           "isStale": false
         }
       },
@@ -636,7 +667,7 @@
       ],
       "contracts": [],
       "nextActions": [
-        "confirm canonical GitHub repository",
+        "confirm direct GitHub access to ZachariahRedfield/nat1-games",
         "add registry contract"
       ]
     }

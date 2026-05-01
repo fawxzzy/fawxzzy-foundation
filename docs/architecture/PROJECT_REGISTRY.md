@@ -2,7 +2,7 @@
 
 Generated from `data/projects.json`. Do not hand-edit this file unless the generator is also updated.
 
-Updated: 2026-05-01T03:18:52.146Z
+Updated: 2026-05-01T03:45:12.577Z
 
 ## Summary
 
@@ -18,11 +18,11 @@ Updated: 2026-05-01T03:18:52.146Z
 | foundation | Fawxzzy Foundation | control-plane | active | fawxzzy/fawxzzy-foundation | yes | fawxzzy-foundation | Automate health/proof refresh without changing the pinned active-control-plane promotion proof |
 | playbook | Fawxzzy Playbook | governance-runtime | active | fawxzzy/fawxzzy-playbook | yes | - | adopt Playbook bootstrap in Foundation once package install is available |
 | atlas | ATLAS | workspace-architecture | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
-| fitness | Fawxzzy Fitness | application | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness, fawxzzy-fitness-prod-deploy | normalize AGENT.md to AGENTS.md convention |
+| fitness | Fawxzzy Fitness | application | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness, fawxzzy-fitness-prod-deploy | reconcile legacy fawxzzy-fitness-prod-deploy mapping against current Vercel inventory |
 | lifeline | Fawxzzy Lifeline | operator-runtime | active | fawxzzy/fawxzzy-lifeline | yes | - | define Foundation lifeline target once deployment runtime is chosen |
 | mazer | Fawxzzy Mazer | application-game | active | fawxzzy/fawxzzy-mazer | yes | fawxzzy-mazer | surface build/runtime proof in Foundation console |
 | trove | Fawxzzy Trove | content-data | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | add repo-local AI/governance contract when ready |
-| nat-1-games | Nat 1 Games | application | observed-deployment | fawxzzy/nat-1-games | unknown | nat-1-games | confirm canonical GitHub repository |
+| nat-1-games | Nat 1 Games | application | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | confirm direct GitHub access to ZachariahRedfield/nat1-games |
 
 
 ## Health Ledger
@@ -59,13 +59,17 @@ Updated: 2026-05-01T03:18:52.146Z
 - Proof freshness window: 168h
 
 ### Fawxzzy Fitness
-- Overall health: `needs-deployment-proof` - Repo and Vercel project mappings are recorded, but Foundation still needs a current deployment proof snapshot.
-- GitHub: `verified` - GitHub repo exists and is recorded in Foundation. (checked `2026-05-01T03:18:52.146Z`)
-- Vercel: `mapped` - Vercel projects are mapped under the fawxzzy team. (checked `2026-05-01T03:18:52.146Z`)
+- Overall health: `deployment-observed` - GitHub repo is public and the primary Vercel production deployment is proved, but the legacy fawxzzy-fitness-prod-deploy mapping is not currently observable.
+- GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
+- Vercel: `verified` - Primary Vercel project is visible under the fawxzzy team; the legacy fawxzzy-fitness-prod-deploy mapping is not currently observable. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `fawxzzy-fitness`, `fawxzzy-fitness-prod-deploy`
-- Deployment: `pending-proof` - Latest deployment state has not been recorded in Foundation yet. (checked `2026-05-01T03:18:52.146Z`)
-- Proof: `pending-proof` - Foundation has not yet captured a latest deployment proof snapshot for Fitness. (checked `2026-05-01T03:18:52.146Z`)
+- Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app. (checked `2026-05-01T03:45:12.577Z`)
+- Latest deployment facts: deployment `dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F`, target `production`, alias `fawxzzy-fitness-local.vercel.app`, commit `c55728235648a4a45bfe49a48ed1bd7a7086391e`, message "Release workspace snapshot"
+- Proof: `current` - Foundation captured a current deployment proof snapshot for Fitness from the primary Vercel project; the legacy prod-deploy project remains an open mapping question. (checked `2026-05-01T03:45:12.577Z`)
 - Proof freshness window: 168h
+- Last deployment proof captured: `2026-05-01T03:45:12.577Z`
+- Latest observed deployment commit: `c55728235648a4a45bfe49a48ed1bd7a7086391e`
+- Latest observed deployment id: `dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F`
 
 ### Fawxzzy Lifeline
 - Overall health: `tracked` - GitHub repo truth is recorded; deployment proof will follow once Lifeline runtime targets are formalized.
@@ -76,31 +80,43 @@ Updated: 2026-05-01T03:18:52.146Z
 - Proof freshness window: 168h
 
 ### Fawxzzy Mazer
-- Overall health: `needs-deployment-proof` - Repo and Vercel mapping are recorded, but Foundation still needs a current deployment proof snapshot.
-- GitHub: `verified` - GitHub repo exists and is recorded in Foundation. (checked `2026-05-01T03:18:52.146Z`)
-- Vercel: `mapped` - Vercel project is mapped under the fawxzzy team. (checked `2026-05-01T03:18:52.146Z`)
+- Overall health: `deployment-observed` - GitHub repo is public and a current production deployment proof is captured from Vercel.
+- GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
+- Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `fawxzzy-mazer`
-- Deployment: `pending-proof` - Latest deployment state has not been recorded in Foundation yet. (checked `2026-05-01T03:18:52.146Z`)
-- Proof: `pending-proof` - Foundation has not yet captured a latest deployment proof snapshot for Mazer. (checked `2026-05-01T03:18:52.146Z`)
+- Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-mazer.vercel.app. (checked `2026-05-01T03:45:12.577Z`)
+- Latest deployment facts: deployment `dpl_9yFBd8hRjq1uKoibCZC7bFMBtrMR`, target `production`, alias `fawxzzy-mazer.vercel.app`, commit `f42f472bb057b2e4d57d8ac5c06253e2c3ef5166`, message "updated"
+- Proof: `current` - Foundation captured a current deployment proof snapshot for Mazer from the live production alias. (checked `2026-05-01T03:45:12.577Z`)
 - Proof freshness window: 168h
+- Last deployment proof captured: `2026-05-01T03:45:12.577Z`
+- Latest observed deployment commit: `f42f472bb057b2e4d57d8ac5c06253e2c3ef5166`
+- Latest observed deployment id: `dpl_9yFBd8hRjq1uKoibCZC7bFMBtrMR`
 
 ### Fawxzzy Trove
-- Overall health: `needs-deployment-proof` - Repo and Vercel mapping are recorded, but Foundation still needs a current deployment proof snapshot.
-- GitHub: `verified` - GitHub repo exists and is recorded in Foundation. (checked `2026-05-01T03:18:52.146Z`)
-- Vercel: `mapped` - Vercel project is mapped under the fawxzzy team. (checked `2026-05-01T03:18:52.146Z`)
+- Overall health: `deployment-observed` - GitHub repo is public and a current production deployment proof is captured from Vercel.
+- GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
+- Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `fawxzzy-trove`
-- Deployment: `pending-proof` - Latest deployment state has not been recorded in Foundation yet. (checked `2026-05-01T03:18:52.146Z`)
-- Proof: `pending-proof` - Foundation has not yet captured a latest deployment proof snapshot for Trove. (checked `2026-05-01T03:18:52.146Z`)
+- Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-trove.vercel.app. (checked `2026-05-01T03:45:12.577Z`)
+- Latest deployment facts: deployment `dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo`, target `production`, alias `fawxzzy-trove.vercel.app`, commit `e0566a6b8d65d5892f0cc9defda36481eccbaa29`, message "chore: refresh app catalog media assets"
+- Proof: `current` - Foundation captured a current deployment proof snapshot for Trove from the live production alias. (checked `2026-05-01T03:45:12.577Z`)
 - Proof freshness window: 168h
+- Last deployment proof captured: `2026-05-01T03:45:12.577Z`
+- Latest observed deployment commit: `e0566a6b8d65d5892f0cc9defda36481eccbaa29`
+- Latest observed deployment id: `dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo`
 
 ### Nat 1 Games
-- Overall health: `needs-deployment-proof` - A Vercel project has been observed, but GitHub confirmation and deployment proof are still pending.
-- GitHub: `pending-confirmation` - Foundation has a candidate GitHub repo path but has not confirmed whether the repo exists. (checked `2026-05-01T03:18:52.146Z`)
-- Vercel: `mapped` - Vercel project is visible under the fawxzzy team. (checked `2026-05-01T03:18:52.146Z`)
+- Overall health: `deployment-observed` - A current Vercel production deployment is proved, but GitHub visibility still cannot be confirmed directly from public GitHub surfaces.
+- GitHub: `pending-confirmation` - GitHub public API does not expose ZachariahRedfield/nat1-games, but Vercel production metadata points to that repo on main. (checked `2026-05-01T03:45:12.577Z`)
+- Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `nat-1-games`
-- Deployment: `pending-proof` - Latest deployment state has not been recorded in Foundation yet. (checked `2026-05-01T03:18:52.146Z`)
-- Proof: `pending-proof` - Foundation has not yet captured a latest deployment proof snapshot for Nat 1 Games. (checked `2026-05-01T03:18:52.146Z`)
+- Deployment: `ready` - Latest observed production deployment is READY on nat-1-games.vercel.app. (checked `2026-05-01T03:45:12.577Z`)
+- Latest deployment facts: deployment `dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq`, target `production`, alias `nat-1-games.vercel.app`, commit `ce9643465d69f76a46d92d0db6ed855d117e1bbd`, message "Merge pull request #227 from ZachariahRedfield/codex/simplify-time-zone-selection-and-auto-select Improve Start Session UI and prevent mobile input zoom"
+- Proof: `current` - Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel; GitHub repo visibility still needs direct confirmation. (checked `2026-05-01T03:45:12.577Z`)
 - Proof freshness window: 168h
+- Last deployment proof captured: `2026-05-01T03:45:12.577Z`
+- Latest observed deployment commit: `ce9643465d69f76a46d92d0db6ed855d117e1bbd`
+- Latest observed deployment id: `dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq`
 
 
 
