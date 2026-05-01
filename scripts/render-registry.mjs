@@ -34,6 +34,24 @@ function formatProofQuality(proof) {
   return proof.qualitySummary ? `${states} - ${proof.qualitySummary}` : states;
 }
 
+function renderProofRemediation(proof) {
+  if (!proof?.remediation?.classes?.length) return [];
+
+  const lines = [];
+  if (proof.remediation.summary) {
+    lines.push(`- Remediation summary: ${proof.remediation.summary}`);
+  }
+
+  for (const entry of proof.remediation.classes) {
+    lines.push(`- Warning class \`${entry.state}\`: ${entry.summary}`);
+    lines.push(`- Owner for \`${entry.state}\`: ${entry.owner}`);
+    lines.push(`- Next action for \`${entry.state}\`: ${entry.nextActions.join("; ")}`);
+    lines.push(`- Safe proof refresh for \`${entry.state}\`: ${entry.safeProofRefreshCriteria.join("; ")}`);
+  }
+
+  return lines;
+}
+
 function isProofStale(proof, now = Date.now()) {
   if (!proof?.lastDeploymentProofAt || typeof proof.staleAfterHours !== "number") return false;
   const observedAt = Date.parse(proof.lastDeploymentProofAt);
@@ -79,6 +97,7 @@ function renderHealth(project, now = Date.now()) {
   if (proofQuality) {
     lines.push(`- Proof quality: ${proofQuality}`);
   }
+  lines.push(...renderProofRemediation(health.proof));
   if (health.proof.promotionProofCommitSha) {
     lines.push(`- Pinned promotion proof commit: \`${health.proof.promotionProofCommitSha}\``);
   }

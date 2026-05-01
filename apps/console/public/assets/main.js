@@ -72,6 +72,39 @@ function renderHealthRow(label, facet, extras = [], badges = []) {
   `;
 }
 
+function renderProofRemediation(proof) {
+  if (!proof?.remediation?.classes?.length) return "";
+
+  return `
+    <section class="remediation-panel">
+      <div class="remediation-header">
+        <p class="health-kicker">Proof remediation</p>
+        <p class="remediation-summary">${text(proof.remediation.summary)}</p>
+      </div>
+      <div class="remediation-grid">
+        ${proof.remediation.classes
+          .map(
+            (entry) => `
+              <article class="remediation-card">
+                <div class="health-row-header">
+                  <p class="health-label">${text(entry.state)}</p>
+                  <span class="status-pill ${toneClass(entry.state)}">${text(entry.state)}</span>
+                </div>
+                <p class="health-summary">${text(entry.summary)}</p>
+                <p class="health-meta">Owner: ${text(entry.owner)}</p>
+                <p class="health-meta">Next actions</p>
+                ${renderBulletList(entry.nextActions)}
+                <p class="health-meta">Safe refresh criteria</p>
+                ${renderBulletList(entry.safeProofRefreshCriteria)}
+              </article>
+            `
+          )
+          .join("")}
+      </div>
+    </section>
+  `;
+}
+
 function renderHealth(project) {
   const health = project.health;
   if (!health) return "";
@@ -106,6 +139,7 @@ function renderHealth(project) {
         ])}
         ${renderHealthRow("Proof", health.proof, proofExtras, health.proof.qualityStates ?? [])}
       </div>
+      ${renderProofRemediation(health.proof)}
     </section>
   `;
 }
@@ -184,13 +218,17 @@ async function boot() {
   const response = await fetch("/foundation.projects.json");
   if (!response.ok) throw new Error(`Unable to load registry: ${response.status}`);
   const data = await response.json();
+  const warningStateCounts = Object.entries(data.summary.proofWarningStateCounts ?? {});
+  const warningStateSummary = warningStateCounts.length
+    ? warningStateCounts.map(([state, count]) => `${state} ${count}`).join(" | ")
+    : "no proof warning classes";
 
   document.querySelector("#totalProjects").textContent = data.summary.totalProjects;
   document.querySelector("#activeProjects").textContent = data.summary.activeProjects;
   document.querySelector("#deploymentMappedProjects").textContent = data.summary.deploymentMappedProjects;
   document.querySelector("#currentProofProjects").textContent = data.summary.currentProofProjects;
   document.querySelector("#healthSnapshot").textContent =
-    `${data.summary.pendingProofProjects} pending proof | ${data.summary.staleProofProjects} stale | ${data.summary.proofWarningProjects} quality warnings`;
+    `${data.summary.pendingProofProjects} pending proof | ${data.summary.staleProofProjects} stale | ${data.summary.proofWarningProjects} projects with warnings | ${warningStateSummary}`;
   document.querySelector("#updatedAt").textContent = `Registry updated ${formatDate(data.summary.updatedAt, { withTime: true })}`;
 
   const projects = [...data.projects].sort((a, b) => {

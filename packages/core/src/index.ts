@@ -43,6 +43,20 @@ export type FoundationProofHealth = FoundationHealthFacet & {
   latestObservedCommitSha?: string;
   qualityStates?: string[];
   qualitySummary?: string;
+  remediation?: FoundationProofRemediation;
+};
+
+export type FoundationProofRemediationClass = {
+  state: string;
+  summary: string;
+  owner: string;
+  nextActions: string[];
+  safeProofRefreshCriteria: string[];
+};
+
+export type FoundationProofRemediation = {
+  summary: string;
+  classes: FoundationProofRemediationClass[];
 };
 
 export type FoundationProjectHealth = {

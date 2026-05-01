@@ -7,7 +7,30 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const errors = [];
 const warnings = [];
-const proofQualityStates = new Set(["clean", "dirty", "private-source", "legacy-mapping", "pending-confirmation"]);
+const proofQualityCatalog = {
+  clean: {
+    kind: "clean",
+    summary: "Current proof is acceptable as clean provenance."
+  },
+  dirty: {
+    kind: "warning",
+    summary: "READY deployment metadata includes gitDirty and needs a clean replacement proof before the warning can clear."
+  },
+  "private-source": {
+    kind: "warning",
+    summary: "Source is private; this is acceptable when intentional, but the provenance policy should stay explicit."
+  },
+  "legacy-mapping": {
+    kind: "warning",
+    summary: "Legacy deployment mapping still needs reconciliation before proof can be treated as clean."
+  },
+  "pending-confirmation": {
+    kind: "warning",
+    summary: "Observation exists, but operator confirmation is still pending."
+  }
+};
+const proofQualityStates = new Set(Object.keys(proofQualityCatalog));
+const warningClasses = new Map();
 
 const requiredFiles = [
   "README.md",
@@ -66,6 +89,21 @@ function getProofQualityStates(proof) {
 
 function hasProofQualityWarning(proof) {
   return getProofQualityStates(proof).some((state) => state !== "clean");
+}
+
+function getProofWarningStates(proof) {
+  return getProofQualityStates(proof).filter((state) => state !== "clean");
+}
+
+function recordWarningClass(state, projectLabel) {
+  if (!warningClasses.has(state)) {
+    warningClasses.set(state, new Set());
+  }
+  warningClasses.get(state).add(projectLabel);
+}
+
+function getProofRemediationClasses(proof) {
+  return Array.isArray(proof?.remediation?.classes) ? proof.remediation.classes : [];
 }
 
 function validateHealthFacet(projectLabel, facetName, facet) {
@@ -151,6 +189,43 @@ if (registry) {
     if (proof?.qualitySummary !== undefined && typeof proof.qualitySummary !== "string") {
       errors.push(`${label}: health.proof.qualitySummary must be a string when present`);
     }
+    if (proof?.remediation !== undefined) {
+      if (!proof.remediation || typeof proof.remediation !== "object") {
+        errors.push(`${label}: health.proof.remediation must be an object when present`);
+      } else {
+        if (!proof.remediation.summary || typeof proof.remediation.summary !== "string") {
+          errors.push(`${label}: health.proof.remediation.summary must be a string when present`);
+        }
+        if (!Array.isArray(proof.remediation.classes) || proof.remediation.classes.length === 0) {
+          errors.push(`${label}: health.proof.remediation.classes must include at least one entry when remediation is present`);
+        }
+      }
+    }
+
+    const remediationClasses = getProofRemediationClasses(proof);
+    const remediationStates = new Set();
+    for (const remediation of remediationClasses) {
+      if (!remediation?.state || typeof remediation.state !== "string") {
+        errors.push(`${label}: health.proof.remediation.classes[].state is required`);
+        continue;
+      }
+      remediationStates.add(remediation.state);
+      if (!proofQualityStates.has(remediation.state)) {
+        errors.push(`${label}: health.proof.remediation.classes includes unsupported state ${remediation.state}`);
+      }
+      if (!remediation.summary || typeof remediation.summary !== "string") {
+        errors.push(`${label}: health.proof.remediation.${remediation.state}.summary must be a string`);
+      }
+      if (!remediation.owner || typeof remediation.owner !== "string") {
+        errors.push(`${label}: health.proof.remediation.${remediation.state}.owner must be a string`);
+      }
+      if (!Array.isArray(remediation.nextActions) || remediation.nextActions.length === 0) {
+        errors.push(`${label}: health.proof.remediation.${remediation.state}.nextActions must include at least one action`);
+      }
+      if (!Array.isArray(remediation.safeProofRefreshCriteria) || remediation.safeProofRefreshCriteria.length === 0) {
+        errors.push(`${label}: health.proof.remediation.${remediation.state}.safeProofRefreshCriteria must include at least one criterion`);
+      }
+    }
 
     if (project.repo?.exists === true) {
       if (!project.repo.url) errors.push(`${label}: repo.url must be set when repo.exists is true`);
@@ -200,8 +275,11 @@ if (registry) {
       warnings.push(`${label}: private-source GitHub status should usually be reflected in proof quality`);
     }
 
-    if (hasProofQualityWarning(proof)) {
-      warnings.push(`${label}: proof quality warning states = ${qualityStates.join(", ")}`);
+    for (const qualityState of getProofWarningStates(proof)) {
+      recordWarningClass(qualityState, label);
+      if (!remediationStates.has(qualityState)) {
+        errors.push(`${label}: proof warning state ${qualityState} must include remediation metadata`);
+      }
     }
 
     if (isProofStale(proof, now)) {
@@ -249,7 +327,23 @@ if (registry && consoleData) {
   if (consoleData.summary?.proofWarningProjects !== proofWarningProjects) {
     errors.push("Console data proof warning count does not match registry. Run pnpm build.");
   }
+
+  const proofWarningStateCounts = {};
+  for (const project of consoleData.projects ?? []) {
+    for (const state of getProofWarningStates(project.health?.proof)) {
+      proofWarningStateCounts[state] = (proofWarningStateCounts[state] ?? 0) + 1;
+    }
+  }
+  if (JSON.stringify(consoleData.summary?.proofWarningStateCounts ?? {}) !== JSON.stringify(proofWarningStateCounts)) {
+    errors.push("Console data proof warning state counts do not match registry. Run pnpm build.");
+  }
 }
+
+const warningClassSummary = Object.fromEntries(
+  [...warningClasses.entries()]
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([state, labels]) => [state, [...labels].sort()])
+);
 
 const receipt = {
   schemaVersion: 1,
@@ -257,6 +351,7 @@ const receipt = {
   status: errors.length ? "failed" : "passed",
   errors,
   warnings,
+  warningClasses: warningClassSummary,
   checkedFiles: requiredFiles.length
 };
 
@@ -266,12 +361,24 @@ await writeFile(path.join(root, ".foundation/verify.json"), JSON.stringify(recei
 if (errors.length) {
   console.error("Foundation verification failed:");
   for (const error of errors) console.error(`- ${error}`);
+  if (Object.keys(warningClassSummary).length) {
+    console.error("Warning classes:");
+    for (const [state, labels] of Object.entries(warningClassSummary)) {
+      console.error(`- ${state}: ${labels.join(", ")} (${proofQualityCatalog[state].summary})`);
+    }
+  }
   process.exitCode = 1;
 } else {
   console.log("Foundation verification passed.");
   console.log(`Checked files: ${requiredFiles.length}`);
+  if (Object.keys(warningClassSummary).length) {
+    console.log("Warning classes:");
+    for (const [state, labels] of Object.entries(warningClassSummary)) {
+      console.log(`- ${state}: ${labels.join(", ")} (${proofQualityCatalog[state].summary})`);
+    }
+  }
   if (warnings.length) {
-    console.log("Warnings:");
+    console.log("Additional warnings:");
     for (const warning of warnings) console.log(`- ${warning}`);
   }
   console.log("Receipt: .foundation/verify.json");

@@ -20,6 +20,20 @@ function hasProofQualityWarning(proof) {
   return states.some((state) => state !== "clean");
 }
 
+function getProofWarningStates(proof) {
+  const states = Array.isArray(proof?.qualityStates) ? proof.qualityStates : [];
+  return states.filter((state) => state !== "clean");
+}
+
+function getProofWarningStateCounts(projects) {
+  return projects.reduce((counts, project) => {
+    for (const state of getProofWarningStates(project.health?.proof)) {
+      counts[state] = (counts[state] ?? 0) + 1;
+    }
+    return counts;
+  }, {});
+}
+
 const registry = JSON.parse(await readFile(registryPath, "utf8"));
 const now = Date.now();
 const projects = registry.projects.map((project) => ({
@@ -47,7 +61,8 @@ const payload = {
     currentProofProjects: projects.filter((project) => project.health?.proof?.status === "current" && !project.health.proof.isStale).length,
     staleProofProjects: projects.filter((project) => project.health?.proof?.isStale).length,
     pendingProofProjects: projects.filter((project) => project.health?.proof?.status === "pending-proof").length,
-    proofWarningProjects: projects.filter((project) => hasProofQualityWarning(project.health?.proof)).length
+    proofWarningProjects: projects.filter((project) => hasProofQualityWarning(project.health?.proof)).length,
+    proofWarningStateCounts: getProofWarningStateCounts(projects)
   },
   principles: registry.principles,
   projects

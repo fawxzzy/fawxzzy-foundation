@@ -1,18 +1,23 @@
 {
   "build": {
-    "generatedAt": "2026-05-01T04:14:39.559Z",
+    "generatedAt": "2026-05-01T05:47:24.624Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-01T04:11:46.7196890Z",
+    "updatedAt": "2026-05-01T05:45:05.8532243Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
     "currentProofProjects": 5,
     "staleProofProjects": 0,
     "pendingProofProjects": 0,
-    "proofWarningProjects": 3
+    "proofWarningProjects": 3,
+    "proofWarningStateCounts": {
+      "dirty": 2,
+      "legacy-mapping": 1,
+      "private-source": 1
+    }
   },
   "principles": [
     "private-first runtime artifacts",
@@ -66,21 +71,21 @@
         },
         "deployment": {
           "status": "ready",
-          "summary": "Latest production deployment is READY and reflects the parity policy commit.",
-          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "summary": "Latest production deployment is READY and reflects the proof-quality classifications commit.",
+          "checkedAt": "2026-05-01T05:45:05.8532243Z",
           "target": "production",
-          "deploymentId": "dpl_YQ8Vcp5LbnfQzVX1qKZFSP2iDkad",
+          "deploymentId": "dpl_DSsSc2vNP3bGJZWZvAoCeFjrLuwJ",
           "alias": "fawxzzy-foundation.vercel.app",
-          "githubCommitSha": "9fff053e264d4071f7e26503d5a4d382c3cf6285",
-          "message": "Record Foundation display parity policy",
+          "githubCommitSha": "f5f2bdce36ea20fc1f3c081f6425d394bbcb38f4",
+          "message": "Add proof quality classifications",
           "gitDirty": false
         },
         "proof": {
           "status": "current",
-          "summary": "Pinned promotion proof remains intact at abda5a5/dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 while the latest observed production display parity is 9fff053/dpl_YQ8Vcp5LbnfQzVX1qKZFSP2iDkad.",
-          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "summary": "Pinned promotion proof remains intact at abda5a5/dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 while the latest observed production display parity is f5f2bdc/dpl_DSsSc2vNP3bGJZWZvAoCeFjrLuwJ.",
+          "checkedAt": "2026-05-01T05:45:05.8532243Z",
           "staleAfterHours": 168,
-          "lastDeploymentProofAt": "2026-05-01T03:18:52.146Z",
+          "lastDeploymentProofAt": "2026-05-01T05:45:05.8532243Z",
           "qualityStates": [
             "clean"
           ],
@@ -88,8 +93,8 @@
           "promotionProofCommitSha": "abda5a586716d356f7c2bb1e670f5783f80b0fed",
           "promotionProofDeploymentId": "dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2",
           "promotionProofPinnedAt": "2026-04-30T00:51:18Z",
-          "latestObservedDeploymentId": "dpl_YQ8Vcp5LbnfQzVX1qKZFSP2iDkad",
-          "latestObservedCommitSha": "9fff053e264d4071f7e26503d5a4d382c3cf6285",
+          "latestObservedDeploymentId": "dpl_DSsSc2vNP3bGJZWZvAoCeFjrLuwJ",
+          "latestObservedCommitSha": "f5f2bdce36ea20fc1f3c081f6425d394bbcb38f4",
           "isStale": false
         }
       },
@@ -111,7 +116,7 @@
           "GitHub Actions Foundation CI push run 25131302841 completed successfully for commit abda5a586716d356f7c2bb1e670f5783f80b0fed at 2026-04-29T20:10:19Z.",
           "Latest Vercel production deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 reached READY at 2026-04-30T00:51:18Z and serves https://fawxzzy-foundation.vercel.app.",
           "Clean deployment provenance is pinned to commit abda5a586716d356f7c2bb1e670f5783f80b0fed with source cli, actor codex, and no gitDirty flag.",
-          "Promotion proof is pinned to commit abda5a586716d356f7c2bb1e670f5783f80b0fed and deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2. Later production deployments may refresh the live console display from newer source commits, including 9fff053e264d4071f7e26503d5a4d382c3cf6285, without changing that original promotion proof."
+          "Promotion proof is pinned to commit abda5a586716d356f7c2bb1e670f5783f80b0fed and deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2. Later production deployments may refresh the live console display from newer source commits, including f5f2bdce36ea20fc1f3c081f6425d394bbcb38f4, without changing that original promotion proof."
         ],
         "sourceNote": "GitHub's legacy combined-status endpoint still reports pending with zero status contexts for this commit, but the public check-runs and workflow-run APIs show a completed successful Foundation CI push run. Those check surfaces are the authoritative proof here.",
         "registryCommit": {
@@ -437,6 +442,38 @@
             "legacy-mapping"
           ],
           "qualitySummary": "READY proof from the primary project is current, but it is gitDirty and the legacy prod-deploy mapping remains unresolved.",
+          "remediation": {
+            "summary": "Fitness has usable current proof for parity tracking, but Foundation should keep both warning classes visible until a clean primary-project deploy is captured and the legacy prod-deploy mapping is explicitly reconciled.",
+            "classes": [
+              {
+                "state": "dirty",
+                "summary": "The current READY proof came from the primary project, but the deployment metadata includes gitDirty and cannot be promoted to clean provenance.",
+                "owner": "Fitness repo owner creates the clean deployment; Foundation records the refreshed proof after the clean production deploy exists.",
+                "nextActions": [
+                  "Push the intended Fitness source from a clean git state on main and trigger a production deployment on the primary fawxzzy-fitness project.",
+                  "Refresh Foundation only after the primary project reports a newer production READY deployment whose commit is present on origin/main."
+                ],
+                "safeProofRefreshCriteria": [
+                  "Replacement proof must come from a production deployment on the primary fawxzzy-fitness project, not the legacy prod-deploy project.",
+                  "The deployment must be READY, reference a pushed commit, and report gitDirty as absent or false.",
+                  "Do not mark the dirty warning cleared from preview, older, or manually patched deployments."
+                ]
+              },
+              {
+                "state": "legacy-mapping",
+                "summary": "The legacy fawxzzy-fitness-prod-deploy mapping is still recorded in Foundation but is not currently observable as the authoritative production surface.",
+                "owner": "Foundation reconciles the registry mapping with the current Vercel inventory; Fitness owner confirms whether the legacy project is retired, aliased, or still required.",
+                "nextActions": [
+                  "Confirm whether fawxzzy-fitness-prod-deploy is still an active production boundary or only a historical deployment lane.",
+                  "If the legacy lane is retired, update Foundation after Vercel inventory confirmation so the primary project is the only clean provenance target."
+                ],
+                "safeProofRefreshCriteria": [
+                  "Keep the warning until the legacy mapping is either intentionally preserved with a documented purpose or removed from the authoritative production path.",
+                  "Do not collapse the legacy mapping into clean proof merely because the primary project has a newer READY deployment."
+                ]
+              }
+            ]
+          },
           "latestObservedDeploymentId": "dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F",
           "latestObservedCommitSha": "c55728235648a4a45bfe49a48ed1bd7a7086391e",
           "isStale": false
@@ -454,6 +491,7 @@
         ".playbook"
       ],
       "nextActions": [
+        "capture a fresh clean READY production proof on the primary fawxzzy-fitness project",
         "reconcile legacy fawxzzy-fitness-prod-deploy mapping against current Vercel inventory",
         "normalize AGENT.md to AGENTS.md convention",
         "surface deployment health in Foundation console"
@@ -603,6 +641,25 @@
             "dirty"
           ],
           "qualitySummary": "READY proof is current, but the observed deployment metadata includes gitDirty=1.",
+          "remediation": {
+            "summary": "Trove only needs one clean replacement proof path: capture a newer production READY deployment without gitDirty and then refresh Foundation from that observation.",
+            "classes": [
+              {
+                "state": "dirty",
+                "summary": "The current Trove proof is recent and READY, but it still carries gitDirty provenance and cannot be reclassified as clean yet.",
+                "owner": "Trove repo owner produces the clean deployment; Foundation refreshes the registry proof after that deployment is visible.",
+                "nextActions": [
+                  "Deploy the intended Trove source from a clean git state to the existing production target.",
+                  "Refresh Foundation after Vercel shows a newer production READY deployment tied to a pushed commit without gitDirty."
+                ],
+                "safeProofRefreshCriteria": [
+                  "Replacement proof must be a newer production READY deployment on fawxzzy-trove.vercel.app.",
+                  "The deployment must reference a pushed source commit and report gitDirty as absent or false.",
+                  "Do not clear the warning from preview deployments, cached alias checks, or older READY deploys."
+                ]
+              }
+            ]
+          },
           "latestObservedDeploymentId": "dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo",
           "latestObservedCommitSha": "e0566a6b8d65d5892f0cc9defda36481eccbaa29",
           "isStale": false
@@ -614,6 +671,8 @@
       ],
       "contracts": [],
       "nextActions": [
+        "capture a fresh clean READY production proof on fawxzzy-trove",
+        "refresh Foundation after the clean Trove proof is visible",
         "add repo-local AI/governance contract when ready"
       ]
     },
@@ -678,6 +737,25 @@
             "private-source"
           ],
           "qualitySummary": "READY proof is current, and the GitHub source is confirmed private from Vercel metadata.",
+          "remediation": {
+            "summary": "Nat 1 Games does not need a public-source proof to stay current. The remediation lane is policy clarity: keep private-source explicit unless the repo is intentionally made public later.",
+            "classes": [
+              {
+                "state": "private-source",
+                "summary": "The source repository is private in public GitHub surfaces, but Vercel metadata currently provides enough provenance for the deployment proof.",
+                "owner": "Nat 1 Games owner confirms the privacy intent; Foundation preserves the private-source policy note and refreshes proof from Vercel metadata.",
+                "nextActions": [
+                  "Record that private source is acceptable when the repo is intentionally private and Vercel remains the provenance source.",
+                  "Only add direct GitHub verification later if the repo is intentionally shared or made public."
+                ],
+                "safeProofRefreshCriteria": [
+                  "Refresh proof only from a production READY deployment whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main.",
+                  "Keep the private-source warning explicit while the repo remains intentionally private.",
+                  "Do not mark the proof clean solely because the deployment is READY; clean provenance would require a public-source verification policy change."
+                ]
+              }
+            ]
+          },
           "latestObservedDeploymentId": "dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq",
           "latestObservedCommitSha": "ce9643465d69f76a46d92d0db6ed855d117e1bbd",
           "isStale": false
@@ -689,6 +767,7 @@
       ],
       "contracts": [],
       "nextActions": [
+        "keep private-source provenance explicit while the repo is intentionally private",
         "record direct GitHub access only if the private source repo is intentionally shared",
         "add registry contract"
       ]
