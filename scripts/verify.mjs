@@ -10,7 +10,11 @@ const warnings = [];
 const proofQualityCatalog = {
   clean: {
     kind: "clean",
-    summary: "Current proof is acceptable as clean provenance."
+    summary: "Current proof is acceptable as clean public-source provenance."
+  },
+  "accepted-private-source": {
+    kind: "accepted",
+    summary: "Source is intentionally private, and Vercel metadata provides accepted current provenance without counting as a warning."
   },
   dirty: {
     kind: "warning",
@@ -87,12 +91,16 @@ function getProofQualityStates(proof) {
   return Array.isArray(proof?.qualityStates) ? proof.qualityStates : [];
 }
 
+function getProofQualityDefinition(state) {
+  return proofQualityCatalog[state];
+}
+
 function hasProofQualityWarning(proof) {
-  return getProofQualityStates(proof).some((state) => state !== "clean");
+  return getProofQualityStates(proof).some((state) => getProofQualityDefinition(state)?.kind === "warning");
 }
 
 function getProofWarningStates(proof) {
-  return getProofQualityStates(proof).filter((state) => state !== "clean");
+  return getProofQualityStates(proof).filter((state) => getProofQualityDefinition(state)?.kind === "warning");
 }
 
 function recordWarningClass(state, projectLabel) {
@@ -271,7 +279,11 @@ if (registry) {
       warnings.push(`${label}: deployment metadata is gitDirty but proof quality is not marked dirty`);
     }
 
-    if (project.health.github?.status === "private-source" && !qualityStates.includes("private-source")) {
+    if (
+      project.health.github?.status === "private-source" &&
+      !qualityStates.includes("private-source") &&
+      !qualityStates.includes("accepted-private-source")
+    ) {
       warnings.push(`${label}: private-source GitHub status should usually be reflected in proof quality`);
     }
 

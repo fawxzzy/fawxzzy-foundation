@@ -7,6 +7,26 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const registryPath = path.join(root, "data/projects.json");
 const outputPath = path.join(root, "apps/console/public/foundation.projects.json");
+const proofQualityCatalog = {
+  clean: {
+    kind: "clean"
+  },
+  "accepted-private-source": {
+    kind: "accepted"
+  },
+  dirty: {
+    kind: "warning"
+  },
+  "private-source": {
+    kind: "warning"
+  },
+  "legacy-mapping": {
+    kind: "warning"
+  },
+  "pending-confirmation": {
+    kind: "warning"
+  }
+};
 
 function isProofStale(proof, now = Date.now()) {
   if (!proof?.lastDeploymentProofAt || typeof proof.staleAfterHours !== "number") return false;
@@ -17,12 +37,12 @@ function isProofStale(proof, now = Date.now()) {
 
 function hasProofQualityWarning(proof) {
   const states = Array.isArray(proof?.qualityStates) ? proof.qualityStates : [];
-  return states.some((state) => state !== "clean");
+  return states.some((state) => proofQualityCatalog[state]?.kind === "warning");
 }
 
 function getProofWarningStates(proof) {
   const states = Array.isArray(proof?.qualityStates) ? proof.qualityStates : [];
-  return states.filter((state) => state !== "clean");
+  return states.filter((state) => proofQualityCatalog[state]?.kind === "warning");
 }
 
 function getProofWarningStateCounts(projects) {

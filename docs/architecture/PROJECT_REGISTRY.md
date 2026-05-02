@@ -2,7 +2,7 @@
 
 Generated from `data/projects.json`. Do not hand-edit this file unless the generator is also updated.
 
-Updated: 2026-05-02T18:04:46.3873760Z
+Updated: 2026-05-02T18:37:52.2547859Z
 
 ## Summary
 
@@ -22,7 +22,7 @@ Updated: 2026-05-02T18:04:46.3873760Z
 | lifeline | Fawxzzy Lifeline | operator-runtime | active | fawxzzy/fawxzzy-lifeline | yes | - | define Foundation lifeline target once deployment runtime is chosen |
 | mazer | Fawxzzy Mazer | application-game | active | fawxzzy/fawxzzy-mazer | yes | fawxzzy-mazer | surface build/runtime proof in Foundation console |
 | trove | Fawxzzy Trove | content-data | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | monitor future Trove deployment proof freshness |
-| nat-1-games | Nat 1 Games | application | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | keep private-source provenance explicit while the repo is intentionally private |
+| nat-1-games | Nat 1 Games | application | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | refresh proof only from READY production deployments whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main |
 
 
 ## Health Ledger
@@ -114,22 +114,17 @@ Updated: 2026-05-02T18:04:46.3873760Z
 - Latest observed deployment id: `dpl_CjmRU5tRnirBC42hs2eWg4WKK4QL`
 
 ### Nat 1 Games
-- Overall health: `deployment-observed` - A current Vercel production deployment is proved, and Vercel metadata confirms the GitHub source repo is private.
+- Overall health: `deployment-observed` - A current Vercel production deployment is proved, and Vercel metadata confirms the intentionally private GitHub source repo.
 - GitHub: `private-source` - GitHub public API does not expose ZachariahRedfield/nat1-games, and Vercel production metadata confirms that private source repo on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `nat-1-games`
 - Recorded Vercel mappings: `nat-1-games`
 - Deployment: `ready` - Latest observed production deployment is READY on nat-1-games.vercel.app. (checked `2026-05-01T03:45:12.577Z`)
 - Latest deployment facts: deployment `dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq`, target `production`, alias `nat-1-games.vercel.app`, commit `ce9643465d69f76a46d92d0db6ed855d117e1bbd`, message "Merge pull request #227 from ZachariahRedfield/codex/simplify-time-zone-selection-and-auto-select Improve Start Session UI and prevent mobile input zoom"
-- Proof: `current` - Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel, and the associated GitHub source is confirmed private from Vercel metadata. (checked `2026-05-01T03:45:12.577Z`)
+- Proof: `current` - Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel, and the intentionally private GitHub source is accepted through Vercel provenance. (checked `2026-05-01T03:45:12.577Z`)
 - Proof freshness window: 168h
 - Last deployment proof captured: `2026-05-01T03:45:12.577Z`
-- Proof quality: `private-source` - READY proof is current, and the GitHub source is confirmed private from Vercel metadata.
-- Remediation summary: Nat 1 Games does not need a public-source proof to stay current. The remediation lane is policy clarity: keep private-source explicit unless the repo is intentionally made public later.
-- Warning class `private-source`: The source repository is private in public GitHub surfaces, but Vercel metadata currently provides enough provenance for the deployment proof.
-- Owner for `private-source`: Nat 1 Games owner confirms the privacy intent; Foundation preserves the private-source policy note and refreshes proof from Vercel metadata.
-- Next action for `private-source`: Record that private source is acceptable when the repo is intentionally private and Vercel remains the provenance source.; Only add direct GitHub verification later if the repo is intentionally shared or made public.
-- Safe proof refresh for `private-source`: Refresh proof only from a production READY deployment whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main.; Keep the private-source warning explicit while the repo remains intentionally private.; Do not mark the proof clean solely because the deployment is READY; clean provenance would require a public-source verification policy change.
+- Proof quality: `accepted-private-source` - READY proof is current, and private-source provenance is explicitly accepted when Vercel metadata still identifies ZachariahRedfield/nat1-games on main.
 - Latest observed deployment commit: `ce9643465d69f76a46d92d0db6ed855d117e1bbd`
 - Latest observed deployment id: `dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq`
 

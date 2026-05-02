@@ -43,14 +43,15 @@ Each project has:
 - `health.vercel` - latest Vercel project mapping check.
 - `health.deployment` - latest deployment observation when tracked.
 - `health.proof` - proof freshness window and timestamps.
-- `health.proof.remediation` - explicit owner, next action, and safe refresh criteria for any non-clean proof warning states.
+- `health.proof.remediation` - explicit owner, next action, and safe refresh criteria for any proof warning states.
 - `stack` - major technical shape.
 - `contracts` - known governance/docs/runtime contracts.
 - `nextActions` - explicit next responsible moves.
 
 ## Proof quality policy
 
-- `clean` means the current proof can be treated as clean provenance.
+- `clean` is the clean-public-source class: the current proof can be treated as clean provenance because the deployment and source visibility checks align.
+- `accepted-private-source` is a separate accepted policy class: the source repository remains intentionally private, Vercel metadata is the authoritative provenance surface, and the proof stays current without counting as a warning.
 - `dirty` means a READY deployment was observed, but the deployment metadata included `gitDirty`; this is a warning, not a blocker, until a fresh clean READY proof is captured.
 - `legacy-mapping` means a historical deployment mapping still needs reconciliation before the proof can be treated as clean.
 - `private-source` means the source repository is intentionally or effectively private and Vercel metadata is the active provenance surface; this is acceptable when intentional, but the warning should remain explicit.

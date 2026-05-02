@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-05-02T18:04:46.3873760Z",
+  "updatedAt": "2026-05-02T18:37:52.2547859Z",
   "source": "proof-quality-remediation-plan",
   "owner": "fawxzzy",
   "principles": [
@@ -605,7 +605,7 @@
       "kind": "application",
       "status": "observed-deployment",
       "priority": 4,
-      "summary": "Production deployment proof is captured from Vercel, and Vercel metadata confirms the GitHub source repo is private.",
+      "summary": "Production deployment proof is captured from Vercel, and the intentionally private source is accepted via explicit Vercel provenance.",
       "repo": {
         "owner": "ZachariahRedfield",
         "name": "nat1-games",
@@ -626,7 +626,7 @@
       },
       "health": {
         "status": "deployment-observed",
-        "summary": "A current Vercel production deployment is proved, and Vercel metadata confirms the GitHub source repo is private.",
+        "summary": "A current Vercel production deployment is proved, and Vercel metadata confirms the intentionally private GitHub source repo.",
         "github": {
           "status": "private-source",
           "summary": "GitHub public API does not expose ZachariahRedfield/nat1-games, and Vercel production metadata confirms that private source repo on main.",
@@ -652,33 +652,14 @@
         },
         "proof": {
           "status": "current",
-          "summary": "Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel, and the associated GitHub source is confirmed private from Vercel metadata.",
+          "summary": "Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel, and the intentionally private GitHub source is accepted through Vercel provenance.",
           "checkedAt": "2026-05-01T03:45:12.577Z",
           "staleAfterHours": 168,
           "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
           "qualityStates": [
-            "private-source"
+            "accepted-private-source"
           ],
-          "qualitySummary": "READY proof is current, and the GitHub source is confirmed private from Vercel metadata.",
-          "remediation": {
-            "summary": "Nat 1 Games does not need a public-source proof to stay current. The remediation lane is policy clarity: keep private-source explicit unless the repo is intentionally made public later.",
-            "classes": [
-              {
-                "state": "private-source",
-                "summary": "The source repository is private in public GitHub surfaces, but Vercel metadata currently provides enough provenance for the deployment proof.",
-                "owner": "Nat 1 Games owner confirms the privacy intent; Foundation preserves the private-source policy note and refreshes proof from Vercel metadata.",
-                "nextActions": [
-                  "Record that private source is acceptable when the repo is intentionally private and Vercel remains the provenance source.",
-                  "Only add direct GitHub verification later if the repo is intentionally shared or made public."
-                ],
-                "safeProofRefreshCriteria": [
-                  "Refresh proof only from a production READY deployment whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main.",
-                  "Keep the private-source warning explicit while the repo remains intentionally private.",
-                  "Do not mark the proof clean solely because the deployment is READY; clean provenance would require a public-source verification policy change."
-                ]
-              }
-            ]
-          },
+          "qualitySummary": "READY proof is current, and private-source provenance is explicitly accepted when Vercel metadata still identifies ZachariahRedfield/nat1-games on main.",
           "latestObservedDeploymentId": "dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq",
           "latestObservedCommitSha": "ce9643465d69f76a46d92d0db6ed855d117e1bbd"
         }
@@ -689,7 +670,7 @@
       ],
       "contracts": [],
       "nextActions": [
-        "keep private-source provenance explicit while the repo is intentionally private",
+        "refresh proof only from READY production deployments whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main",
         "record direct GitHub access only if the private source repo is intentionally shared",
         "add registry contract"
       ]
