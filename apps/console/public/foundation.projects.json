@@ -1,20 +1,19 @@
 {
   "build": {
-    "generatedAt": "2026-05-02T17:26:12.808Z",
+    "generatedAt": "2026-05-02T18:06:25.440Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-01T05:45:05.8532243Z",
+    "updatedAt": "2026-05-02T18:04:46.3873760Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
     "currentProofProjects": 5,
     "staleProofProjects": 0,
     "pendingProofProjects": 0,
-    "proofWarningProjects": 2,
+    "proofWarningProjects": 1,
     "proofWarningStateCounts": {
-      "legacy-mapping": 1,
       "private-source": 1
     }
   },
@@ -129,7 +128,6 @@
           "visibleProjects": [
             "foundation",
             "fitness",
-            "fitness-prod-deploy",
             "trove",
             "nat-1-games",
             "mazer"
@@ -394,17 +392,19 @@
         "projects": [
           {
             "name": "fawxzzy-fitness",
-            "id": "prj_rtlFVOMFAWCRoJ3SQjHloi89881K"
+            "id": "prj_rtlFVOMFAWCRoJ3SQjHloi89881K",
+            "role": "primary"
           },
           {
             "name": "fawxzzy-fitness-prod-deploy",
-            "id": "prj_8oWpoLP21Lg2aO34F6z2FGyPpuor"
+            "id": "prj_8oWpoLP21Lg2aO34F6z2FGyPpuor",
+            "role": "historical"
           }
         ]
       },
       "health": {
         "status": "deployment-observed",
-        "summary": "GitHub repo is public and the primary Vercel production deployment is proved, but the legacy fawxzzy-fitness-prod-deploy mapping is not currently observable.",
+        "summary": "GitHub repo is public, the primary Vercel production deployment is proved, and the legacy fawxzzy-fitness-prod-deploy lane is now classified as historical.",
         "github": {
           "status": "verified",
           "summary": "GitHub repo exists publicly on main.",
@@ -412,11 +412,10 @@
         },
         "vercel": {
           "status": "verified",
-          "summary": "Primary Vercel project is visible under the fawxzzy team; the legacy fawxzzy-fitness-prod-deploy mapping is not currently observable.",
-          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "summary": "Primary Vercel project is visible under the fawxzzy team. The recorded fawxzzy-fitness-prod-deploy project ID now returns 404 and is absent from the current team inventory, so Foundation keeps it only as a historical mapping.",
+          "checkedAt": "2026-05-02T18:04:46.3873760Z",
           "projectNames": [
-            "fawxzzy-fitness",
-            "fawxzzy-fitness-prod-deploy"
+            "fawxzzy-fitness"
           ]
         },
         "deployment": {
@@ -432,32 +431,14 @@
         },
         "proof": {
           "status": "current",
-          "summary": "Foundation captured a current clean deployment proof snapshot for Fitness from the primary Vercel project, while the legacy prod-deploy mapping remains unresolved.",
-          "checkedAt": "2026-05-02T17:24:42.9220000Z",
+          "summary": "Foundation captured a current clean deployment proof snapshot for Fitness from the primary Vercel project, and the former prod-deploy lane is now recorded as historical rather than an active proof target.",
+          "checkedAt": "2026-05-02T18:04:46.3873760Z",
           "staleAfterHours": 168,
           "lastDeploymentProofAt": "2026-05-02T17:24:42.9220000Z",
           "qualityStates": [
-            "legacy-mapping"
+            "clean"
           ],
-          "qualitySummary": "READY proof from the primary project is current and clean, but the legacy prod-deploy mapping remains unresolved.",
-          "remediation": {
-            "summary": "Fitness now has a clean primary-project deployment proof, but Foundation should keep the legacy-mapping warning visible until the historical prod-deploy lane is explicitly reconciled.",
-            "classes": [
-              {
-                "state": "legacy-mapping",
-                "summary": "The legacy fawxzzy-fitness-prod-deploy mapping is still recorded in Foundation but is not currently observable as the authoritative production surface.",
-                "owner": "Foundation reconciles the registry mapping with the current Vercel inventory; Fitness owner confirms whether the legacy project is retired, aliased, or still required.",
-                "nextActions": [
-                  "Confirm whether fawxzzy-fitness-prod-deploy is still an active production boundary or only a historical deployment lane.",
-                  "If the legacy lane is retired, update Foundation after Vercel inventory confirmation so the primary project is the only clean provenance target."
-                ],
-                "safeProofRefreshCriteria": [
-                  "Keep the warning until the legacy mapping is either intentionally preserved with a documented purpose or removed from the authoritative production path.",
-                  "Do not collapse the legacy mapping into clean proof merely because the primary project has a newer READY deployment."
-                ]
-              }
-            ]
-          },
+          "qualitySummary": "READY proof from the primary project is current and clean, and the legacy prod-deploy lane is classified as historical inventory only.",
           "latestObservedDeploymentId": "dpl_B8f413NisExwpfyCzEw74JgRhpcS",
           "latestObservedCommitSha": "01bf2dc272ad7c892bf2dac64d47b2b47d943cff",
           "isStale": false
@@ -475,7 +456,8 @@
         ".playbook"
       ],
       "nextActions": [
-        "reconcile legacy fawxzzy-fitness-prod-deploy mapping against current Vercel inventory",
+        "monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project",
+        "keep the historical fawxzzy-fitness-prod-deploy mapping documented unless it reappears in active team inventory",
         "surface deployment health in Foundation console"
       ]
     },

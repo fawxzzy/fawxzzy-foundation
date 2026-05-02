@@ -11,6 +11,7 @@ export type FoundationRepo = {
 export type FoundationVercelProject = {
   name: string;
   id?: string;
+  role?: string;
 };
 
 export type FoundationPromotionChecklistItem = {

@@ -2,7 +2,7 @@
 
 Generated from `data/projects.json`. Do not hand-edit this file unless the generator is also updated.
 
-Updated: 2026-05-01T05:45:05.8532243Z
+Updated: 2026-05-02T18:04:46.3873760Z
 
 ## Summary
 
@@ -18,7 +18,7 @@ Updated: 2026-05-01T05:45:05.8532243Z
 | foundation | Fawxzzy Foundation | control-plane | active | fawxzzy/fawxzzy-foundation | yes | fawxzzy-foundation | Automate health/proof refresh without changing the pinned active-control-plane promotion proof |
 | playbook | Fawxzzy Playbook | governance-runtime | active | fawxzzy/fawxzzy-playbook | yes | - | adopt Playbook bootstrap in Foundation once package install is available |
 | atlas | ATLAS | workspace-architecture | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
-| fitness | Fawxzzy Fitness | application | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness, fawxzzy-fitness-prod-deploy | reconcile legacy fawxzzy-fitness-prod-deploy mapping against current Vercel inventory |
+| fitness | Fawxzzy Fitness | application | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness (primary), fawxzzy-fitness-prod-deploy (historical) | monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project |
 | lifeline | Fawxzzy Lifeline | operator-runtime | active | fawxzzy/fawxzzy-lifeline | yes | - | define Foundation lifeline target once deployment runtime is chosen |
 | mazer | Fawxzzy Mazer | application-game | active | fawxzzy/fawxzzy-mazer | yes | fawxzzy-mazer | surface build/runtime proof in Foundation console |
 | trove | Fawxzzy Trove | content-data | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | monitor future Trove deployment proof freshness |
@@ -32,6 +32,7 @@ Updated: 2026-05-01T05:45:05.8532243Z
 - GitHub: `verified` - GitHub repo exists, is public, and tracks main as the default branch. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel: `verified` - Vercel project is mapped under the fawxzzy team. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel projects: `fawxzzy-foundation`
+- Recorded Vercel mappings: `fawxzzy-foundation`
 - Deployment: `ready` - Latest production deployment is READY and reflects the proof-quality classifications commit. (checked `2026-05-01T05:45:05.8532243Z`)
 - Latest deployment facts: deployment `dpl_DSsSc2vNP3bGJZWZvAoCeFjrLuwJ`, target `production`, alias `fawxzzy-foundation.vercel.app`, commit `f5f2bdce36ea20fc1f3c081f6425d394bbcb38f4`, message "Add proof quality classifications"
 - Proof: `current` - Pinned promotion proof remains intact at abda5a5/dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 while the latest observed production display parity is f5f2bdc/dpl_DSsSc2vNP3bGJZWZvAoCeFjrLuwJ. (checked `2026-05-01T05:45:05.8532243Z`)
@@ -60,21 +61,17 @@ Updated: 2026-05-01T05:45:05.8532243Z
 - Proof freshness window: 168h
 
 ### Fawxzzy Fitness
-- Overall health: `deployment-observed` - GitHub repo is public and the primary Vercel production deployment is proved, but the legacy fawxzzy-fitness-prod-deploy mapping is not currently observable.
+- Overall health: `deployment-observed` - GitHub repo is public, the primary Vercel production deployment is proved, and the legacy fawxzzy-fitness-prod-deploy lane is now classified as historical.
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
-- Vercel: `verified` - Primary Vercel project is visible under the fawxzzy team; the legacy fawxzzy-fitness-prod-deploy mapping is not currently observable. (checked `2026-05-01T03:45:12.577Z`)
-- Vercel projects: `fawxzzy-fitness`, `fawxzzy-fitness-prod-deploy`
+- Vercel: `verified` - Primary Vercel project is visible under the fawxzzy team. The recorded fawxzzy-fitness-prod-deploy project ID now returns 404 and is absent from the current team inventory, so Foundation keeps it only as a historical mapping. (checked `2026-05-02T18:04:46.3873760Z`)
+- Vercel projects: `fawxzzy-fitness`
+- Recorded Vercel mappings: `fawxzzy-fitness (primary)`, `fawxzzy-fitness-prod-deploy (historical)`
 - Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app and the primary project now reports clean commit provenance. (checked `2026-05-02T17:24:42.9220000Z`)
 - Latest deployment facts: deployment `dpl_B8f413NisExwpfyCzEw74JgRhpcS`, target `production`, alias `fawxzzy-fitness-local.vercel.app`, commit `01bf2dc272ad7c892bf2dac64d47b2b47d943cff`, message "Merge remote-tracking branch 'origin/main' into codex/supabase-canonical-upsert"
-- Proof: `current` - Foundation captured a current clean deployment proof snapshot for Fitness from the primary Vercel project, while the legacy prod-deploy mapping remains unresolved. (checked `2026-05-02T17:24:42.9220000Z`)
+- Proof: `current` - Foundation captured a current clean deployment proof snapshot for Fitness from the primary Vercel project, and the former prod-deploy lane is now recorded as historical rather than an active proof target. (checked `2026-05-02T18:04:46.3873760Z`)
 - Proof freshness window: 168h
 - Last deployment proof captured: `2026-05-02T17:24:42.9220000Z`
-- Proof quality: `legacy-mapping` - READY proof from the primary project is current and clean, but the legacy prod-deploy mapping remains unresolved.
-- Remediation summary: Fitness now has a clean primary-project deployment proof, but Foundation should keep the legacy-mapping warning visible until the historical prod-deploy lane is explicitly reconciled.
-- Warning class `legacy-mapping`: The legacy fawxzzy-fitness-prod-deploy mapping is still recorded in Foundation but is not currently observable as the authoritative production surface.
-- Owner for `legacy-mapping`: Foundation reconciles the registry mapping with the current Vercel inventory; Fitness owner confirms whether the legacy project is retired, aliased, or still required.
-- Next action for `legacy-mapping`: Confirm whether fawxzzy-fitness-prod-deploy is still an active production boundary or only a historical deployment lane.; If the legacy lane is retired, update Foundation after Vercel inventory confirmation so the primary project is the only clean provenance target.
-- Safe proof refresh for `legacy-mapping`: Keep the warning until the legacy mapping is either intentionally preserved with a documented purpose or removed from the authoritative production path.; Do not collapse the legacy mapping into clean proof merely because the primary project has a newer READY deployment.
+- Proof quality: `clean` - READY proof from the primary project is current and clean, and the legacy prod-deploy lane is classified as historical inventory only.
 - Latest observed deployment commit: `01bf2dc272ad7c892bf2dac64d47b2b47d943cff`
 - Latest observed deployment id: `dpl_B8f413NisExwpfyCzEw74JgRhpcS`
 
@@ -91,6 +88,7 @@ Updated: 2026-05-01T05:45:05.8532243Z
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `fawxzzy-mazer`
+- Recorded Vercel mappings: `fawxzzy-mazer`
 - Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-mazer.vercel.app. (checked `2026-05-01T03:45:12.577Z`)
 - Latest deployment facts: deployment `dpl_9yFBd8hRjq1uKoibCZC7bFMBtrMR`, target `production`, alias `fawxzzy-mazer.vercel.app`, commit `f42f472bb057b2e4d57d8ac5c06253e2c3ef5166`, message "updated"
 - Proof: `current` - Foundation captured a current deployment proof snapshot for Mazer from the live production alias. (checked `2026-05-01T03:45:12.577Z`)
@@ -105,6 +103,7 @@ Updated: 2026-05-01T05:45:05.8532243Z
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `fawxzzy-trove`
+- Recorded Vercel mappings: `fawxzzy-trove`
 - Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-trove.vercel.app and the checked deployment metadata appears clean. (checked `2026-05-02T17:19:13.7580000Z`)
 - Latest deployment facts: deployment `dpl_CjmRU5tRnirBC42hs2eWg4WKK4QL`, target `production`, alias `fawxzzy-trove.vercel.app`, commit `0e9ae02c4c70e604b458e6d9d0489651827134a3`, message "Merge pull request #3 from fawxzzy/codex/trove-pilot-release-cutover"
 - Proof: `current` - Foundation captured a current clean deployment proof snapshot for Trove from the live production alias. (checked `2026-05-02T17:19:13.7580000Z`)
@@ -119,6 +118,7 @@ Updated: 2026-05-01T05:45:05.8532243Z
 - GitHub: `private-source` - GitHub public API does not expose ZachariahRedfield/nat1-games, and Vercel production metadata confirms that private source repo on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `nat-1-games`
+- Recorded Vercel mappings: `nat-1-games`
 - Deployment: `ready` - Latest observed production deployment is READY on nat-1-games.vercel.app. (checked `2026-05-01T03:45:12.577Z`)
 - Latest deployment facts: deployment `dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq`, target `production`, alias `nat-1-games.vercel.app`, commit `ce9643465d69f76a46d92d0db6ed855d117e1bbd`, message "Merge pull request #227 from ZachariahRedfield/codex/simplify-time-zone-selection-and-auto-select Improve Start Session UI and prevent mobile input zoom"
 - Proof: `current` - Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel, and the associated GitHub source is confirmed private from Vercel metadata. (checked `2026-05-01T03:45:12.577Z`)
@@ -146,7 +146,7 @@ Updated: 2026-05-01T05:45:05.8532243Z
 - GitHub's legacy combined-status endpoint still reports pending with zero status contexts for this commit, but the public check-runs and workflow-run APIs show a completed successful Foundation CI push run. Those check surfaces are the authoritative proof here.
 - Promotion proof commit: `abda5a586716d356f7c2bb1e670f5783f80b0fed` (Record Foundation Vercel deployment proof)
 - Vercel project `fawxzzy-foundation`: latest production deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 is READY for abda5a586716d356f7c2bb1e670f5783f80b0fed on alias fawxzzy-foundation.vercel.app
-- Visible Vercel projects: `foundation`, `fitness`, `fitness-prod-deploy`, `trove`, `nat-1-games`, `mazer`
+- Visible Vercel projects: `foundation`, `fitness`, `trove`, `nat-1-games`, `mazer`
 
 | Gate | State |
 | --- | --- |

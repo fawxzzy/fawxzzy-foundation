@@ -50,6 +50,11 @@ function renderBulletList(items, formatter = (item) => text(item)) {
   return `<ul class="ledger-list">${items.map((item) => `<li>${formatter(item)}</li>`).join("")}</ul>`;
 }
 
+function formatVercelProject(project) {
+  if (!project?.name) return "-";
+  return project.role ? `${project.name} (${project.role})` : project.name;
+}
+
 function renderHealthRow(label, facet, extras = [], badges = []) {
   if (!facet) return "";
   const facts = extras.filter(Boolean);
@@ -130,7 +135,8 @@ function renderHealth(project) {
       <div class="health-grid">
         ${renderHealthRow("GitHub", health.github)}
         ${renderHealthRow("Vercel", health.vercel, [
-          health.vercel.projectNames?.length ? health.vercel.projectNames.join(", ") : ""
+          health.vercel.projectNames?.length ? `visible ${health.vercel.projectNames.join(", ")}` : "",
+          project.vercel?.projects?.length ? `mappings ${project.vercel.projects.map((item) => formatVercelProject(item)).join(", ")}` : ""
         ])}
         ${renderHealthRow("Deployment", health.deployment, [
           health.deployment.deploymentId ? `deploy ${health.deployment.deploymentId}` : "",
@@ -190,7 +196,7 @@ function renderPromotion(project) {
 function projectCard(project) {
   const repoLabel = project.repo?.fullName ?? "No repo mapped";
   const deploymentLabel =
-    project.vercel?.projects?.map((item) => item.name).join(", ") ??
+    project.vercel?.projects?.map((item) => formatVercelProject(item)).join(", ") ??
     project.vercel?.projectName ??
     "No deployment mapped";
   const next = project.nextActions?.[0] ?? "No next action recorded";

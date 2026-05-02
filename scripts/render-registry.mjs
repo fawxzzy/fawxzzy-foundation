@@ -18,9 +18,14 @@ function escapeMd(input) {
   return value(input).replaceAll("|", "\\|").replaceAll("\n", " ");
 }
 
+function formatVercelProject(project) {
+  if (!project?.name) return "unknown";
+  return project.role ? `${project.name} (${project.role})` : project.name;
+}
+
 function vercelLabel(project) {
   if (!project.vercel) return "-";
-  if (project.vercel.projects?.length) return project.vercel.projects.map((item) => item.name).join(", ");
+  if (project.vercel.projects?.length) return project.vercel.projects.map((item) => formatVercelProject(item)).join(", ");
   return project.vercel.projectName ?? (project.vercel.exists ? "mapped" : "planned");
 }
 
@@ -70,6 +75,9 @@ function renderHealth(project, now = Date.now()) {
 
   if (health.vercel.projectNames?.length) {
     lines.push(`- Vercel projects: ${health.vercel.projectNames.map((item) => `\`${item}\``).join(", ")}`);
+  }
+  if (project.vercel?.projects?.length) {
+    lines.push(`- Recorded Vercel mappings: ${project.vercel.projects.map((item) => `\`${formatVercelProject(item)}\``).join(", ")}`);
   }
 
   lines.push(
