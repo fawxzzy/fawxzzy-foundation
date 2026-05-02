@@ -18,10 +18,10 @@ Updated: 2026-05-01T05:45:05.8532243Z
 | foundation | Fawxzzy Foundation | control-plane | active | fawxzzy/fawxzzy-foundation | yes | fawxzzy-foundation | Automate health/proof refresh without changing the pinned active-control-plane promotion proof |
 | playbook | Fawxzzy Playbook | governance-runtime | active | fawxzzy/fawxzzy-playbook | yes | - | adopt Playbook bootstrap in Foundation once package install is available |
 | atlas | ATLAS | workspace-architecture | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
-| fitness | Fawxzzy Fitness | application | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness, fawxzzy-fitness-prod-deploy | capture a fresh clean READY production proof on the primary fawxzzy-fitness project |
+| fitness | Fawxzzy Fitness | application | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness, fawxzzy-fitness-prod-deploy | reconcile legacy fawxzzy-fitness-prod-deploy mapping against current Vercel inventory |
 | lifeline | Fawxzzy Lifeline | operator-runtime | active | fawxzzy/fawxzzy-lifeline | yes | - | define Foundation lifeline target once deployment runtime is chosen |
 | mazer | Fawxzzy Mazer | application-game | active | fawxzzy/fawxzzy-mazer | yes | fawxzzy-mazer | surface build/runtime proof in Foundation console |
-| trove | Fawxzzy Trove | content-data | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | capture a fresh clean READY production proof on fawxzzy-trove |
+| trove | Fawxzzy Trove | content-data | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | monitor future Trove deployment proof freshness |
 | nat-1-games | Nat 1 Games | application | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | keep private-source provenance explicit while the repo is intentionally private |
 
 
@@ -64,23 +64,19 @@ Updated: 2026-05-01T05:45:05.8532243Z
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Primary Vercel project is visible under the fawxzzy team; the legacy fawxzzy-fitness-prod-deploy mapping is not currently observable. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `fawxzzy-fitness`, `fawxzzy-fitness-prod-deploy`
-- Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app, but the recorded deployment metadata is gitDirty. (checked `2026-05-01T03:45:12.577Z`)
-- Latest deployment facts: deployment `dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F`, target `production`, alias `fawxzzy-fitness-local.vercel.app`, commit `c55728235648a4a45bfe49a48ed1bd7a7086391e`, message "Release workspace snapshot"
-- Proof: `current` - Foundation captured a current deployment proof snapshot for Fitness from the primary Vercel project; the proof is current but not clean because the deployment is gitDirty and the legacy prod-deploy mapping is unresolved. (checked `2026-05-01T03:45:12.577Z`)
+- Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app and the primary project now reports clean commit provenance. (checked `2026-05-02T17:24:42.9220000Z`)
+- Latest deployment facts: deployment `dpl_B8f413NisExwpfyCzEw74JgRhpcS`, target `production`, alias `fawxzzy-fitness-local.vercel.app`, commit `01bf2dc272ad7c892bf2dac64d47b2b47d943cff`, message "Merge remote-tracking branch 'origin/main' into codex/supabase-canonical-upsert"
+- Proof: `current` - Foundation captured a current clean deployment proof snapshot for Fitness from the primary Vercel project, while the legacy prod-deploy mapping remains unresolved. (checked `2026-05-02T17:24:42.9220000Z`)
 - Proof freshness window: 168h
-- Last deployment proof captured: `2026-05-01T03:45:12.577Z`
-- Proof quality: `dirty`, `legacy-mapping` - READY proof from the primary project is current, but it is gitDirty and the legacy prod-deploy mapping remains unresolved.
-- Remediation summary: Fitness has usable current proof for parity tracking, but Foundation should keep both warning classes visible until a clean primary-project deploy is captured and the legacy prod-deploy mapping is explicitly reconciled.
-- Warning class `dirty`: The current READY proof came from the primary project, but the deployment metadata includes gitDirty and cannot be promoted to clean provenance.
-- Owner for `dirty`: Fitness repo owner creates the clean deployment; Foundation records the refreshed proof after the clean production deploy exists.
-- Next action for `dirty`: Push the intended Fitness source from a clean git state on main and trigger a production deployment on the primary fawxzzy-fitness project.; Refresh Foundation only after the primary project reports a newer production READY deployment whose commit is present on origin/main.
-- Safe proof refresh for `dirty`: Replacement proof must come from a production deployment on the primary fawxzzy-fitness project, not the legacy prod-deploy project.; The deployment must be READY, reference a pushed commit, and report gitDirty as absent or false.; Do not mark the dirty warning cleared from preview, older, or manually patched deployments.
+- Last deployment proof captured: `2026-05-02T17:24:42.9220000Z`
+- Proof quality: `legacy-mapping` - READY proof from the primary project is current and clean, but the legacy prod-deploy mapping remains unresolved.
+- Remediation summary: Fitness now has a clean primary-project deployment proof, but Foundation should keep the legacy-mapping warning visible until the historical prod-deploy lane is explicitly reconciled.
 - Warning class `legacy-mapping`: The legacy fawxzzy-fitness-prod-deploy mapping is still recorded in Foundation but is not currently observable as the authoritative production surface.
 - Owner for `legacy-mapping`: Foundation reconciles the registry mapping with the current Vercel inventory; Fitness owner confirms whether the legacy project is retired, aliased, or still required.
 - Next action for `legacy-mapping`: Confirm whether fawxzzy-fitness-prod-deploy is still an active production boundary or only a historical deployment lane.; If the legacy lane is retired, update Foundation after Vercel inventory confirmation so the primary project is the only clean provenance target.
 - Safe proof refresh for `legacy-mapping`: Keep the warning until the legacy mapping is either intentionally preserved with a documented purpose or removed from the authoritative production path.; Do not collapse the legacy mapping into clean proof merely because the primary project has a newer READY deployment.
-- Latest observed deployment commit: `c55728235648a4a45bfe49a48ed1bd7a7086391e`
-- Latest observed deployment id: `dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F`
+- Latest observed deployment commit: `01bf2dc272ad7c892bf2dac64d47b2b47d943cff`
+- Latest observed deployment id: `dpl_B8f413NisExwpfyCzEw74JgRhpcS`
 
 ### Fawxzzy Lifeline
 - Overall health: `tracked` - GitHub repo truth is recorded; deployment proof will follow once Lifeline runtime targets are formalized.
@@ -109,19 +105,14 @@ Updated: 2026-05-01T05:45:05.8532243Z
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `fawxzzy-trove`
-- Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-trove.vercel.app, but the recorded deployment metadata is gitDirty. (checked `2026-05-01T03:45:12.577Z`)
-- Latest deployment facts: deployment `dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo`, target `production`, alias `fawxzzy-trove.vercel.app`, commit `e0566a6b8d65d5892f0cc9defda36481eccbaa29`, message "chore: refresh app catalog media assets"
-- Proof: `current` - Foundation captured a current deployment proof snapshot for Trove from the live production alias; the proof is current but not clean because the deployment is gitDirty. (checked `2026-05-01T03:45:12.577Z`)
+- Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-trove.vercel.app and the checked deployment metadata appears clean. (checked `2026-05-02T17:19:13.7580000Z`)
+- Latest deployment facts: deployment `dpl_CjmRU5tRnirBC42hs2eWg4WKK4QL`, target `production`, alias `fawxzzy-trove.vercel.app`, commit `0e9ae02c4c70e604b458e6d9d0489651827134a3`, message "Merge pull request #3 from fawxzzy/codex/trove-pilot-release-cutover"
+- Proof: `current` - Foundation captured a current clean deployment proof snapshot for Trove from the live production alias. (checked `2026-05-02T17:19:13.7580000Z`)
 - Proof freshness window: 168h
-- Last deployment proof captured: `2026-05-01T03:45:12.577Z`
-- Proof quality: `dirty` - READY proof is current, but the observed deployment metadata includes gitDirty=1.
-- Remediation summary: Trove only needs one clean replacement proof path: capture a newer production READY deployment without gitDirty and then refresh Foundation from that observation.
-- Warning class `dirty`: The current Trove proof is recent and READY, but it still carries gitDirty provenance and cannot be reclassified as clean yet.
-- Owner for `dirty`: Trove repo owner produces the clean deployment; Foundation refreshes the registry proof after that deployment is visible.
-- Next action for `dirty`: Deploy the intended Trove source from a clean git state to the existing production target.; Refresh Foundation after Vercel shows a newer production READY deployment tied to a pushed commit without gitDirty.
-- Safe proof refresh for `dirty`: Replacement proof must be a newer production READY deployment on fawxzzy-trove.vercel.app.; The deployment must reference a pushed source commit and report gitDirty as absent or false.; Do not clear the warning from preview deployments, cached alias checks, or older READY deploys.
-- Latest observed deployment commit: `e0566a6b8d65d5892f0cc9defda36481eccbaa29`
-- Latest observed deployment id: `dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo`
+- Last deployment proof captured: `2026-05-02T17:19:13.7580000Z`
+- Proof quality: `clean` - READY proof is current and the checked deployment metadata appears clean.
+- Latest observed deployment commit: `0e9ae02c4c70e604b458e6d9d0489651827134a3`
+- Latest observed deployment id: `dpl_CjmRU5tRnirBC42hs2eWg4WKK4QL`
 
 ### Nat 1 Games
 - Overall health: `deployment-observed` - A current Vercel production deployment is proved, and Vercel metadata confirms the GitHub source repo is private.

@@ -402,43 +402,28 @@
         },
         "deployment": {
           "status": "ready",
-          "summary": "Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app, but the recorded deployment metadata is gitDirty.",
-          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "summary": "Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app and the primary project now reports clean commit provenance.",
+          "checkedAt": "2026-05-02T17:24:42.9220000Z",
           "target": "production",
-          "deploymentId": "dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F",
+          "deploymentId": "dpl_B8f413NisExwpfyCzEw74JgRhpcS",
           "alias": "fawxzzy-fitness-local.vercel.app",
-          "githubCommitSha": "c55728235648a4a45bfe49a48ed1bd7a7086391e",
-          "message": "Release workspace snapshot",
-          "gitDirty": true
+          "githubCommitSha": "01bf2dc272ad7c892bf2dac64d47b2b47d943cff",
+          "message": "Merge remote-tracking branch 'origin/main' into codex/supabase-canonical-upsert",
+          "gitDirty": false
         },
         "proof": {
           "status": "current",
-          "summary": "Foundation captured a current deployment proof snapshot for Fitness from the primary Vercel project; the proof is current but not clean because the deployment is gitDirty and the legacy prod-deploy mapping is unresolved.",
-          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "summary": "Foundation captured a current clean deployment proof snapshot for Fitness from the primary Vercel project, while the legacy prod-deploy mapping remains unresolved.",
+          "checkedAt": "2026-05-02T17:24:42.9220000Z",
           "staleAfterHours": 168,
-          "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
+          "lastDeploymentProofAt": "2026-05-02T17:24:42.9220000Z",
           "qualityStates": [
-            "dirty",
             "legacy-mapping"
           ],
-          "qualitySummary": "READY proof from the primary project is current, but it is gitDirty and the legacy prod-deploy mapping remains unresolved.",
+          "qualitySummary": "READY proof from the primary project is current and clean, but the legacy prod-deploy mapping remains unresolved.",
           "remediation": {
-            "summary": "Fitness has usable current proof for parity tracking, but Foundation should keep both warning classes visible until a clean primary-project deploy is captured and the legacy prod-deploy mapping is explicitly reconciled.",
+            "summary": "Fitness now has a clean primary-project deployment proof, but Foundation should keep the legacy-mapping warning visible until the historical prod-deploy lane is explicitly reconciled.",
             "classes": [
-              {
-                "state": "dirty",
-                "summary": "The current READY proof came from the primary project, but the deployment metadata includes gitDirty and cannot be promoted to clean provenance.",
-                "owner": "Fitness repo owner creates the clean deployment; Foundation records the refreshed proof after the clean production deploy exists.",
-                "nextActions": [
-                  "Push the intended Fitness source from a clean git state on main and trigger a production deployment on the primary fawxzzy-fitness project.",
-                  "Refresh Foundation only after the primary project reports a newer production READY deployment whose commit is present on origin/main."
-                ],
-                "safeProofRefreshCriteria": [
-                  "Replacement proof must come from a production deployment on the primary fawxzzy-fitness project, not the legacy prod-deploy project.",
-                  "The deployment must be READY, reference a pushed commit, and report gitDirty as absent or false.",
-                  "Do not mark the dirty warning cleared from preview, older, or manually patched deployments."
-                ]
-              },
               {
                 "state": "legacy-mapping",
                 "summary": "The legacy fawxzzy-fitness-prod-deploy mapping is still recorded in Foundation but is not currently observable as the authoritative production surface.",
@@ -454,8 +439,8 @@
               }
             ]
           },
-          "latestObservedDeploymentId": "dpl_5ATWWNntLPsHMaC1oGVNTKy5Sw2F",
-          "latestObservedCommitSha": "c55728235648a4a45bfe49a48ed1bd7a7086391e"
+          "latestObservedDeploymentId": "dpl_B8f413NisExwpfyCzEw74JgRhpcS",
+          "latestObservedCommitSha": "01bf2dc272ad7c892bf2dac64d47b2b47d943cff"
         }
       },
       "stack": [
@@ -470,9 +455,7 @@
         ".playbook"
       ],
       "nextActions": [
-        "capture a fresh clean READY production proof on the primary fawxzzy-fitness project",
         "reconcile legacy fawxzzy-fitness-prod-deploy mapping against current Vercel inventory",
-        "normalize AGENT.md to AGENTS.md convention",
         "surface deployment health in Foundation console"
       ]
     },
@@ -600,46 +583,27 @@
         },
         "deployment": {
           "status": "ready",
-          "summary": "Latest observed production deployment is READY on fawxzzy-trove.vercel.app, but the recorded deployment metadata is gitDirty.",
-          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "summary": "Latest observed production deployment is READY on fawxzzy-trove.vercel.app and the checked deployment metadata appears clean.",
+          "checkedAt": "2026-05-02T17:19:13.7580000Z",
           "target": "production",
-          "deploymentId": "dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo",
+          "deploymentId": "dpl_CjmRU5tRnirBC42hs2eWg4WKK4QL",
           "alias": "fawxzzy-trove.vercel.app",
-          "githubCommitSha": "e0566a6b8d65d5892f0cc9defda36481eccbaa29",
-          "message": "chore: refresh app catalog media assets",
-          "gitDirty": true
+          "githubCommitSha": "0e9ae02c4c70e604b458e6d9d0489651827134a3",
+          "message": "Merge pull request #3 from fawxzzy/codex/trove-pilot-release-cutover",
+          "gitDirty": false
         },
         "proof": {
           "status": "current",
-          "summary": "Foundation captured a current deployment proof snapshot for Trove from the live production alias; the proof is current but not clean because the deployment is gitDirty.",
-          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "summary": "Foundation captured a current clean deployment proof snapshot for Trove from the live production alias.",
+          "checkedAt": "2026-05-02T17:19:13.7580000Z",
           "staleAfterHours": 168,
-          "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
+          "lastDeploymentProofAt": "2026-05-02T17:19:13.7580000Z",
           "qualityStates": [
-            "dirty"
+            "clean"
           ],
-          "qualitySummary": "READY proof is current, but the observed deployment metadata includes gitDirty=1.",
-          "remediation": {
-            "summary": "Trove only needs one clean replacement proof path: capture a newer production READY deployment without gitDirty and then refresh Foundation from that observation.",
-            "classes": [
-              {
-                "state": "dirty",
-                "summary": "The current Trove proof is recent and READY, but it still carries gitDirty provenance and cannot be reclassified as clean yet.",
-                "owner": "Trove repo owner produces the clean deployment; Foundation refreshes the registry proof after that deployment is visible.",
-                "nextActions": [
-                  "Deploy the intended Trove source from a clean git state to the existing production target.",
-                  "Refresh Foundation after Vercel shows a newer production READY deployment tied to a pushed commit without gitDirty."
-                ],
-                "safeProofRefreshCriteria": [
-                  "Replacement proof must be a newer production READY deployment on fawxzzy-trove.vercel.app.",
-                  "The deployment must reference a pushed source commit and report gitDirty as absent or false.",
-                  "Do not clear the warning from preview deployments, cached alias checks, or older READY deploys."
-                ]
-              }
-            ]
-          },
-          "latestObservedDeploymentId": "dpl_FZpvM5eaeHjp8oBjmpUFhKc6NfKo",
-          "latestObservedCommitSha": "e0566a6b8d65d5892f0cc9defda36481eccbaa29"
+          "qualitySummary": "READY proof is current and the checked deployment metadata appears clean.",
+          "latestObservedDeploymentId": "dpl_CjmRU5tRnirBC42hs2eWg4WKK4QL",
+          "latestObservedCommitSha": "0e9ae02c4c70e604b458e6d9d0489651827134a3"
         }
       },
       "stack": [
@@ -648,8 +612,7 @@
       ],
       "contracts": [],
       "nextActions": [
-        "capture a fresh clean READY production proof on fawxzzy-trove",
-        "refresh Foundation after the clean Trove proof is visible",
+        "monitor future Trove deployment proof freshness",
         "add repo-local AI/governance contract when ready"
       ]
     },
