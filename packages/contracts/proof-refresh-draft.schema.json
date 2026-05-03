@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fawxzzy.dev/contracts/proof-refresh-draft.schema.json",
+  "title": "Foundation Proof Refresh Draft",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "status",
+    "mutationAuthority",
+    "generatedAt",
+    "sourceRegistry",
+    "workflow",
+    "summary",
+    "projects"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "status": {
+      "type": "string",
+      "const": "proposal-only"
+    },
+    "mutationAuthority": {
+      "type": "string",
+      "const": "none"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sourceRegistry": {
+      "type": "object",
+      "required": ["path", "updatedAt"],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "workflow": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "totalProjects",
+        "dispositionCounts",
+        "policyFlagCounts",
+        "immutablePromotionProofProjects"
+      ],
+      "properties": {
+        "totalProjects": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dispositionCounts": {
+          "type": "object",
+          "required": [
+            "unchanged-proof",
+            "stale-proof",
+            "provider-newer-than-registry",
+            "provider-missing"
+          ],
+          "properties": {
+            "unchanged-proof": { "type": "integer", "minimum": 0 },
+            "stale-proof": { "type": "integer", "minimum": 0 },
+            "provider-newer-than-registry": { "type": "integer", "minimum": 0 },
+            "provider-missing": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "policyFlagCounts": {
+          "type": "object",
+          "required": ["accepted-private-source", "historical-mapping"],
+          "properties": {
+            "accepted-private-source": { "type": "integer", "minimum": 0 },
+            "historical-mapping": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "immutablePromotionProofProjects": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "slug",
+          "name",
+          "disposition",
+          "policyFlags",
+          "observedAt",
+          "proofCheckedAt",
+          "immutablePromotionProof",
+          "immutableFields",
+          "rationale",
+          "proposedActions"
+        ],
+        "properties": {
+          "slug": { "type": "string" },
+          "name": { "type": "string" },
+          "disposition": {
+            "type": "string",
+            "enum": [
+              "unchanged-proof",
+              "stale-proof",
+              "provider-newer-than-registry",
+              "provider-missing"
+            ]
+          },
+          "policyFlags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["accepted-private-source", "historical-mapping"]
+            },
+            "uniqueItems": true
+          },
+          "observedAt": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "proofCheckedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastDeploymentProofAt": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "immutablePromotionProof": {
+            "type": "boolean"
+          },
+          "immutableFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rationale": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "proposedActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

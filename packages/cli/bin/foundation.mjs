@@ -77,17 +77,34 @@ async function projects({ json = false } = {}) {
 }
 
 async function doctor() {
+  await runScript("scripts/verify.mjs");
+}
+
+async function runScript(relativePath) {
   await new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, [path.join(root, "scripts/verify.mjs")], {
+    const child = spawn(process.execPath, [path.join(root, relativePath)], {
       cwd: root,
       stdio: "inherit"
     });
     child.on("exit", (code) => {
       if (code === 0) resolve();
-      else reject(new Error(`verify failed with exit code ${code}`));
+      else reject(new Error(`${path.basename(relativePath)} failed with exit code ${code}`));
     });
     child.on("error", reject);
   });
+}
+
+async function proofRefresh(args) {
+  const [subcommand, ...rest] = args;
+  if (subcommand !== "refresh") {
+    throw new Error("Usage: foundation proof refresh --draft");
+  }
+
+  if (!rest.includes("--draft")) {
+    throw new Error("Proof refresh is proposal-only. Re-run with --draft.");
+  }
+
+  await runScript("scripts/render-proof-refresh-draft.mjs");
 }
 
 function help() {
@@ -96,6 +113,8 @@ function help() {
 Commands:
   status [--json]      Print registry summary
   projects [--json]    List registered projects
+  proof refresh --draft
+                       Generate a proposal-only proof refresh draft
   doctor               Run local verification
   help                 Show this help
 `);
@@ -107,6 +126,7 @@ const wantsJson = args.includes("--json");
 try {
   if (command === "status") await status({ json: wantsJson });
   else if (command === "projects") await projects({ json: wantsJson });
+  else if (command === "proof") await proofRefresh(args);
   else if (command === "doctor") await doctor();
   else if (command === "help" || command === "--help" || command === "-h") help();
   else {

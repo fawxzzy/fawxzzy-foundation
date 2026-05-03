@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-05-02T18:37:52.2547859Z",
-  "source": "proof-quality-remediation-plan",
+  "updatedAt": "2026-05-03T23:41:54.6702104Z",
+  "source": "phase-3a-proof-refresh-draft-pipeline",
   "owner": "fawxzzy",
   "principles": [
     "private-first runtime artifacts",
@@ -91,7 +91,10 @@
       "contracts": [
         "foundation.config.json",
         "data/projects.json",
-        "packages/contracts/foundation.schema.json"
+        "packages/contracts/foundation.schema.json",
+        "packages/contracts/proof-refresh-draft.schema.json",
+        "docs/roadmap/FOUNDATION_ROADMAP.md",
+        "docs/operations/PROOF_REFRESH.md"
       ],
       "promotion": {
         "label": "active control-plane",
@@ -179,7 +182,7 @@
         ]
       },
       "nextActions": [
-        "Automate health/proof refresh without changing the pinned active-control-plane promotion proof",
+        "Generate proposal-only proof refresh drafts without changing the pinned active-control-plane promotion proof",
         "Keep generated registry surfaces aligned with data/projects.json",
         "Expand deployment health coverage for downstream project surfaces"
       ]

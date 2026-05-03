@@ -60,6 +60,49 @@ export type FoundationProofRemediation = {
   classes: FoundationProofRemediationClass[];
 };
 
+export type FoundationProofRefreshDisposition =
+  | "unchanged-proof"
+  | "stale-proof"
+  | "provider-newer-than-registry"
+  | "provider-missing";
+
+export type FoundationProofRefreshPolicyFlag =
+  | "accepted-private-source"
+  | "historical-mapping";
+
+export type FoundationProofRefreshProject = {
+  slug: string;
+  name: string;
+  disposition: FoundationProofRefreshDisposition;
+  policyFlags: FoundationProofRefreshPolicyFlag[];
+  observedAt: string | null;
+  proofCheckedAt: string;
+  lastDeploymentProofAt?: string | null;
+  immutablePromotionProof: boolean;
+  immutableFields: string[];
+  rationale: string[];
+  proposedActions: string[];
+};
+
+export type FoundationProofRefreshDraft = {
+  schemaVersion: number;
+  status: "proposal-only";
+  mutationAuthority: "none";
+  generatedAt: string;
+  sourceRegistry: {
+    path: string;
+    updatedAt: string;
+  };
+  workflow: string[];
+  summary: {
+    totalProjects: number;
+    dispositionCounts: Record<FoundationProofRefreshDisposition, number>;
+    policyFlagCounts: Record<FoundationProofRefreshPolicyFlag, number>;
+    immutablePromotionProofProjects: number;
+  };
+  projects: FoundationProofRefreshProject[];
+};
+
 export type FoundationProjectHealth = {
   status: string;
   summary: string;

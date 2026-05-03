@@ -1,11 +1,11 @@
 {
   "build": {
-    "generatedAt": "2026-05-02T18:38:43.610Z",
+    "generatedAt": "2026-05-03T23:42:28.318Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-02T18:37:52.2547859Z",
+    "updatedAt": "2026-05-03T23:41:54.6702104Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
@@ -104,7 +104,10 @@
       "contracts": [
         "foundation.config.json",
         "data/projects.json",
-        "packages/contracts/foundation.schema.json"
+        "packages/contracts/foundation.schema.json",
+        "packages/contracts/proof-refresh-draft.schema.json",
+        "docs/roadmap/FOUNDATION_ROADMAP.md",
+        "docs/operations/PROOF_REFRESH.md"
       ],
       "promotion": {
         "label": "active control-plane",
@@ -192,7 +195,7 @@
         ]
       },
       "nextActions": [
-        "Automate health/proof refresh without changing the pinned active-control-plane promotion proof",
+        "Generate proposal-only proof refresh drafts without changing the pinned active-control-plane promotion proof",
         "Keep generated registry surfaces aligned with data/projects.json",
         "Expand deployment health coverage for downstream project surfaces"
       ]

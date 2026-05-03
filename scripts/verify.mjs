@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { spawnSync } from "node:child_process";
 import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -45,11 +46,15 @@ const requiredFiles = [
   "packages/contracts/foundation.schema.json",
   "packages/cli/bin/foundation.mjs",
   "packages/core/src/index.ts",
+  "packages/contracts/proof-refresh-draft.schema.json",
   "scripts/render-registry.mjs",
   "scripts/render-console-data.mjs",
+  "scripts/render-proof-refresh-draft.mjs",
   "scripts/serve-console.mjs",
   "docs/architecture/FOUNDATION_BLUEPRINT.md",
   "docs/architecture/PROJECT_REGISTRY.md",
+  "docs/roadmap/FOUNDATION_ROADMAP.md",
+  "docs/operations/PROOF_REFRESH.md",
   "apps/console/public/index.html",
   "apps/console/public/assets/main.js",
   "apps/console/public/assets/styles.css",
@@ -70,6 +75,15 @@ async function readJson(relativePath) {
   try {
     const raw = await readFile(path.join(root, relativePath), "utf8");
     return JSON.parse(raw);
+  } catch (error) {
+    errors.push(`${relativePath}: ${error.message}`);
+    return null;
+  }
+}
+
+async function readText(relativePath) {
+  try {
+    return await readFile(path.join(root, relativePath), "utf8");
   } catch (error) {
     errors.push(`${relativePath}: ${error.message}`);
     return null;
@@ -114,6 +128,14 @@ function getProofRemediationClasses(proof) {
   return Array.isArray(proof?.remediation?.classes) ? proof.remediation.classes : [];
 }
 
+function isGitTracked(relativePath) {
+  const result = spawnSync("git", ["ls-files", "--error-unmatch", relativePath], {
+    cwd: root,
+    encoding: "utf8"
+  });
+  return result.status === 0;
+}
+
 function validateHealthFacet(projectLabel, facetName, facet) {
   if (!facet || typeof facet !== "object") {
     errors.push(`${projectLabel}: missing health.${facetName}`);
@@ -136,7 +158,25 @@ for (const file of requiredFiles) {
 const config = await readJson("foundation.config.json");
 const registry = await readJson("data/projects.json");
 const consoleData = await readJson("apps/console/public/foundation.projects.json");
+const gitignore = await readText(".gitignore");
 const now = Date.now();
+
+if (gitignore) {
+  const lines = gitignore.split(/\r?\n/).map((line) => line.trim());
+  const protectsFoundationRuntime =
+    lines.includes(".foundation/*") ||
+    (lines.includes(".foundation/proof-refresh-draft.json") && lines.includes(".foundation/proof-refresh-draft.md"));
+
+  if (!protectsFoundationRuntime) {
+    errors.push(".gitignore must ignore .foundation/proof-refresh-draft.json and .foundation/proof-refresh-draft.md");
+  }
+}
+
+for (const runtimeArtifact of [".foundation/proof-refresh-draft.json", ".foundation/proof-refresh-draft.md"]) {
+  if (isGitTracked(runtimeArtifact)) {
+    errors.push(`${runtimeArtifact} must remain untracked runtime output`);
+  }
+}
 
 if (config) {
   if (config.name !== "fawxzzy-foundation") errors.push("foundation.config.json name must be fawxzzy-foundation");

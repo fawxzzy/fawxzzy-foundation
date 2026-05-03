@@ -12,6 +12,7 @@
     "build": "node scripts/render-registry.mjs && node scripts/render-console-data.mjs",
     "dev": "node scripts/serve-console.mjs",
     "console:serve": "node scripts/serve-console.mjs",
+    "proof:refresh:draft": "node scripts/render-proof-refresh-draft.mjs",
     "registry:render": "node scripts/render-registry.mjs",
     "console:data": "node scripts/render-console-data.mjs",
     "verify": "node scripts/verify.mjs",
