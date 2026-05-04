@@ -1,11 +1,11 @@
 {
   "build": {
-    "generatedAt": "2026-05-04T01:26:30.162Z",
+    "generatedAt": "2026-05-04T01:45:58.668Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-04T01:24:40.1784834Z",
+    "updatedAt": "2026-05-04T15:30:00.000Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
@@ -203,7 +203,7 @@
       "nextActions": [
         "Generate proposal-only proof refresh drafts without changing the pinned active-control-plane promotion proof",
         "Normalize manually captured provider evidence into provider-observations inputs",
-        "Render the first read-only Supabase inventory draft for the Fitness project",
+        "Integrate Supabase advisor evidence into the Fitness inventory draft before making stronger privacy claims",
         "Keep generated registry surfaces aligned with data/projects.json",
         "Expand deployment health coverage for downstream project surfaces"
       ]
@@ -475,7 +475,7 @@
       "nextActions": [
         "monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project",
         "keep the historical fawxzzy-fitness-prod-deploy mapping documented unless it reappears in active team inventory",
-        "capture a read-only Supabase inventory draft before making any privacy or security posture claims",
+        "capture and review Supabase advisor evidence before making any privacy or security posture claims",
         "surface deployment health in Foundation console"
       ]
     },

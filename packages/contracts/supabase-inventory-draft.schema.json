@@ -75,10 +75,21 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["schema", "tableCount"],
+            "required": ["schema", "tableCount", "scopeClassification"],
             "properties": {
               "schema": { "type": "string" },
-              "tableCount": { "type": "integer", "minimum": 0 }
+              "tableCount": { "type": "integer", "minimum": 0 },
+              "scopeClassification": {
+                "type": "string",
+                "enum": [
+                  "public-app",
+                  "auth-system",
+                  "storage-system",
+                  "realtime-system",
+                  "vault-system",
+                  "other-system"
+                ]
+              }
             },
             "additionalProperties": false
           }
@@ -87,10 +98,21 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["name", "schema", "rlsEnabled", "rows"],
+            "required": ["name", "schema", "scopeClassification", "rlsEnabled", "rows"],
             "properties": {
               "name": { "type": "string" },
               "schema": { "type": "string" },
+              "scopeClassification": {
+                "type": "string",
+                "enum": [
+                  "public-app",
+                  "auth-system",
+                  "storage-system",
+                  "realtime-system",
+                  "vault-system",
+                  "other-system"
+                ]
+              },
               "rlsEnabled": { "type": "boolean" },
               "rows": { "type": "integer", "minimum": 0 },
               "comment": { "type": "string" }
@@ -100,11 +122,54 @@
         },
         "rlsSummary": {
           "type": "object",
-          "required": ["enabledTables", "disabledTables", "disabledTableNames"],
+          "required": [
+            "enabledTables",
+            "disabledTables",
+            "disabledTableNames",
+            "scopeCounts",
+            "publicAppEnabledTables",
+            "publicAppDisabledTables",
+            "publicAppDisabledTableNames",
+            "systemEnabledTables",
+            "systemDisabledTables",
+            "systemDisabledTableNames"
+          ],
           "properties": {
             "enabledTables": { "type": "integer", "minimum": 0 },
             "disabledTables": { "type": "integer", "minimum": 0 },
             "disabledTableNames": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "scopeCounts": {
+              "type": "object",
+              "required": [
+                "public-app",
+                "auth-system",
+                "storage-system",
+                "realtime-system",
+                "vault-system",
+                "other-system"
+              ],
+              "properties": {
+                "public-app": { "type": "integer", "minimum": 0 },
+                "auth-system": { "type": "integer", "minimum": 0 },
+                "storage-system": { "type": "integer", "minimum": 0 },
+                "realtime-system": { "type": "integer", "minimum": 0 },
+                "vault-system": { "type": "integer", "minimum": 0 },
+                "other-system": { "type": "integer", "minimum": 0 }
+              },
+              "additionalProperties": false
+            },
+            "publicAppEnabledTables": { "type": "integer", "minimum": 0 },
+            "publicAppDisabledTables": { "type": "integer", "minimum": 0 },
+            "publicAppDisabledTableNames": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "systemEnabledTables": { "type": "integer", "minimum": 0 },
+            "systemDisabledTables": { "type": "integer", "minimum": 0 },
+            "systemDisabledTableNames": {
               "type": "array",
               "items": { "type": "string" }
             }
@@ -181,41 +246,33 @@
       "required": ["security", "performance"],
       "properties": {
         "security": {
-          "type": "object",
-          "required": ["observationMode", "summary"],
-          "properties": {
-            "observationMode": {
-              "type": "string",
-              "enum": ["manual", "connector-unavailable"]
-            },
-            "summary": { "type": "string" },
-            "findingsCount": { "type": ["integer", "null"], "minimum": 0 }
-          },
-          "additionalProperties": false
+          "$ref": "#/$defs/advisorGroup"
         },
         "performance": {
-          "type": "object",
-          "required": ["observationMode", "summary"],
-          "properties": {
-            "observationMode": {
-              "type": "string",
-              "enum": ["manual", "connector-unavailable"]
-            },
-            "summary": { "type": "string" },
-            "findingsCount": { "type": ["integer", "null"], "minimum": 0 }
-          },
-          "additionalProperties": false
+          "$ref": "#/$defs/advisorGroup"
         }
       },
       "additionalProperties": false
     },
     "posture": {
       "type": "object",
-      "required": ["rlsSecurityPosture", "privacyClaimPosture", "summary"],
+      "required": [
+        "publicAppRlsPosture",
+        "systemSchemaRlsPosture",
+        "overallRlsPosture",
+        "privacyClaimPosture",
+        "summary",
+        "blockedReasons"
+      ],
       "properties": {
-        "rlsSecurityPosture": {
-          "type": "string",
-          "enum": ["protected", "mixed", "unprotected", "unknown"]
+        "publicAppRlsPosture": {
+          "$ref": "#/$defs/rlsPosture"
+        },
+        "systemSchemaRlsPosture": {
+          "$ref": "#/$defs/rlsPosture"
+        },
+        "overallRlsPosture": {
+          "$ref": "#/$defs/rlsPosture"
         },
         "privacyClaimPosture": {
           "type": "string",
@@ -228,6 +285,74 @@
         }
       },
       "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "advisorGroup": {
+      "type": "object",
+      "required": [
+        "observationMode",
+        "summary",
+        "findingsCount",
+        "countsByLevel",
+        "countsByName",
+        "countsByCategory",
+        "findings"
+      ],
+      "properties": {
+        "observationMode": {
+          "type": "string",
+          "enum": ["manual", "connector-unavailable", "live-connector"]
+        },
+        "summary": { "type": "string" },
+        "findingsCount": { "type": "integer", "minimum": 0 },
+        "countsByLevel": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "countsByName": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "countsByCategory": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/advisorFinding"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "advisorFinding": {
+      "type": "object",
+      "required": ["name", "title", "level", "category", "detail", "remediation"],
+      "properties": {
+        "name": { "type": "string" },
+        "title": { "type": "string" },
+        "level": { "type": "string" },
+        "category": { "type": "string" },
+        "detail": { "type": "string" },
+        "remediation": { "type": "string" },
+        "facing": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "rlsPosture": {
+      "type": "string",
+      "enum": ["protected", "mixed", "unprotected", "unknown"]
     }
   },
   "additionalProperties": false

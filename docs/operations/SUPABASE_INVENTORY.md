@@ -34,13 +34,23 @@ Both files are runtime-only and must remain untracked.
 
 - project ref, name, region, status, and Postgres version
 - schema and table summary
+- schema scope classification:
+  - `public-app`
+  - `auth-system`
+  - `storage-system`
+  - `realtime-system`
+  - `vault-system`
+  - `other-system`
 - migration summary
 - extension summary
 - edge function summary
-- security advisor summary
-- performance advisor summary
-- RLS/security posture classification
-- privacy claim posture
+- security advisor findings with counts by severity, class, and category
+- performance advisor findings with counts by severity, class, and category
+- RLS posture split into:
+  - `publicAppRlsPosture`
+  - `systemSchemaRlsPosture`
+  - `overallRlsPosture`
+- privacy claim posture tied to observed evidence and blocked reasons
 
 ## Privacy claim rule
 
@@ -51,7 +61,13 @@ Use these values conservatively:
 - `proved`
 - `blocked`
 
-Do not move to `proved` without actual security evidence and review. If important security evidence is unavailable, prefer `draft` or `blocked`.
+Do not move to `proved` without actual security evidence and review. If important security evidence is unavailable, or if active security findings are present, prefer `draft` or `blocked`.
+
+Current posture rule:
+
+- `publicAppRlsPosture` may remain `protected` even when internal schemas are mixed.
+- `overallRlsPosture` should reflect the full inventory, including internal/system tables.
+- `privacyClaimPosture` stays conservative and should usually remain `blocked` when security advisors report unresolved findings such as mutable function search paths or disabled leaked-password protection.
 
 ## Non-goals
 

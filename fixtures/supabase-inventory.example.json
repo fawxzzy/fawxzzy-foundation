@@ -3,11 +3,11 @@
   "schemaVersion": 1,
   "status": "proposal-only",
   "mutationAuthority": "none",
-  "generatedAt": "2026-05-04T01:30:00.000Z",
+  "generatedAt": "2026-05-04T15:10:00.000Z",
   "input": {
     "path": "fixtures/supabase-inventory.example.json",
     "captureMode": "example",
-    "generatedAt": "2026-05-04T01:30:00.000Z"
+    "generatedAt": "2026-05-04T15:10:00.000Z"
   },
   "project": {
     "slug": "fitness",
@@ -16,23 +16,31 @@
     "region": "us-west-2",
     "status": "ACTIVE_HEALTHY",
     "postgresVersion": "17.6.1.104",
-    "observedAt": "2026-05-04T01:30:00.000Z"
+    "observedAt": "2026-05-04T15:10:00.000Z"
   },
   "database": {
     "schemas": [
       {
         "schema": "public",
-        "tableCount": 5
+        "tableCount": 3,
+        "scopeClassification": "public-app"
       },
       {
         "schema": "auth",
-        "tableCount": 4
+        "tableCount": 2,
+        "scopeClassification": "auth-system"
+      },
+      {
+        "schema": "storage",
+        "tableCount": 1,
+        "scopeClassification": "storage-system"
       }
     ],
     "tables": [
       {
         "name": "profiles",
         "schema": "public",
+        "scopeClassification": "public-app",
         "rlsEnabled": true,
         "rows": 10,
         "comment": "Example profile table."
@@ -40,22 +48,66 @@
       {
         "name": "sessions",
         "schema": "public",
+        "scopeClassification": "public-app",
         "rlsEnabled": true,
         "rows": 25,
         "comment": "Example workout sessions table."
       },
       {
+        "name": "routine_day_exercises",
+        "schema": "public",
+        "scopeClassification": "public-app",
+        "rlsEnabled": true,
+        "rows": 60,
+        "comment": "Example routine day exercise table."
+      },
+      {
         "name": "users",
         "schema": "auth",
+        "scopeClassification": "auth-system",
         "rlsEnabled": true,
         "rows": 12,
         "comment": "Example auth users table."
+      },
+      {
+        "name": "webauthn_credentials",
+        "schema": "auth",
+        "scopeClassification": "auth-system",
+        "rlsEnabled": false,
+        "rows": 0,
+        "comment": "Example auth system table."
+      },
+      {
+        "name": "objects",
+        "schema": "storage",
+        "scopeClassification": "storage-system",
+        "rlsEnabled": true,
+        "rows": 4,
+        "comment": "Example storage object table."
       }
     ],
     "rlsSummary": {
-      "enabledTables": 3,
-      "disabledTables": 0,
-      "disabledTableNames": []
+      "enabledTables": 5,
+      "disabledTables": 1,
+      "disabledTableNames": [
+        "auth.webauthn_credentials"
+      ],
+      "scopeCounts": {
+        "public-app": 3,
+        "auth-system": 2,
+        "storage-system": 1,
+        "realtime-system": 0,
+        "vault-system": 0,
+        "other-system": 0
+      },
+      "publicAppEnabledTables": 3,
+      "publicAppDisabledTables": 0,
+      "publicAppDisabledTableNames": [],
+      "systemEnabledTables": 2,
+      "systemDisabledTables": 1,
+      "systemDisabledTableNames": [
+        "auth.webauthn_credentials"
+      ]
     }
   },
   "migrations": {
@@ -100,19 +152,95 @@
   "advisors": {
     "security": {
       "observationMode": "manual",
-      "summary": "Example only. No live advisor findings recorded in this fixture.",
-      "findingsCount": 0
+      "summary": "Example advisor evidence only.",
+      "findingsCount": 2,
+      "countsByLevel": {
+        "WARN": 2
+      },
+      "countsByName": {
+        "function_search_path_mutable": 1,
+        "auth_leaked_password_protection": 1
+      },
+      "countsByCategory": {
+        "SECURITY": 2
+      },
+      "findings": [
+        {
+          "name": "function_search_path_mutable",
+          "title": "Function Search Path Mutable",
+          "level": "WARN",
+          "category": "SECURITY",
+          "detail": "Function `public.claim_session_follow_up_jobs` has a role mutable search_path.",
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+          "facing": "EXTERNAL"
+        },
+        {
+          "name": "auth_leaked_password_protection",
+          "title": "Leaked Password Protection Disabled",
+          "level": "WARN",
+          "category": "SECURITY",
+          "detail": "Supabase Auth leaked password protection is disabled in this example fixture.",
+          "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection",
+          "facing": "EXTERNAL"
+        }
+      ]
     },
     "performance": {
       "observationMode": "manual",
-      "summary": "Example only. No live advisor findings recorded in this fixture.",
-      "findingsCount": 0
+      "summary": "Example advisor evidence only.",
+      "findingsCount": 3,
+      "countsByLevel": {
+        "INFO": 2,
+        "WARN": 1
+      },
+      "countsByName": {
+        "unindexed_foreign_keys": 1,
+        "auth_rls_initplan": 1,
+        "unused_index": 1
+      },
+      "countsByCategory": {
+        "PERFORMANCE": 3
+      },
+      "findings": [
+        {
+          "name": "unindexed_foreign_keys",
+          "title": "Unindexed foreign keys",
+          "level": "INFO",
+          "category": "PERFORMANCE",
+          "detail": "Table `public.sessions` has a foreign key without a covering index in this example fixture.",
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys",
+          "facing": "EXTERNAL"
+        },
+        {
+          "name": "auth_rls_initplan",
+          "title": "Auth RLS Initialization Plan",
+          "level": "WARN",
+          "category": "PERFORMANCE",
+          "detail": "Table `public.sessions` has an RLS policy that re-evaluates auth context for each row in this example fixture.",
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0003_auth_rls_initplan",
+          "facing": "EXTERNAL"
+        },
+        {
+          "name": "unused_index",
+          "title": "Unused Index",
+          "level": "INFO",
+          "category": "PERFORMANCE",
+          "detail": "Index `profiles_active_routine_idx` is unused in this example fixture.",
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index",
+          "facing": "EXTERNAL"
+        }
+      ]
     }
   },
   "posture": {
-    "rlsSecurityPosture": "protected",
-    "privacyClaimPosture": "draft",
-    "summary": "Example inventory is RLS-protected in the sampled tables, but privacy claims remain draft until live security evidence is reviewed.",
-    "blockedReasons": []
+    "publicAppRlsPosture": "protected",
+    "systemSchemaRlsPosture": "mixed",
+    "overallRlsPosture": "mixed",
+    "privacyClaimPosture": "blocked",
+    "summary": "Example inventory keeps public app tables RLS-protected, but privacy claims remain blocked until security and performance findings are addressed.",
+    "blockedReasons": [
+      "Security advisor reported function_search_path_mutable findings in this example fixture.",
+      "Security advisor reported leaked password protection disabled in this example fixture."
+    ]
   }
 }

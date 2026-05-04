@@ -7,6 +7,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const outputJsonPath = path.join(root, ".foundation/supabase-inventory-draft.json");
 const outputMdPath = path.join(root, ".foundation/supabase-inventory-draft.md");
+const scopeOrder = [
+  "public-app",
+  "auth-system",
+  "storage-system",
+  "realtime-system",
+  "vault-system",
+  "other-system"
+];
+const supportedObservationModes = new Set(["manual", "connector-unavailable", "live-connector"]);
 
 function timestamp(value) {
   const parsed = Date.parse(value ?? "");
@@ -50,7 +59,257 @@ function toRelativePath(candidatePath) {
   return relative && !relative.startsWith("..") ? relative.replaceAll("\\", "/") : candidatePath;
 }
 
-function validateDraft(draft) {
+function classifySchemaScope(schemaName) {
+  switch (schemaName) {
+    case "public":
+      return "public-app";
+    case "auth":
+      return "auth-system";
+    case "storage":
+      return "storage-system";
+    case "realtime":
+      return "realtime-system";
+    case "vault":
+      return "vault-system";
+    default:
+      return "other-system";
+  }
+}
+
+function emptyScopeCounts() {
+  return Object.fromEntries(scopeOrder.map((scope) => [scope, 0]));
+}
+
+function countBy(items, getKey) {
+  const counts = {};
+  for (const item of items) {
+    const key = getKey(item);
+    if (!key) continue;
+    counts[key] = (counts[key] ?? 0) + 1;
+  }
+  return counts;
+}
+
+function classifyRlsPosture(tables) {
+  if (tables.length === 0) {
+    return "unknown";
+  }
+
+  const enabled = tables.filter((table) => table.rlsEnabled).length;
+  if (enabled === tables.length) {
+    return "protected";
+  }
+  if (enabled === 0) {
+    return "unprotected";
+  }
+  return "mixed";
+}
+
+function normalizeAdvisors(group, label) {
+  if (!group || typeof group !== "object") {
+    throw new Error(`Supabase inventory draft ${label} advisor section is required`);
+  }
+
+  if (!supportedObservationModes.has(group.observationMode)) {
+    throw new Error(`Supabase inventory draft ${label} observationMode must be manual, connector-unavailable, or live-connector`);
+  }
+
+  const findings = Array.isArray(group.findings)
+    ? group.findings.map((finding) => ({
+      name: String(finding?.name ?? ""),
+      title: String(finding?.title ?? ""),
+      level: String(finding?.level ?? ""),
+      category: String(finding?.category ?? finding?.categories?.[0] ?? ""),
+      detail: String(finding?.detail ?? ""),
+      remediation: String(finding?.remediation ?? ""),
+      ...(finding?.facing ? { facing: String(finding.facing) } : {})
+    }))
+    : [];
+
+  for (const finding of findings) {
+    for (const field of ["name", "title", "level", "category", "detail", "remediation"]) {
+      if (!finding[field]) {
+        throw new Error(`Supabase inventory draft ${label} finding is missing ${field}`);
+      }
+    }
+  }
+
+  const findingsCount = findings.length;
+  const countsByLevel = countBy(findings, (finding) => finding.level);
+  const countsByName = countBy(findings, (finding) => finding.name);
+  const countsByCategory = countBy(findings, (finding) => finding.category);
+  const summary =
+    typeof group.summary === "string" && group.summary.length > 0
+      ? group.summary
+      : findingsCount === 0
+        ? "No advisor findings recorded."
+        : `${findingsCount} advisor finding${findingsCount === 1 ? "" : "s"} recorded.`;
+
+  return {
+    observationMode: group.observationMode,
+    summary,
+    findingsCount,
+    countsByLevel,
+    countsByName,
+    countsByCategory,
+    findings
+  };
+}
+
+function normalizeDatabase(database) {
+  if (!database || typeof database !== "object") {
+    throw new Error("Supabase inventory draft database is required");
+  }
+  if (!Array.isArray(database.schemas)) {
+    throw new Error("Supabase inventory draft database.schemas must be an array");
+  }
+  if (!Array.isArray(database.tables)) {
+    throw new Error("Supabase inventory draft database.tables must be an array");
+  }
+
+  const tables = database.tables.map((table) => {
+    const schema = String(table?.schema ?? "");
+    const name = String(table?.name ?? "");
+    const scopeClassification = table?.scopeClassification ?? classifySchemaScope(schema);
+
+    if (!schema || !name) {
+      throw new Error("Supabase inventory draft database.tables entries must include schema and name");
+    }
+    if (typeof table?.rlsEnabled !== "boolean") {
+      throw new Error(`Supabase inventory draft table ${schema}.${name} must include boolean rlsEnabled`);
+    }
+    if (typeof table?.rows !== "number" || table.rows < 0) {
+      throw new Error(`Supabase inventory draft table ${schema}.${name} must include non-negative rows`);
+    }
+
+    return {
+      name,
+      schema,
+      scopeClassification,
+      rlsEnabled: table.rlsEnabled,
+      rows: table.rows,
+      ...(typeof table?.comment === "string" && table.comment.length > 0 ? { comment: table.comment } : {})
+    };
+  });
+
+  const schemaTableCounts = countBy(tables, (table) => table.schema);
+  const schemas = database.schemas.map((schema) => {
+    const schemaName = String(schema?.schema ?? "");
+    const scopeClassification = schema?.scopeClassification ?? classifySchemaScope(schemaName);
+    const tableCount = typeof schema?.tableCount === "number" ? schema.tableCount : (schemaTableCounts[schemaName] ?? 0);
+
+    if (!schemaName) {
+      throw new Error("Supabase inventory draft database.schemas entries must include schema");
+    }
+
+    return {
+      schema: schemaName,
+      tableCount,
+      scopeClassification
+    };
+  });
+
+  const disabledTableNames = tables
+    .filter((table) => !table.rlsEnabled)
+    .map((table) => `${table.schema}.${table.name}`);
+  const publicAppTables = tables.filter((table) => table.scopeClassification === "public-app");
+  const systemTables = tables.filter((table) => table.scopeClassification !== "public-app");
+  const publicAppDisabledTableNames = publicAppTables
+    .filter((table) => !table.rlsEnabled)
+    .map((table) => `${table.schema}.${table.name}`);
+  const systemDisabledTableNames = systemTables
+    .filter((table) => !table.rlsEnabled)
+    .map((table) => `${table.schema}.${table.name}`);
+  const scopeCounts = emptyScopeCounts();
+
+  for (const table of tables) {
+    scopeCounts[table.scopeClassification] += 1;
+  }
+
+  return {
+    schemas,
+    tables,
+    rlsSummary: {
+      enabledTables: tables.filter((table) => table.rlsEnabled).length,
+      disabledTables: disabledTableNames.length,
+      disabledTableNames,
+      scopeCounts,
+      publicAppEnabledTables: publicAppTables.filter((table) => table.rlsEnabled).length,
+      publicAppDisabledTables: publicAppDisabledTableNames.length,
+      publicAppDisabledTableNames,
+      systemEnabledTables: systemTables.filter((table) => table.rlsEnabled).length,
+      systemDisabledTables: systemDisabledTableNames.length,
+      systemDisabledTableNames
+    }
+  };
+}
+
+function buildBlockedReasons(database, advisors) {
+  const reasons = [];
+
+  if (database.rlsSummary.publicAppDisabledTables > 0) {
+    reasons.push(`Public app tables without RLS remain present: ${database.rlsSummary.publicAppDisabledTableNames.join(", ")}.`);
+  }
+
+  if (advisors.security.observationMode === "connector-unavailable") {
+    reasons.push("Security advisor evidence is unavailable, so Foundation cannot make a stronger privacy claim.");
+  }
+
+  if ((advisors.security.countsByName.function_search_path_mutable ?? 0) > 0) {
+    reasons.push(`Security advisor reported ${advisors.security.countsByName.function_search_path_mutable} function_search_path_mutable warning(s) on exposed SQL functions.`);
+  }
+
+  if ((advisors.security.countsByName.auth_leaked_password_protection ?? 0) > 0) {
+    reasons.push("Security advisor reported leaked password protection is disabled for Supabase Auth.");
+  }
+
+  if ((advisors.performance.countsByName.auth_rls_initplan ?? 0) > 0) {
+    reasons.push(`Performance advisor reported ${advisors.performance.countsByName.auth_rls_initplan} auth_rls_initplan warning(s) on public RLS policies.`);
+  }
+
+  if ((advisors.performance.countsByName.unindexed_foreign_keys ?? 0) > 0) {
+    reasons.push(`Performance advisor reported ${advisors.performance.countsByName.unindexed_foreign_keys} unindexed foreign key finding(s).`);
+  }
+
+  if ((advisors.performance.countsByName.unused_index ?? 0) > 0) {
+    reasons.push(`Performance advisor reported ${advisors.performance.countsByName.unused_index} unused index finding(s).`);
+  }
+
+  return reasons;
+}
+
+function normalizePosture(database, advisors, inputPosture = {}) {
+  const publicAppTables = database.tables.filter((table) => table.scopeClassification === "public-app");
+  const systemTables = database.tables.filter((table) => table.scopeClassification !== "public-app");
+  const publicAppRlsPosture = classifyRlsPosture(publicAppTables);
+  const systemSchemaRlsPosture = classifyRlsPosture(systemTables);
+  const overallRlsPosture = classifyRlsPosture(database.tables);
+  const blockedReasons = buildBlockedReasons(database, advisors);
+
+  let privacyClaimPosture = "draft";
+  if (
+    publicAppRlsPosture !== "protected" ||
+    advisors.security.findingsCount > 0 ||
+    advisors.security.observationMode === "connector-unavailable"
+  ) {
+    privacyClaimPosture = "blocked";
+  } else if (inputPosture?.privacyClaimPosture === "unclaimed") {
+    privacyClaimPosture = "unclaimed";
+  }
+
+  const summary = `Public app schemas are ${publicAppRlsPosture}, system schemas are ${systemSchemaRlsPosture}, overall RLS is ${overallRlsPosture}, and privacy claims remain ${privacyClaimPosture}.`;
+
+  return {
+    publicAppRlsPosture,
+    systemSchemaRlsPosture,
+    overallRlsPosture,
+    privacyClaimPosture,
+    summary,
+    blockedReasons
+  };
+}
+
+function normalizeDraft(draft, inputPath) {
   if (!draft || typeof draft !== "object") {
     throw new Error("Supabase inventory draft input must be an object");
   }
@@ -66,7 +325,7 @@ function validateDraft(draft) {
   if (!isIsoTimestamp(draft.generatedAt)) {
     throw new Error("Supabase inventory draft generatedAt must be an ISO timestamp");
   }
-  if (!draft.input || draft.input.captureMode !== "example" && draft.input.captureMode !== "operator-capture") {
+  if (!draft.input || (draft.input.captureMode !== "example" && draft.input.captureMode !== "operator-capture")) {
     throw new Error("Supabase inventory draft input.captureMode must be example or operator-capture");
   }
   if (!isIsoTimestamp(draft.input.generatedAt)) {
@@ -78,15 +337,6 @@ function validateDraft(draft) {
   if (!isIsoTimestamp(draft.project.observedAt)) {
     throw new Error("Supabase inventory draft project.observedAt must be an ISO timestamp");
   }
-  if (!Array.isArray(draft.database?.schemas)) {
-    throw new Error("Supabase inventory draft database.schemas must be an array");
-  }
-  if (!Array.isArray(draft.database?.tables)) {
-    throw new Error("Supabase inventory draft database.tables must be an array");
-  }
-  if (!draft.database?.rlsSummary || typeof draft.database.rlsSummary !== "object") {
-    throw new Error("Supabase inventory draft database.rlsSummary is required");
-  }
   if (!Array.isArray(draft.migrations?.items)) {
     throw new Error("Supabase inventory draft migrations.items must be an array");
   }
@@ -96,11 +346,65 @@ function validateDraft(draft) {
   if (!Array.isArray(draft.edgeFunctions?.items)) {
     throw new Error("Supabase inventory draft edgeFunctions.items must be an array");
   }
-  if (!draft.advisors?.security || !draft.advisors?.performance) {
-    throw new Error("Supabase inventory draft advisors.security and advisors.performance are required");
+
+  const database = normalizeDatabase(draft.database);
+  const advisors = {
+    security: normalizeAdvisors(draft.advisors?.security, "security"),
+    performance: normalizeAdvisors(draft.advisors?.performance, "performance")
+  };
+  const posture = normalizePosture(database, advisors, draft.posture);
+
+  return {
+    schemaVersion: 1,
+    status: "proposal-only",
+    mutationAuthority: "none",
+    generatedAt: draft.generatedAt,
+    input: {
+      path: draft.input.path || inputPath,
+      captureMode: draft.input.captureMode,
+      generatedAt: draft.input.generatedAt
+    },
+    project: draft.project,
+    database,
+    migrations: {
+      count: draft.migrations.count,
+      latestVersion: draft.migrations.latestVersion ?? null,
+      items: draft.migrations.items
+    },
+    extensions: {
+      installedCount: draft.extensions.installedCount,
+      installed: draft.extensions.installed
+    },
+    edgeFunctions: {
+      count: draft.edgeFunctions.count,
+      items: draft.edgeFunctions.items
+    },
+    advisors,
+    posture
+  };
+}
+
+function renderCounts(counts) {
+  const entries = Object.entries(counts).sort(([left], [right]) => left.localeCompare(right));
+  if (entries.length === 0) {
+    return "none";
   }
-  if (!draft.posture || typeof draft.posture.summary !== "string" || draft.posture.summary.length === 0) {
-    throw new Error("Supabase inventory draft posture.summary is required");
+  return entries.map(([key, value]) => `\`${key}\`: ${value}`).join(", ");
+}
+
+function renderFindings(label, group, lines) {
+  lines.push(`- ${label} advisor mode: \`${group.observationMode}\``);
+  lines.push(`- ${label} findings: ${group.findingsCount}`);
+  lines.push(`- ${label} summary: ${group.summary}`);
+  lines.push(`- ${label} counts by level: ${renderCounts(group.countsByLevel)}`);
+  lines.push(`- ${label} counts by class: ${renderCounts(group.countsByName)}`);
+  lines.push(`- ${label} counts by category: ${renderCounts(group.countsByCategory)}`);
+
+  if (group.findings.length > 0) {
+    lines.push("", `### ${label} Findings`, "", "| Name | Level | Category | Detail | Remediation |", "| --- | --- | --- | --- | --- |");
+    for (const finding of group.findings) {
+      lines.push(`| ${finding.name} | ${finding.level} | ${finding.category} | ${finding.detail.replaceAll("|", "\\|")} | ${finding.remediation} |`);
+    }
   }
 }
 
@@ -129,21 +433,26 @@ function renderMarkdown(draft) {
     `- Schemas: ${draft.database.schemas.length}`,
     `- Tables: ${draft.database.tables.length}`,
     `- RLS enabled tables: ${draft.database.rlsSummary.enabledTables}`,
-    `- RLS disabled tables: ${draft.database.rlsSummary.disabledTables}`
+    `- RLS disabled tables: ${draft.database.rlsSummary.disabledTables}`,
+    `- Public app RLS enabled tables: ${draft.database.rlsSummary.publicAppEnabledTables}`,
+    `- Public app RLS disabled tables: ${draft.database.rlsSummary.publicAppDisabledTables}`,
+    `- System RLS enabled tables: ${draft.database.rlsSummary.systemEnabledTables}`,
+    `- System RLS disabled tables: ${draft.database.rlsSummary.systemDisabledTables}`,
+    `- Scope counts: ${renderCounts(draft.database.rlsSummary.scopeCounts)}`
   ];
 
   if (draft.database.rlsSummary.disabledTableNames.length > 0) {
     lines.push(`- RLS disabled table names: ${draft.database.rlsSummary.disabledTableNames.map((name) => `\`${name}\``).join(", ")}`);
   }
 
-  lines.push("", "| Schema | Table count |", "| --- | --- |");
+  lines.push("", "| Schema | Scope | Table count |", "| --- | --- | --- |");
   for (const schema of draft.database.schemas) {
-    lines.push(`| ${schema.schema} | ${schema.tableCount} |`);
+    lines.push(`| ${schema.schema} | ${schema.scopeClassification} | ${schema.tableCount} |`);
   }
 
-  lines.push("", "## Tables", "", "| Name | Schema | RLS | Rows |", "| --- | --- | --- | --- |");
+  lines.push("", "## Tables", "", "| Name | Schema | Scope | RLS | Rows |", "| --- | --- | --- | --- | --- |");
   for (const table of draft.database.tables) {
-    lines.push(`| ${table.name} | ${table.schema} | ${table.rlsEnabled ? "yes" : "no"} | ${table.rows} |`);
+    lines.push(`| ${table.name} | ${table.schema} | ${table.scopeClassification} | ${table.rlsEnabled ? "yes" : "no"} | ${table.rows} |`);
   }
 
   lines.push("", "## Migrations", "", `- Count: ${draft.migrations.count}`, `- Latest version: ${draft.migrations.latestVersion ?? "none"}`);
@@ -172,11 +481,14 @@ function renderMarkdown(draft) {
   }
 
   lines.push("", "## Advisors", "");
-  lines.push(`- Security advisor: \`${draft.advisors.security.observationMode}\` - ${draft.advisors.security.summary}`);
-  lines.push(`- Performance advisor: \`${draft.advisors.performance.observationMode}\` - ${draft.advisors.performance.summary}`);
+  renderFindings("Security", draft.advisors.security, lines);
+  lines.push("");
+  renderFindings("Performance", draft.advisors.performance, lines);
 
   lines.push("", "## Posture", "");
-  lines.push(`- RLS/security posture: \`${draft.posture.rlsSecurityPosture}\``);
+  lines.push(`- Public app RLS posture: \`${draft.posture.publicAppRlsPosture}\``);
+  lines.push(`- System schema RLS posture: \`${draft.posture.systemSchemaRlsPosture}\``);
+  lines.push(`- Overall RLS posture: \`${draft.posture.overallRlsPosture}\``);
   lines.push(`- Privacy claim posture: \`${draft.posture.privacyClaimPosture}\``);
   lines.push(`- Summary: ${draft.posture.summary}`);
   if (draft.posture.blockedReasons.length > 0) {
@@ -193,11 +505,11 @@ const { input } = parseArgs(process.argv.slice(2));
 const inputPath = resolvePath(input);
 const raw = await readFile(inputPath, "utf8");
 const draft = JSON.parse(raw);
-validateDraft(draft);
+const normalizedDraft = normalizeDraft(draft, toRelativePath(inputPath));
 
 await mkdir(path.dirname(outputJsonPath), { recursive: true });
-await writeFile(outputJsonPath, JSON.stringify(draft, null, 2) + "\n", "utf8");
-await writeFile(outputMdPath, renderMarkdown(draft), "utf8");
+await writeFile(outputJsonPath, JSON.stringify(normalizedDraft, null, 2) + "\n", "utf8");
+await writeFile(outputMdPath, renderMarkdown(normalizedDraft), "utf8");
 
 console.log(`Rendered ${toRelativePath(outputJsonPath)}`);
 console.log(`Rendered ${toRelativePath(outputMdPath)}`);

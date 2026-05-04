@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-05-04T01:24:40.1784834Z",
-  "source": "phase-4a-supabase-inventory-draft",
+  "updatedAt": "2026-05-04T15:30:00.000Z",
+  "source": "phase-4b-supabase-advisor-evidence",
   "owner": "fawxzzy",
   "principles": [
     "private-first runtime artifacts",
@@ -190,7 +190,7 @@
       "nextActions": [
         "Generate proposal-only proof refresh drafts without changing the pinned active-control-plane promotion proof",
         "Normalize manually captured provider evidence into provider-observations inputs",
-        "Render the first read-only Supabase inventory draft for the Fitness project",
+        "Integrate Supabase advisor evidence into the Fitness inventory draft before making stronger privacy claims",
         "Keep generated registry surfaces aligned with data/projects.json",
         "Expand deployment health coverage for downstream project surfaces"
       ]
@@ -458,7 +458,7 @@
       "nextActions": [
         "monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project",
         "keep the historical fawxzzy-fitness-prod-deploy mapping documented unless it reappears in active team inventory",
-        "capture a read-only Supabase inventory draft before making any privacy or security posture claims",
+        "capture and review Supabase advisor evidence before making any privacy or security posture claims",
         "surface deployment health in Foundation console"
       ]
     },

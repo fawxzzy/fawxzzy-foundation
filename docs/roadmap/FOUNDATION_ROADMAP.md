@@ -85,6 +85,7 @@ Inventory and govern the private data layer, starting with the existing `Fawxzzy
 Current build lane:
 
 - Phase 4A introduces the first read-only Supabase inventory draft so Foundation can represent database and security posture without mutating Supabase.
+- Phase 4B adds live advisor evidence, schema scope classification, and split RLS posture so privacy claim posture can stay conservative for the right reasons instead of collapsing everything into a single mixed-RLS label.
 
 Initial contracts:
 

@@ -176,7 +176,7 @@ function containsUnsafeExampleContent(value, pathParts = []) {
 
   if (value && typeof value === "object") {
     return Object.entries(value).some(([key, entry]) => {
-      if (unsafeKeyPattern.test(key)) {
+      if (unsafeKeyPattern.test(key) && !pathParts.includes("countsByName")) {
         return true;
       }
       return containsUnsafeExampleContent(entry, [...pathParts, key]);
@@ -252,6 +252,7 @@ for (const runtimeArtifact of [
   ".foundation/proof-refresh-draft.md",
   ".foundation/provider-observations.normalized.json",
   ".foundation/provider-observations.normalized.md",
+  ".foundation/supabase-inventory.live-input.json",
   ".foundation/supabase-inventory-draft.json",
   ".foundation/supabase-inventory-draft.md"
 ]) {
@@ -310,6 +311,15 @@ for (const fixtureFile of fixtureFiles) {
     }
     if (!Array.isArray(fixture.database?.tables) || fixture.database.tables.length === 0) {
       errors.push(`${fixtureFile} must include at least one table summary`);
+    }
+    if (!Array.isArray(fixture.advisors?.security?.findings)) {
+      errors.push(`${fixtureFile} must include security advisor findings`);
+    }
+    if (!Array.isArray(fixture.advisors?.performance?.findings)) {
+      errors.push(`${fixtureFile} must include performance advisor findings`);
+    }
+    if (!fixture.posture?.publicAppRlsPosture || !fixture.posture?.systemSchemaRlsPosture || !fixture.posture?.overallRlsPosture) {
+      errors.push(`${fixtureFile} must include split RLS posture fields`);
     }
     if (!fixture.posture?.privacyClaimPosture || !["unclaimed", "draft", "proved", "blocked"].includes(fixture.posture.privacyClaimPosture)) {
       errors.push(`${fixtureFile} privacyClaimPosture must be unclaimed, draft, proved, or blocked`);

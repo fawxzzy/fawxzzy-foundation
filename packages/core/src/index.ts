@@ -17,6 +17,16 @@ export type FoundationSupabaseProject = {
   observedAt?: string;
 };
 
+export type FoundationSupabaseSchemaScope =
+  | "public-app"
+  | "auth-system"
+  | "storage-system"
+  | "realtime-system"
+  | "vault-system"
+  | "other-system";
+
+export type FoundationSupabaseRlsPosture = "protected" | "mixed" | "unprotected" | "unknown";
+
 export type FoundationVercelProject = {
   name: string;
   id?: string;
