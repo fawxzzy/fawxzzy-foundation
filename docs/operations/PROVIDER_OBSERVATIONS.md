@@ -13,6 +13,7 @@ Schema:
 Safe example:
 
 - `fixtures/provider-observations.example.json`
+- `fixtures/provider-capture.example.json` via normalization
 
 Supported observation facets:
 
@@ -32,6 +33,25 @@ Supported observation facets:
 
 ## Usage
 
+Normalize a manual capture pack first:
+
+```bash
+pnpm provider:observations:normalize --input fixtures/provider-capture.example.json
+```
+
+The normalizer writes:
+
+- `.foundation/provider-observations.normalized.json`
+- `.foundation/provider-observations.normalized.md`
+
+Then use the normalized output with proof refresh:
+
+```bash
+pnpm foundation proof refresh --draft --observations .foundation/provider-observations.normalized.json
+```
+
+Or use a committed example directly:
+
 Registry-only mode:
 
 ```bash
@@ -48,6 +68,11 @@ The command still writes only:
 
 - `.foundation/proof-refresh-draft.json`
 - `.foundation/proof-refresh-draft.md`
+
+Runtime observation normalization also stays under `.foundation/`:
+
+- `.foundation/provider-observations.normalized.json`
+- `.foundation/provider-observations.normalized.md`
 
 ## Non-goals
 

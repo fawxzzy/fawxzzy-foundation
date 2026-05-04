@@ -1,0 +1,114 @@
+{
+  "$schema": "../packages/contracts/provider-capture.schema.json",
+  "schemaVersion": 1,
+  "captureMode": "example",
+  "coverage": "partial",
+  "generatedAt": "2026-05-04T01:00:00.000Z",
+  "source": {
+    "label": "phase-3c-capture-example",
+    "summary": "Safe manual capture example showing how provider-specific evidence is normalized into provider observations."
+  },
+  "github": {
+    "repos": [
+      {
+        "slug": "foundation",
+        "name": "Fawxzzy Foundation",
+        "observedAt": "2026-05-04T01:00:00.000Z",
+        "status": "verified",
+        "exists": true,
+        "owner": "fawxzzy",
+        "repo": "fawxzzy-foundation",
+        "fullName": "fawxzzy/fawxzzy-foundation",
+        "url": "https://github.com/fawxzzy/fawxzzy-foundation",
+        "visibility": "public",
+        "defaultBranch": "main"
+      }
+    ],
+    "checks": [
+      {
+        "slug": "foundation",
+        "name": "Fawxzzy Foundation",
+        "observedAt": "2026-05-04T01:00:00.000Z",
+        "status": "verified",
+        "workflowName": "Foundation CI",
+        "conclusion": "success",
+        "commitSha": "bd7fd477d180dced4f31adb017fc47756b18844c",
+        "runId": "example-run-25131302841",
+        "branch": "main"
+      }
+    ]
+  },
+  "vercel": {
+    "projects": [
+      {
+        "slug": "foundation",
+        "name": "Fawxzzy Foundation",
+        "observedAt": "2026-05-04T01:00:00.000Z",
+        "status": "verified",
+        "teamSlug": "fawxzzy",
+        "projectNames": [
+          "fawxzzy-foundation"
+        ],
+        "projectIds": [
+          "prj_o37CPLlESB6Zybe8GB74BX3wrkpy"
+        ]
+      },
+      {
+        "slug": "fitness",
+        "name": "Fawxzzy Fitness",
+        "observedAt": "2026-05-04T01:00:00.000Z",
+        "status": "verified",
+        "teamSlug": "fawxzzy",
+        "projectNames": [
+          "fawxzzy-fitness"
+        ],
+        "projectIds": [
+          "prj_rtlFVOMFAWCRoJ3SQjHloi89881K"
+        ]
+      }
+    ],
+    "deployments": [
+      {
+        "slug": "foundation",
+        "name": "Fawxzzy Foundation",
+        "observedAt": "2026-05-04T01:00:00.000Z",
+        "status": "ready",
+        "target": "production",
+        "projectName": "fawxzzy-foundation",
+        "deploymentId": "dpl_exampleFoundationPhase3C",
+        "alias": "fawxzzy-foundation.vercel.app",
+        "githubCommitSha": "bd7fd477d180dced4f31adb017fc47756b18844c",
+        "message": "Add Codex runner config",
+        "gitDirty": false
+      },
+      {
+        "slug": "fitness",
+        "name": "Fawxzzy Fitness",
+        "observedAt": "2026-05-04T01:00:00.000Z",
+        "status": "ready",
+        "target": "production",
+        "projectName": "fawxzzy-fitness",
+        "deploymentId": "dpl_exampleFitnessPhase3C",
+        "alias": "fawxzzy-fitness-local.vercel.app",
+        "githubCommitSha": "01bf2dc272ad7c892bf2dac64d47b2b47d943cff",
+        "message": "Example normalized provider capture",
+        "gitDirty": false
+      }
+    ]
+  },
+  "supabase": {
+    "projects": [
+      {
+        "slug": "fitness",
+        "name": "Fawxzzy Fitness",
+        "observedAt": "2026-05-04T01:00:00.000Z",
+        "status": "active",
+        "projectRef": "fitness-example-ref",
+        "projectName": "FawxzzyFitness",
+        "region": "us-west-2",
+        "postgresVersion": "17.6.1.104",
+        "organization": "fawxzzy"
+      }
+    ]
+  }
+}

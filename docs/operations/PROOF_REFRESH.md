@@ -41,6 +41,13 @@ With an external observation file:
 pnpm foundation proof refresh --draft --observations fixtures/provider-observations.example.json
 ```
 
+With a normalized runtime capture:
+
+```bash
+pnpm provider:observations:normalize --input fixtures/provider-capture.example.json
+pnpm foundation proof refresh --draft --observations .foundation/provider-observations.normalized.json
+```
+
 Artifacts:
 
 - `.foundation/proof-refresh-draft.json`

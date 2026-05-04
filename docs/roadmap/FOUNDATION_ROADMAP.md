@@ -68,6 +68,7 @@ Current build lane:
 
 - Phase 3A introduced proposal-only draft generation from registry-recorded observations.
 - Phase 3B adds file-based provider observation inputs so external evidence can be compared against registry truth without direct provider API calls from the draft command.
+- Phase 3C adds operator capture templates and a normalizer that turns manually collected provider evidence into the provider-observations contract.
 
 Non-goals:
 

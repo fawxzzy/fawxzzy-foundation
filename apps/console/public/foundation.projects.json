@@ -1,11 +1,11 @@
 {
   "build": {
-    "generatedAt": "2026-05-04T00:04:12.386Z",
+    "generatedAt": "2026-05-04T00:51:27.178Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-03T23:41:54.6702104Z",
+    "updatedAt": "2026-05-04T00:51:05.2415863Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
@@ -106,8 +106,12 @@
         "data/projects.json",
         "packages/contracts/foundation.schema.json",
         "packages/contracts/proof-refresh-draft.schema.json",
+        "packages/contracts/provider-capture.schema.json",
+        "packages/contracts/provider-observations.schema.json",
         "docs/roadmap/FOUNDATION_ROADMAP.md",
-        "docs/operations/PROOF_REFRESH.md"
+        "docs/operations/PROOF_REFRESH.md",
+        "docs/operations/PROVIDER_CAPTURE.md",
+        "docs/operations/PROVIDER_OBSERVATIONS.md"
       ],
       "promotion": {
         "label": "active control-plane",
@@ -196,6 +200,7 @@
       },
       "nextActions": [
         "Generate proposal-only proof refresh drafts without changing the pinned active-control-plane promotion proof",
+        "Normalize manually captured provider evidence into provider-observations inputs",
         "Keep generated registry surfaces aligned with data/projects.json",
         "Expand deployment health coverage for downstream project surfaces"
       ]

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
-import { access, mkdir, readFile, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -47,16 +47,20 @@ const requiredFiles = [
   "packages/cli/bin/foundation.mjs",
   "packages/core/src/index.ts",
   "packages/contracts/proof-refresh-draft.schema.json",
+  "packages/contracts/provider-capture.schema.json",
   "packages/contracts/provider-observations.schema.json",
   "scripts/render-registry.mjs",
   "scripts/render-console-data.mjs",
+  "scripts/normalize-provider-observations.mjs",
   "scripts/render-proof-refresh-draft.mjs",
   "scripts/serve-console.mjs",
   "docs/architecture/FOUNDATION_BLUEPRINT.md",
   "docs/architecture/PROJECT_REGISTRY.md",
   "docs/roadmap/FOUNDATION_ROADMAP.md",
   "docs/operations/PROOF_REFRESH.md",
+  "docs/operations/PROVIDER_CAPTURE.md",
   "docs/operations/PROVIDER_OBSERVATIONS.md",
+  "fixtures/provider-capture.example.json",
   "fixtures/provider-observations.example.json",
   "apps/console/public/index.html",
   "apps/console/public/assets/main.js",
@@ -91,6 +95,25 @@ async function readText(relativePath) {
     errors.push(`${relativePath}: ${error.message}`);
     return null;
   }
+}
+
+async function listJsonFixtures(relativePath) {
+  const directoryPath = path.join(root, relativePath);
+  const entries = await readdir(directoryPath, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    const childRelativePath = path.posix.join(relativePath.replaceAll("\\", "/"), entry.name);
+    if (entry.isDirectory()) {
+      files.push(...await listJsonFixtures(childRelativePath));
+      continue;
+    }
+    if (entry.isFile() && entry.name.endsWith(".json")) {
+      files.push(childRelativePath);
+    }
+  }
+
+  return files.sort();
 }
 
 function isIsoTimestamp(value) {
@@ -140,8 +163,8 @@ function isGitTracked(relativePath) {
 }
 
 function containsUnsafeExampleContent(value, pathParts = []) {
-  const unsafeKeyPattern = /(token|secret|password|authorization|cookie|api[-_]?key)/i;
-  const unsafeValuePattern = /(ghp_|github_pat_|postgres:\/\/|service_role|bearer\s+[a-z0-9._-]+)/i;
+  const unsafeKeyPattern = /(token|secret|password|authorization|cookie|api[-_]?key|credential|database[_-]?url|env(ironment)?)/i;
+  const unsafeValuePattern = /(ghp_|github_pat_|postgres:\/\/[^@\s]+@|service_role|bearer\s+[a-z0-9._-]+|sbp_|sk_live_|xox[baprs]-|-----begin)/i;
 
   if (Array.isArray(value)) {
     return value.some((entry, index) => containsUnsafeExampleContent(entry, [...pathParts, String(index)]));
@@ -161,6 +184,26 @@ function containsUnsafeExampleContent(value, pathParts = []) {
   }
 
   return false;
+}
+
+function validateExampleFixture(filePath, fixture) {
+  if (!fixture || typeof fixture !== "object") {
+    errors.push(`${filePath} must be a JSON object`);
+    return;
+  }
+
+  if (containsUnsafeExampleContent(fixture)) {
+    errors.push(`${filePath} must not contain tokens, secrets, credentials, environment dumps, or connection strings`);
+  }
+
+  if (filePath.endsWith(".example.json")) {
+    if (fixture.captureMode !== "example") {
+      errors.push(`${filePath} captureMode must be example`);
+    }
+    if (!isIsoTimestamp(fixture.generatedAt)) {
+      errors.push(`${filePath} generatedAt must be an ISO timestamp`);
+    }
+  }
 }
 
 function validateHealthFacet(projectLabel, facetName, facet) {
@@ -185,7 +228,7 @@ for (const file of requiredFiles) {
 const config = await readJson("foundation.config.json");
 const registry = await readJson("data/projects.json");
 const consoleData = await readJson("apps/console/public/foundation.projects.json");
-const exampleObservations = await readJson("fixtures/provider-observations.example.json");
+const fixtureFiles = await listJsonFixtures("fixtures");
 const gitignore = await readText(".gitignore");
 const now = Date.now();
 
@@ -200,30 +243,50 @@ if (gitignore) {
   }
 }
 
-for (const runtimeArtifact of [".foundation/proof-refresh-draft.json", ".foundation/proof-refresh-draft.md"]) {
+for (const runtimeArtifact of [
+  ".foundation/proof-refresh-draft.json",
+  ".foundation/proof-refresh-draft.md",
+  ".foundation/provider-observations.normalized.json",
+  ".foundation/provider-observations.normalized.md"
+]) {
   if (isGitTracked(runtimeArtifact)) {
     errors.push(`${runtimeArtifact} must remain untracked runtime output`);
   }
 }
 
-if (exampleObservations) {
-  if (exampleObservations.schemaVersion !== 1) {
-    errors.push("fixtures/provider-observations.example.json schemaVersion must be 1");
+for (const fixtureFile of fixtureFiles) {
+  const fixture = await readJson(fixtureFile);
+  if (!fixture) continue;
+  validateExampleFixture(fixtureFile, fixture);
+
+  if (fixtureFile === "fixtures/provider-observations.example.json") {
+    if (fixture.schemaVersion !== 1) {
+      errors.push(`${fixtureFile} schemaVersion must be 1`);
+    }
+    if (!["partial", "full"].includes(fixture.coverage)) {
+      errors.push(`${fixtureFile} coverage must be partial or full`);
+    }
+    if (!Array.isArray(fixture.projects) || fixture.projects.length === 0) {
+      errors.push(`${fixtureFile} must include at least one project`);
+    }
   }
-  if (exampleObservations.captureMode !== "example") {
-    errors.push("fixtures/provider-observations.example.json captureMode must be example");
-  }
-  if (!["partial", "full"].includes(exampleObservations.coverage)) {
-    errors.push("fixtures/provider-observations.example.json coverage must be partial or full");
-  }
-  if (!isIsoTimestamp(exampleObservations.generatedAt)) {
-    errors.push("fixtures/provider-observations.example.json generatedAt must be an ISO timestamp");
-  }
-  if (!Array.isArray(exampleObservations.projects) || exampleObservations.projects.length === 0) {
-    errors.push("fixtures/provider-observations.example.json must include at least one project");
-  }
-  if (containsUnsafeExampleContent(exampleObservations)) {
-    errors.push("fixtures/provider-observations.example.json must not contain tokens, secrets, credentials, or connection strings");
+
+  if (fixtureFile === "fixtures/provider-capture.example.json") {
+    if (fixture.schemaVersion !== 1) {
+      errors.push(`${fixtureFile} schemaVersion must be 1`);
+    }
+    if (!["partial", "full"].includes(fixture.coverage)) {
+      errors.push(`${fixtureFile} coverage must be partial or full`);
+    }
+    const hasProviderEvidence =
+      (fixture.github?.repos?.length ?? 0) +
+      (fixture.github?.checks?.length ?? 0) +
+      (fixture.vercel?.projects?.length ?? 0) +
+      (fixture.vercel?.deployments?.length ?? 0) +
+      (fixture.supabase?.projects?.length ?? 0);
+    if (hasProviderEvidence === 0) {
+      errors.push(`${fixtureFile} must include at least one provider evidence entry`);
+    }
   }
 }
 
