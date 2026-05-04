@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-05-04T17:05:00.000Z",
-  "source": "phase-4d-split-status-model",
+  "updatedAt": "2026-05-04T18:10:00.000Z",
+  "source": "phase-4c-scorecards-and-explainable-health",
   "owner": "fawxzzy",
   "principles": [
     "private-first runtime artifacts",
@@ -36,6 +36,49 @@
         "warnings": [],
         "blockers": [],
         "summary": "Desired control-plane role, live deployment evidence, and clean pinned proof currently align."
+      },
+      "scorecard": {
+        "status": "scored",
+        "verdict": "healthy",
+        "score": 100,
+        "maxScore": 100,
+        "dimensions": [
+          {
+            "key": "evidence",
+            "label": "Evidence completeness",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Split-state truth, deployment evidence, and promotion-proof lineage are all present."
+          },
+          {
+            "key": "proof",
+            "label": "Proof freshness",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Proof is current, clean, and anchored to the pinned active-control-plane promotion proof."
+          },
+          {
+            "key": "deployment",
+            "label": "Deployment posture",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Foundation has a READY production deployment with clean observed provenance."
+          },
+          {
+            "key": "data-security",
+            "label": "Data and security posture",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Foundation itself is not using an application database posture lane in this scorecard slice."
+          }
+        ],
+        "warnings": [],
+        "blockers": [],
+        "nextAction": "Add approved registry change bundles keyed to reviewed draft hashes and affected slugs."
       },
       "repo": {
         "owner": "fawxzzy",
@@ -208,7 +251,7 @@
         ]
       },
       "nextActions": [
-        "Build explainable scorecards that consume healthState rather than the legacy blended status field",
+        "Add approved registry change bundles keyed to reviewed draft hashes and affected slugs",
         "Generate proposal-only proof refresh drafts without changing the pinned active-control-plane promotion proof",
         "Normalize manually captured provider evidence into provider-observations inputs",
         "Keep generated registry surfaces aligned with data/projects.json",
@@ -298,6 +341,51 @@
         "blockers": [],
         "summary": "The observed state is acceptable for the intended governance-runtime role, but Foundation visibility is still partial."
       },
+      "scorecard": {
+        "status": "scored",
+        "verdict": "healthy",
+        "score": 90,
+        "maxScore": 100,
+        "dimensions": [
+          {
+            "key": "evidence",
+            "label": "Evidence completeness",
+            "state": "warn",
+            "points": 15,
+            "maxPoints": 25,
+            "summary": "Split-state truth is present, but Playbook verification receipts and read-interface evidence are not yet ingested."
+          },
+          {
+            "key": "proof",
+            "label": "Proof freshness",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "No deployment proof target is defined for Playbook in Foundation yet."
+          },
+          {
+            "key": "deployment",
+            "label": "Deployment posture",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Foundation does not currently track a deployment lane for Playbook."
+          },
+          {
+            "key": "data-security",
+            "label": "Data and security posture",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "No Playbook database or privacy posture lane is modeled in Foundation yet."
+          }
+        ],
+        "warnings": [
+          "Foundation has not yet ingested Playbook verification receipts or read interfaces."
+        ],
+        "blockers": [],
+        "nextAction": "Adopt Playbook bootstrap in Foundation once package install is available."
+      },
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-playbook",
@@ -378,6 +466,51 @@
         "blockers": [],
         "summary": "The intended operator-runtime role is clear, but Foundation still has partial observation of Lifeline outcomes."
       },
+      "scorecard": {
+        "status": "scored",
+        "verdict": "healthy",
+        "score": 90,
+        "maxScore": 100,
+        "dimensions": [
+          {
+            "key": "evidence",
+            "label": "Evidence completeness",
+            "state": "warn",
+            "points": 15,
+            "maxPoints": 25,
+            "summary": "Split-state truth is present, but Lifeline execution receipts and rollback evidence are not yet projected into Foundation."
+          },
+          {
+            "key": "proof",
+            "label": "Proof freshness",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "No deployment proof target is defined for Lifeline yet."
+          },
+          {
+            "key": "deployment",
+            "label": "Deployment posture",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Foundation does not currently track a deployment lane for Lifeline."
+          },
+          {
+            "key": "data-security",
+            "label": "Data and security posture",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "No Lifeline database or privacy posture lane is modeled in Foundation yet."
+          }
+        ],
+        "warnings": [
+          "Foundation has not yet ingested Lifeline execution receipts or rollback-state evidence."
+        ],
+        "blockers": [],
+        "nextAction": "Define Foundation Lifeline target once deployment runtime is chosen."
+      },
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-lifeline",
@@ -456,6 +589,52 @@
         ],
         "blockers": [],
         "summary": "Deployment proof is clean, but privacy and database posture still require remediation tracking before Fitness can be treated as fully healthy."
+      },
+      "scorecard": {
+        "status": "scored",
+        "verdict": "warning",
+        "score": 85,
+        "maxScore": 100,
+        "dimensions": [
+          {
+            "key": "evidence",
+            "label": "Evidence completeness",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Split-state truth, production deployment evidence, and Supabase observation data are all present."
+          },
+          {
+            "key": "proof",
+            "label": "Proof freshness",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Deployment proof is current and clean on the primary Fitness Vercel project."
+          },
+          {
+            "key": "deployment",
+            "label": "Deployment posture",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Primary production deployment is READY, while the legacy prod-deploy lane is retained only as historical inventory."
+          },
+          {
+            "key": "data-security",
+            "label": "Data and security posture",
+            "state": "warn",
+            "points": 10,
+            "maxPoints": 25,
+            "summary": "Supabase advisor evidence is present, but current findings still block stronger privacy and data-security claims."
+          }
+        ],
+        "warnings": [
+          "Supabase advisor evidence currently blocks stronger privacy posture claims for Fitness.",
+          "Historical prod-deploy mapping remains documented until active inventory or remediation changes."
+        ],
+        "blockers": [],
+        "nextAction": "Turn the blocked Supabase privacy posture into Fitness-owned remediation tracking."
       },
       "repo": {
         "owner": "fawxzzy",

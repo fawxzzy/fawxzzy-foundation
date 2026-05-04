@@ -98,12 +98,42 @@ function renderStateMachine(project) {
   return lines;
 }
 
+function renderScorecard(project) {
+  const scorecard = project.scorecard;
+  if (!scorecard) return [];
+
+  const lines = [];
+  lines.push(
+    scorecard.status === "scored"
+      ? `- Scorecard: \`${scorecard.verdict}\` ${scorecard.score}/${scorecard.maxScore}`
+      : `- Scorecard: \`${scorecard.status}\``
+  );
+
+  for (const dimension of scorecard.dimensions ?? []) {
+    lines.push(
+      `- Score ${dimension.label}: \`${dimension.state}\` ${dimension.points}/${dimension.maxPoints} - ${dimension.summary}`
+    );
+  }
+  for (const warning of scorecard.warnings ?? []) {
+    lines.push(`- Score warning: ${warning}`);
+  }
+  for (const blocker of scorecard.blockers ?? []) {
+    lines.push(`- Score blocker: ${blocker}`);
+  }
+  if (scorecard.nextAction) {
+    lines.push(`- Score next action: ${scorecard.nextAction}`);
+  }
+
+  return lines;
+}
+
 function renderHealth(project, now = Date.now()) {
   const health = project.health;
   if (!health) return "";
 
   const lines = [`### ${project.name}`];
   lines.push(...renderStateMachine(project));
+  lines.push(...renderScorecard(project));
   lines.push(`- Overall health facet: \`${health.status}\` - ${health.summary}`);
   lines.push(`- GitHub: \`${health.github.status}\` - ${health.github.summary} (checked ${formatTimestamp(health.github.checkedAt)})`);
   lines.push(`- Vercel: \`${health.vercel.status}\` - ${health.vercel.summary} (checked ${formatTimestamp(health.vercel.checkedAt)})`);
@@ -214,6 +244,7 @@ const rows = projects.map((project) => [
   project.desiredState?.lifecycle ?? "-",
   project.observedState?.proof ?? "-",
   project.healthState?.overall ?? "-",
+  project.scorecard?.status === "scored" ? `${project.scorecard.verdict} ${project.scorecard.score}/${project.scorecard.maxScore}` : "-",
   project.status,
   project.repo?.fullName ?? "-",
   value(project.repo?.exists),
@@ -251,11 +282,14 @@ Updated: ${registry.updatedAt}
 - Pattern: \`desiredState -> observedState -> healthState -> derived prose\`.
 - Failure mode: Scorecards built on blended status fields create false precision and rewrite pressure.
 - Legacy compatibility: \`status\` remains present for existing consumers, but migrated projects derive it from the split model.
+- Rule: Scorecards consume split-state truth; they do not replace registry evidence.
+- Pattern: \`desiredState -> observedState -> healthState -> scorecard -> recommended next action\`.
+- Failure mode: Numeric scores without evidence explanations create false confidence.
 
 ## Projects
 
-| Slug | Name | Kind | Desired lifecycle | Observed proof | Health | Legacy status | Repo | Repo exists | Vercel | First next action |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Slug | Name | Kind | Desired lifecycle | Observed proof | Health | Scorecard | Legacy status | Repo | Repo exists | Vercel | First next action |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 ${rows.map((row) => `| ${row.map(escapeMd).join(" | ")} |`).join("\n")}
 
 ${healthSections ? `\n## Health Ledger\n\n${healthSections}\n` : ""}

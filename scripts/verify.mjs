@@ -45,6 +45,9 @@ const observedDatabaseStates = new Set(["observed", "not-applicable", "unknown"]
 const observedProofStates = new Set(["current", "stale", "pending", "not-applicable"]);
 const healthOverallStates = new Set(["healthy", "warning", "blocked", "unknown"]);
 const healthQualityStates = new Set(["clean", "accepted-private-source", "advisory", "blocked"]);
+const scorecardStatuses = new Set(["scored", "pending-split-migration"]);
+const scorecardVerdicts = new Set(["healthy", "warning", "blocked", "unknown"]);
+const scorecardDimensionStates = new Set(["pass", "warn", "fail", "not-applicable"]);
 
 const requiredFiles = [
   "README.md",
@@ -295,6 +298,66 @@ function validateSplitState(projectLabel, project) {
   }
 }
 
+function validateScorecard(projectLabel, project, requiresScorecard) {
+  const scorecard = project.scorecard;
+
+  if (!scorecard) {
+    if (requiresScorecard) {
+      errors.push(`${projectLabel}: scorecard is required for migrated split-state projects`);
+    }
+    return;
+  }
+
+  if (!scorecardStatuses.has(scorecard.status)) {
+    errors.push(`${projectLabel}: scorecard.status must be scored or pending-split-migration`);
+  }
+
+  if (!requiresScorecard && scorecard.status === "scored") {
+    errors.push(`${projectLabel}: non-migrated projects must not be scored until split-state migration is complete`);
+  }
+
+  if (scorecard.status === "pending-split-migration") {
+    return;
+  }
+
+  if (!scorecardVerdicts.has(scorecard.verdict)) {
+    errors.push(`${projectLabel}: scorecard.verdict must be a supported verdict`);
+  }
+  if (typeof scorecard.score !== "number" || typeof scorecard.maxScore !== "number") {
+    errors.push(`${projectLabel}: scorecard.score and scorecard.maxScore must be numbers`);
+  }
+  if (!Array.isArray(scorecard.dimensions) || scorecard.dimensions.length === 0) {
+    errors.push(`${projectLabel}: scorecard.dimensions must include at least one dimension`);
+  }
+  if (!Array.isArray(scorecard.warnings)) {
+    errors.push(`${projectLabel}: scorecard.warnings must be an array`);
+  }
+  if (!Array.isArray(scorecard.blockers)) {
+    errors.push(`${projectLabel}: scorecard.blockers must be an array`);
+  }
+  if (!scorecard.nextAction || typeof scorecard.nextAction !== "string") {
+    errors.push(`${projectLabel}: scorecard.nextAction is required`);
+  }
+
+  for (const dimension of scorecard.dimensions ?? []) {
+    if (!dimension.key || typeof dimension.key !== "string") {
+      errors.push(`${projectLabel}: scorecard dimension key is required`);
+    }
+    if (!dimension.label || typeof dimension.label !== "string") {
+      errors.push(`${projectLabel}: scorecard dimension label is required`);
+    }
+    if (!scorecardDimensionStates.has(dimension.state)) {
+      errors.push(`${projectLabel}: scorecard dimension ${dimension.key} must use a supported state`);
+    }
+    if (typeof dimension.points !== "number" || typeof dimension.maxPoints !== "number") {
+      errors.push(`${projectLabel}: scorecard dimension ${dimension.key} must include numeric points`);
+    }
+    if (!dimension.summary || typeof dimension.summary !== "string") {
+      errors.push(`${projectLabel}: scorecard dimension ${dimension.key} summary is required`);
+    }
+  }
+}
+
 for (const file of requiredFiles) {
   if (!(await exists(file))) {
     errors.push(`Missing required file: ${file}`);
@@ -424,6 +487,7 @@ if (registry) {
     if (migratedSplitStateProjects.has(project.slug)) {
       validateSplitState(label, project);
     }
+    validateScorecard(label, project, migratedSplitStateProjects.has(project.slug));
 
     if (!project.repo?.fullName) errors.push(`${label}: missing repo.fullName`);
     if (project.repo?.fullName) repoNames.add(project.repo.fullName);
@@ -593,6 +657,11 @@ if (registry && consoleData) {
   const activeProjects = registry.projects.filter((project) => (project.desiredState?.lifecycle ?? project.status) === "active").length;
   if (consoleData.summary?.activeProjects !== activeProjects) {
     errors.push("Console data active project count does not match registry. Run pnpm build.");
+  }
+
+  const scoredProjects = (consoleData.projects ?? []).filter((project) => project.scorecard?.status === "scored").length;
+  if (consoleData.summary?.scoredProjects !== scoredProjects) {
+    errors.push("Console data scored project count does not match registry. Run pnpm build.");
   }
 
   const staleProofProjects = (consoleData.projects ?? []).filter((project) => project.health?.proof?.isStale).length;

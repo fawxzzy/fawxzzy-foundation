@@ -39,6 +39,7 @@ Each project has:
 - `desiredState` - operator intent and desired lifecycle/role.
 - `observedState` - what Foundation can actually prove from observed evidence.
 - `healthState` - judgment, quality, warnings, and blockers derived from desired and observed state.
+- `scorecard` - explainable scored summary derived from split-state truth and existing evidence.
 - `status` - legacy compatibility lifecycle field derived from the split state model where migrated.
 - `repo` - GitHub ownership and existence truth.
 - `vercel` - deployment mapping when known.
@@ -56,6 +57,9 @@ Each project has:
 - Rule: desired state, observed state, and health judgment must remain separate machine fields.
 - Pattern: `desiredState -> observedState -> healthState -> derived prose`.
 - Failure mode: scorecards built on blended status fields create false precision and rewrite pressure.
+- Rule: scorecards consume split-state truth; they do not replace registry evidence.
+- Pattern: `desiredState -> observedState -> healthState -> scorecard -> recommended next action`.
+- Failure mode: numeric scores without evidence explanations create false confidence.
 
 ## Proof quality policy
 

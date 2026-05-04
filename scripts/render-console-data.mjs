@@ -86,7 +86,10 @@ const payload = {
     staleProofProjects: projects.filter((project) => project.health?.proof?.isStale).length,
     pendingProofProjects: projects.filter((project) => project.health?.proof?.status === "pending-proof").length,
     proofWarningProjects: projects.filter((project) => hasProofQualityWarning(project.health?.proof)).length,
-    proofWarningStateCounts: getProofWarningStateCounts(projects)
+    proofWarningStateCounts: getProofWarningStateCounts(projects),
+    scoredProjects: projects.filter((project) => project.scorecard?.status === "scored").length,
+    warningScorecards: projects.filter((project) => project.scorecard?.status === "scored" && project.scorecard?.verdict === "warning").length,
+    blockedScorecards: projects.filter((project) => project.scorecard?.status === "scored" && project.scorecard?.verdict === "blocked").length
   },
   principles: registry.principles,
   projects

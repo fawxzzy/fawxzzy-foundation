@@ -141,6 +141,64 @@ function renderStatePanel(project) {
   `;
 }
 
+function renderScorecard(project) {
+  const scorecard = project.scorecard;
+  if (!scorecard) {
+    return "";
+  }
+
+  if (scorecard.status !== "scored") {
+    return `
+      <section class="scorecard-panel">
+        <div class="scorecard-header">
+          <div>
+            <p class="health-kicker">Scorecard</p>
+            <h4>${text(scorecard.status)}</h4>
+          </div>
+          <p class="health-overview">Scorecard generation is deferred until split-state migration is complete for this project.</p>
+        </div>
+      </section>
+    `;
+  }
+
+  const scoreWarnings = [
+    ...(scorecard.warnings ?? []).map((warning) => `warning: ${warning}`),
+    ...(scorecard.blockers ?? []).map((blocker) => `blocker: ${blocker}`)
+  ].join(" | ");
+
+  return `
+    <section class="scorecard-panel">
+      <div class="scorecard-header">
+        <div>
+          <p class="health-kicker">Scorecard</p>
+          <h4>${text(scorecard.verdict)} ${text(scorecard.score)}/${text(scorecard.maxScore)}</h4>
+        </div>
+        <p class="health-overview">Scorecards consume split-state truth and existing evidence; they do not replace registry proof.</p>
+      </div>
+      <div class="scorecard-grid">
+        ${(scorecard.dimensions ?? [])
+          .map(
+            (dimension) => `
+              <article class="scorecard-dimension">
+                <div class="health-row-header">
+                  <p class="health-label">${text(dimension.label)}</p>
+                  <div class="status-pills">
+                    <span class="status-pill ${toneClass(dimension.state === "pass" ? "healthy" : dimension.state === "warn" ? "warning" : dimension.state === "fail" ? "blocked" : "not-applicable")}">${text(dimension.state)}</span>
+                  </div>
+                </div>
+                <p class="health-summary">${text(dimension.summary)}</p>
+                <p class="health-meta">${text(dimension.points)}/${text(dimension.maxPoints)} points</p>
+              </article>
+            `
+          )
+          .join("")}
+      </div>
+      ${scoreWarnings ? `<p class="health-meta">${scoreWarnings}</p>` : ""}
+      ${scorecard.nextAction ? `<p class="health-meta">next: ${text(scorecard.nextAction)}</p>` : ""}
+    </section>
+  `;
+}
+
 function renderProofRemediation(proof) {
   if (!proof?.remediation?.classes?.length) return "";
 
@@ -279,6 +337,7 @@ function projectCard(project) {
         ${project.status !== lifecycleLabel ? `<span class="tag">legacy ${text(project.status)}</span>` : ""}
       </div>
       ${renderStatePanel(project)}
+      ${renderScorecard(project)}
       ${renderHealth(project)}
       ${renderPromotion(project)}
       <p><strong>Next:</strong> ${text(next)}</p>
@@ -301,7 +360,7 @@ async function boot() {
   document.querySelector("#deploymentMappedProjects").textContent = data.summary.deploymentMappedProjects;
   document.querySelector("#currentProofProjects").textContent = data.summary.currentProofProjects;
   document.querySelector("#healthSnapshot").textContent =
-    `${data.summary.pendingProofProjects} pending proof | ${data.summary.staleProofProjects} stale | ${data.summary.proofWarningProjects} projects with warnings | ${warningStateSummary}`;
+    `${data.summary.pendingProofProjects} pending proof | ${data.summary.staleProofProjects} stale | ${data.summary.proofWarningProjects} proof warnings | ${data.summary.scoredProjects} scored | ${data.summary.warningScorecards} warning scorecards | ${warningStateSummary}`;
   document.querySelector("#updatedAt").textContent = `Registry updated ${formatDate(data.summary.updatedAt, { withTime: true })}`;
 
   const projects = [...data.projects].sort((a, b) => {

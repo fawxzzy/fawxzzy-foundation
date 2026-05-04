@@ -61,6 +61,9 @@ export type FoundationObservedProofState = "current" | "stale" | "pending" | "no
 export type FoundationHealthOverallState = "healthy" | "warning" | "blocked" | "unknown";
 
 export type FoundationHealthQualityState = "clean" | "accepted-private-source" | "advisory" | "blocked";
+export type FoundationScorecardStatus = "scored" | "pending-split-migration";
+export type FoundationScorecardVerdict = "healthy" | "warning" | "blocked" | "unknown";
+export type FoundationScorecardDimensionState = "pass" | "warn" | "fail" | "not-applicable";
 
 export type FoundationVercelProject = {
   name: string;
@@ -293,6 +296,26 @@ export type FoundationHealthState = {
   summary: string;
 };
 
+export type FoundationScorecardDimension = {
+  key: string;
+  label: string;
+  state: FoundationScorecardDimensionState;
+  points: number;
+  maxPoints: number;
+  summary: string;
+};
+
+export type FoundationScorecard = {
+  status: FoundationScorecardStatus;
+  verdict?: FoundationScorecardVerdict;
+  score?: number;
+  maxScore?: number;
+  dimensions?: FoundationScorecardDimension[];
+  warnings?: string[];
+  blockers?: string[];
+  nextAction?: string;
+};
+
 export type FoundationPromotion = {
   label: string;
   targetLabel?: string;
@@ -323,6 +346,7 @@ export type FoundationProject = {
   desiredState?: FoundationDesiredState;
   observedState?: FoundationObservedState;
   healthState?: FoundationHealthState;
+  scorecard?: FoundationScorecard;
   repo: FoundationRepo;
   supabase?: FoundationSupabaseProject;
   vercel?: {

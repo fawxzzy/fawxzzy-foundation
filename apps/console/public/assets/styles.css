@@ -194,7 +194,23 @@ h4 {
   background: rgba(20, 28, 46, 0.5);
 }
 
+.scorecard-panel {
+  margin: 18px 0;
+  padding: 16px;
+  border: 1px solid rgba(134, 239, 172, 0.18);
+  border-radius: 16px;
+  background: rgba(8, 18, 12, 0.36);
+}
+
 .state-panel-header {
+  display: grid;
+  grid-template-columns: minmax(0, 180px) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.scorecard-header {
   display: grid;
   grid-template-columns: minmax(0, 180px) minmax(0, 1fr);
   gap: 14px;
@@ -207,7 +223,19 @@ h4 {
   gap: 12px;
 }
 
+.scorecard-grid {
+  display: grid;
+  gap: 12px;
+}
+
 .state-row {
+  padding: 12px;
+  border: 1px solid rgba(51, 65, 95, 0.72);
+  border-radius: 14px;
+  background: rgba(13, 19, 32, 0.72);
+}
+
+.scorecard-dimension {
   padding: 12px;
   border: 1px solid rgba(51, 65, 95, 0.72);
   border-radius: 14px;
@@ -410,6 +438,7 @@ code {
 
   .health-panel-header,
   .state-panel-header,
+  .scorecard-header,
   .health-grid {
     grid-template-columns: 1fr;
   }

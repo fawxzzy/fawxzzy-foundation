@@ -2,7 +2,7 @@
 
 Generated from `data/projects.json`. Do not hand-edit this file unless the generator is also updated.
 
-Updated: 2026-05-04T17:05:00.000Z
+Updated: 2026-05-04T18:10:00.000Z
 
 ## Summary
 
@@ -17,19 +17,22 @@ Updated: 2026-05-04T17:05:00.000Z
 - Pattern: `desiredState -> observedState -> healthState -> derived prose`.
 - Failure mode: Scorecards built on blended status fields create false precision and rewrite pressure.
 - Legacy compatibility: `status` remains present for existing consumers, but migrated projects derive it from the split model.
+- Rule: Scorecards consume split-state truth; they do not replace registry evidence.
+- Pattern: `desiredState -> observedState -> healthState -> scorecard -> recommended next action`.
+- Failure mode: Numeric scores without evidence explanations create false confidence.
 
 ## Projects
 
-| Slug | Name | Kind | Desired lifecycle | Observed proof | Health | Legacy status | Repo | Repo exists | Vercel | First next action |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| foundation | Fawxzzy Foundation | control-plane | active | current | healthy | active | fawxzzy/fawxzzy-foundation | yes | fawxzzy-foundation | Build explainable scorecards that consume healthState rather than the legacy blended status field |
-| playbook | Fawxzzy Playbook | governance-runtime | active | not-applicable | healthy | active | fawxzzy/fawxzzy-playbook | yes | - | adopt Playbook bootstrap in Foundation once package install is available |
-| atlas | ATLAS | workspace-architecture | - | - | - | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
-| fitness | Fawxzzy Fitness | application | active | current | warning | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness (primary), fawxzzy-fitness-prod-deploy (historical) | monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project |
-| lifeline | Fawxzzy Lifeline | operator-runtime | active | not-applicable | healthy | active | fawxzzy/fawxzzy-lifeline | yes | - | define Foundation lifeline target once deployment runtime is chosen |
-| mazer | Fawxzzy Mazer | application-game | - | - | - | active | fawxzzy/fawxzzy-mazer | yes | fawxzzy-mazer | surface build/runtime proof in Foundation console |
-| trove | Fawxzzy Trove | content-data | - | - | - | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | monitor future Trove deployment proof freshness |
-| nat-1-games | Nat 1 Games | application | - | - | - | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | refresh proof only from READY production deployments whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main |
+| Slug | Name | Kind | Desired lifecycle | Observed proof | Health | Scorecard | Legacy status | Repo | Repo exists | Vercel | First next action |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| foundation | Fawxzzy Foundation | control-plane | active | current | healthy | healthy 100/100 | active | fawxzzy/fawxzzy-foundation | yes | fawxzzy-foundation | Add approved registry change bundles keyed to reviewed draft hashes and affected slugs |
+| playbook | Fawxzzy Playbook | governance-runtime | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/fawxzzy-playbook | yes | - | adopt Playbook bootstrap in Foundation once package install is available |
+| atlas | ATLAS | workspace-architecture | - | - | - | - | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
+| fitness | Fawxzzy Fitness | application | active | current | warning | warning 85/100 | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness (primary), fawxzzy-fitness-prod-deploy (historical) | monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project |
+| lifeline | Fawxzzy Lifeline | operator-runtime | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/fawxzzy-lifeline | yes | - | define Foundation lifeline target once deployment runtime is chosen |
+| mazer | Fawxzzy Mazer | application-game | - | - | - | - | active | fawxzzy/fawxzzy-mazer | yes | fawxzzy-mazer | surface build/runtime proof in Foundation console |
+| trove | Fawxzzy Trove | content-data | - | - | - | - | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | monitor future Trove deployment proof freshness |
+| nat-1-games | Nat 1 Games | application | - | - | - | - | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | refresh proof only from READY production deployments whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main |
 
 
 ## Health Ledger
@@ -43,6 +46,12 @@ Updated: 2026-05-04T17:05:00.000Z
 - Health judgment: overall `healthy`, quality `clean`
 - Health summary: Desired control-plane role, live deployment evidence, and clean pinned proof currently align.
 - Legacy compatibility status: `active`
+- Scorecard: `healthy` 100/100
+- Score Evidence completeness: `pass` 25/25 - Split-state truth, deployment evidence, and promotion-proof lineage are all present.
+- Score Proof freshness: `pass` 25/25 - Proof is current, clean, and anchored to the pinned active-control-plane promotion proof.
+- Score Deployment posture: `pass` 25/25 - Foundation has a READY production deployment with clean observed provenance.
+- Score Data and security posture: `not-applicable` 25/25 - Foundation itself is not using an application database posture lane in this scorecard slice.
+- Score next action: Add approved registry change bundles keyed to reviewed draft hashes and affected slugs.
 - Overall health facet: `healthy` - Promotion proof stays pinned to the original active-control-plane deployment while the latest production parity is tracked separately.
 - GitHub: `verified` - GitHub repo exists, is public, and tracks main as the default branch. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel: `verified` - Vercel project is mapped under the fawxzzy team. (checked `2026-05-01T03:18:52.146Z`)
@@ -69,6 +78,13 @@ Updated: 2026-05-04T17:05:00.000Z
 - Health summary: The observed state is acceptable for the intended governance-runtime role, but Foundation visibility is still partial.
 - Health warning: Foundation has not yet ingested Playbook verification receipts or read interfaces.
 - Legacy compatibility status: `active`
+- Scorecard: `healthy` 90/100
+- Score Evidence completeness: `warn` 15/25 - Split-state truth is present, but Playbook verification receipts and read-interface evidence are not yet ingested.
+- Score Proof freshness: `not-applicable` 25/25 - No deployment proof target is defined for Playbook in Foundation yet.
+- Score Deployment posture: `not-applicable` 25/25 - Foundation does not currently track a deployment lane for Playbook.
+- Score Data and security posture: `not-applicable` 25/25 - No Playbook database or privacy posture lane is modeled in Foundation yet.
+- Score warning: Foundation has not yet ingested Playbook verification receipts or read interfaces.
+- Score next action: Adopt Playbook bootstrap in Foundation once package install is available.
 - Overall health facet: `tracked` - GitHub repo truth is recorded; deployment proof has not been introduced into Foundation yet.
 - GitHub: `verified` - GitHub repo exists and is recorded in Foundation. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel: `not-applicable` - No Vercel project is mapped for Playbook in Foundation yet. (checked `2026-05-01T03:18:52.146Z`)
@@ -95,6 +111,14 @@ Updated: 2026-05-04T17:05:00.000Z
 - Health warning: Supabase advisor evidence currently blocks stronger privacy posture claims for Fitness.
 - Health warning: Historical prod-deploy mapping remains documented until active inventory or remediation changes.
 - Legacy compatibility status: `active`
+- Scorecard: `warning` 85/100
+- Score Evidence completeness: `pass` 25/25 - Split-state truth, production deployment evidence, and Supabase observation data are all present.
+- Score Proof freshness: `pass` 25/25 - Deployment proof is current and clean on the primary Fitness Vercel project.
+- Score Deployment posture: `pass` 25/25 - Primary production deployment is READY, while the legacy prod-deploy lane is retained only as historical inventory.
+- Score Data and security posture: `warn` 10/25 - Supabase advisor evidence is present, but current findings still block stronger privacy and data-security claims.
+- Score warning: Supabase advisor evidence currently blocks stronger privacy posture claims for Fitness.
+- Score warning: Historical prod-deploy mapping remains documented until active inventory or remediation changes.
+- Score next action: Turn the blocked Supabase privacy posture into Fitness-owned remediation tracking.
 - Overall health facet: `deployment-observed` - GitHub repo is public, the primary Vercel production deployment is proved, and the legacy fawxzzy-fitness-prod-deploy lane is now classified as historical.
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Primary Vercel project is visible under the fawxzzy team. The recorded fawxzzy-fitness-prod-deploy project ID now returns 404 and is absent from the current team inventory, so Foundation keeps it only as a historical mapping. (checked `2026-05-02T18:04:46.3873760Z`)
@@ -119,6 +143,13 @@ Updated: 2026-05-04T17:05:00.000Z
 - Health summary: The intended operator-runtime role is clear, but Foundation still has partial observation of Lifeline outcomes.
 - Health warning: Foundation has not yet ingested Lifeline execution receipts or rollback-state evidence.
 - Legacy compatibility status: `active`
+- Scorecard: `healthy` 90/100
+- Score Evidence completeness: `warn` 15/25 - Split-state truth is present, but Lifeline execution receipts and rollback evidence are not yet projected into Foundation.
+- Score Proof freshness: `not-applicable` 25/25 - No deployment proof target is defined for Lifeline yet.
+- Score Deployment posture: `not-applicable` 25/25 - Foundation does not currently track a deployment lane for Lifeline.
+- Score Data and security posture: `not-applicable` 25/25 - No Lifeline database or privacy posture lane is modeled in Foundation yet.
+- Score warning: Foundation has not yet ingested Lifeline execution receipts or rollback-state evidence.
+- Score next action: Define Foundation Lifeline target once deployment runtime is chosen.
 - Overall health facet: `tracked` - GitHub repo truth is recorded; deployment proof will follow once Lifeline runtime targets are formalized.
 - GitHub: `verified` - GitHub repo exists and is recorded in Foundation. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel: `not-applicable` - No Vercel project is mapped for Lifeline. (checked `2026-05-01T03:18:52.146Z`)
