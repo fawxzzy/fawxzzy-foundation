@@ -82,6 +82,10 @@ Non-goals:
 Goal:
 Inventory and govern the private data layer, starting with the existing `FawxzzyFitness` Supabase project.
 
+Current build lane:
+
+- Phase 4A introduces the first read-only Supabase inventory draft so Foundation can represent database and security posture without mutating Supabase.
+
 Initial contracts:
 
 - Supabase project inventory.

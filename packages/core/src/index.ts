@@ -8,6 +8,15 @@ export type FoundationRepo = {
   defaultBranch?: string;
 };
 
+export type FoundationSupabaseProject = {
+  projectRef: string;
+  name: string;
+  region: string;
+  status: string;
+  postgresVersion: string;
+  observedAt?: string;
+};
+
 export type FoundationVercelProject = {
   name: string;
   id?: string;
@@ -244,6 +253,7 @@ export type FoundationProject = {
   priority: number;
   summary: string;
   repo: FoundationRepo;
+  supabase?: FoundationSupabaseProject;
   vercel?: {
     exists: boolean;
     teamSlug: string;

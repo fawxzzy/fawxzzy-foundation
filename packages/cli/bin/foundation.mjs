@@ -117,6 +117,25 @@ async function proofRefresh(args) {
   await runScript("scripts/render-proof-refresh-draft.mjs", scriptArgs);
 }
 
+async function supabaseCommand(args) {
+  const [subcommand, nested, ...rest] = args;
+  if (subcommand !== "inventory" || nested !== "--draft") {
+    throw new Error("Usage: foundation supabase inventory --draft --input <path>");
+  }
+
+  const inputIndex = rest.indexOf("--input");
+  if (inputIndex === -1) {
+    throw new Error("Supabase inventory draft requires --input <path>.");
+  }
+
+  const inputPath = rest[inputIndex + 1];
+  if (!inputPath || inputPath.startsWith("--")) {
+    throw new Error("Missing path after --input.");
+  }
+
+  await runScript("scripts/render-supabase-inventory-draft.mjs", ["--input", inputPath]);
+}
+
 function help() {
   console.log(`Foundation CLI
 
@@ -125,6 +144,8 @@ Commands:
   projects [--json]    List registered projects
   proof refresh --draft [--observations <path>]
                        Generate a proposal-only proof refresh draft
+  supabase inventory --draft --input <path>
+                       Render a read-only Supabase inventory draft
   doctor               Run local verification
   help                 Show this help
 `);
@@ -137,6 +158,7 @@ try {
   if (command === "status") await status({ json: wantsJson });
   else if (command === "projects") await projects({ json: wantsJson });
   else if (command === "proof") await proofRefresh(args);
+  else if (command === "supabase") await supabaseCommand(args);
   else if (command === "doctor") await doctor();
   else if (command === "help" || command === "--help" || command === "-h") help();
   else {

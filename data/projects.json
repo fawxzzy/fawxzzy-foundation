@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-05-04T00:51:05.2415863Z",
-  "source": "phase-3c-provider-observation-capture-pack",
+  "updatedAt": "2026-05-04T01:24:40.1784834Z",
+  "source": "phase-4a-supabase-inventory-draft",
   "owner": "fawxzzy",
   "principles": [
     "private-first runtime artifacts",
@@ -95,10 +95,12 @@
         "packages/contracts/proof-refresh-draft.schema.json",
         "packages/contracts/provider-capture.schema.json",
         "packages/contracts/provider-observations.schema.json",
+        "packages/contracts/supabase-inventory-draft.schema.json",
         "docs/roadmap/FOUNDATION_ROADMAP.md",
         "docs/operations/PROOF_REFRESH.md",
         "docs/operations/PROVIDER_CAPTURE.md",
-        "docs/operations/PROVIDER_OBSERVATIONS.md"
+        "docs/operations/PROVIDER_OBSERVATIONS.md",
+        "docs/operations/SUPABASE_INVENTORY.md"
       ],
       "promotion": {
         "label": "active control-plane",
@@ -188,6 +190,7 @@
       "nextActions": [
         "Generate proposal-only proof refresh drafts without changing the pinned active-control-plane promotion proof",
         "Normalize manually captured provider evidence into provider-observations inputs",
+        "Render the first read-only Supabase inventory draft for the Fitness project",
         "Keep generated registry surfaces aligned with data/projects.json",
         "Expand deployment health coverage for downstream project surfaces"
       ]
@@ -376,6 +379,14 @@
         "visibility": "public",
         "defaultBranch": "main"
       },
+      "supabase": {
+        "projectRef": "lpswxoyfniocuhljgzbc",
+        "name": "FawxzzyFitness",
+        "region": "us-west-2",
+        "status": "ACTIVE_HEALTHY",
+        "postgresVersion": "17.6.1.104",
+        "observedAt": "2026-05-04T01:24:40.1784834Z"
+      },
       "vercel": {
         "exists": true,
         "teamSlug": "fawxzzy",
@@ -447,6 +458,7 @@
       "nextActions": [
         "monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project",
         "keep the historical fawxzzy-fitness-prod-deploy mapping documented unless it reappears in active team inventory",
+        "capture a read-only Supabase inventory draft before making any privacy or security posture claims",
         "surface deployment health in Foundation console"
       ]
     },

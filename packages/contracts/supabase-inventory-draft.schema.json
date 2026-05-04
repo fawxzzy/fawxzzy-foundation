@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fawxzzy.dev/contracts/supabase-inventory-draft.schema.json",
+  "title": "Foundation Supabase Inventory Draft",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "status",
+    "mutationAuthority",
+    "generatedAt",
+    "input",
+    "project",
+    "database",
+    "migrations",
+    "extensions",
+    "edgeFunctions",
+    "advisors",
+    "posture"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "status": {
+      "type": "string",
+      "const": "proposal-only"
+    },
+    "mutationAuthority": {
+      "type": "string",
+      "const": "none"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "input": {
+      "type": "object",
+      "required": ["path", "captureMode", "generatedAt"],
+      "properties": {
+        "path": { "type": "string" },
+        "captureMode": {
+          "type": "string",
+          "enum": ["example", "operator-capture"]
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "project": {
+      "type": "object",
+      "required": ["slug", "projectRef", "projectName", "region", "status", "postgresVersion", "observedAt"],
+      "properties": {
+        "slug": { "type": "string" },
+        "projectRef": { "type": "string" },
+        "projectName": { "type": "string" },
+        "region": { "type": "string" },
+        "status": { "type": "string" },
+        "postgresVersion": { "type": "string" },
+        "observedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "database": {
+      "type": "object",
+      "required": ["schemas", "tables", "rlsSummary"],
+      "properties": {
+        "schemas": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["schema", "tableCount"],
+            "properties": {
+              "schema": { "type": "string" },
+              "tableCount": { "type": "integer", "minimum": 0 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "tables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "schema", "rlsEnabled", "rows"],
+            "properties": {
+              "name": { "type": "string" },
+              "schema": { "type": "string" },
+              "rlsEnabled": { "type": "boolean" },
+              "rows": { "type": "integer", "minimum": 0 },
+              "comment": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "rlsSummary": {
+          "type": "object",
+          "required": ["enabledTables", "disabledTables", "disabledTableNames"],
+          "properties": {
+            "enabledTables": { "type": "integer", "minimum": 0 },
+            "disabledTables": { "type": "integer", "minimum": 0 },
+            "disabledTableNames": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "migrations": {
+      "type": "object",
+      "required": ["count", "latestVersion", "items"],
+      "properties": {
+        "count": { "type": "integer", "minimum": 0 },
+        "latestVersion": { "type": ["string", "null"] },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["version", "name"],
+            "properties": {
+              "version": { "type": "string" },
+              "name": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "extensions": {
+      "type": "object",
+      "required": ["installedCount", "installed"],
+      "properties": {
+        "installedCount": { "type": "integer", "minimum": 0 },
+        "installed": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string" },
+              "schema": { "type": ["string", "null"] },
+              "installedVersion": { "type": ["string", "null"] },
+              "defaultVersion": { "type": ["string", "null"] }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "edgeFunctions": {
+      "type": "object",
+      "required": ["count", "items"],
+      "properties": {
+        "count": { "type": "integer", "minimum": 0 },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["slug"],
+            "properties": {
+              "slug": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "advisors": {
+      "type": "object",
+      "required": ["security", "performance"],
+      "properties": {
+        "security": {
+          "type": "object",
+          "required": ["observationMode", "summary"],
+          "properties": {
+            "observationMode": {
+              "type": "string",
+              "enum": ["manual", "connector-unavailable"]
+            },
+            "summary": { "type": "string" },
+            "findingsCount": { "type": ["integer", "null"], "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "performance": {
+          "type": "object",
+          "required": ["observationMode", "summary"],
+          "properties": {
+            "observationMode": {
+              "type": "string",
+              "enum": ["manual", "connector-unavailable"]
+            },
+            "summary": { "type": "string" },
+            "findingsCount": { "type": ["integer", "null"], "minimum": 0 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "posture": {
+      "type": "object",
+      "required": ["rlsSecurityPosture", "privacyClaimPosture", "summary"],
+      "properties": {
+        "rlsSecurityPosture": {
+          "type": "string",
+          "enum": ["protected", "mixed", "unprotected", "unknown"]
+        },
+        "privacyClaimPosture": {
+          "type": "string",
+          "enum": ["unclaimed", "draft", "proved", "blocked"]
+        },
+        "summary": { "type": "string" },
+        "blockedReasons": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

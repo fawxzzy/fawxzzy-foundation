@@ -1,0 +1,118 @@
+{
+  "$schema": "../packages/contracts/supabase-inventory-draft.schema.json",
+  "schemaVersion": 1,
+  "status": "proposal-only",
+  "mutationAuthority": "none",
+  "generatedAt": "2026-05-04T01:30:00.000Z",
+  "input": {
+    "path": "fixtures/supabase-inventory.example.json",
+    "captureMode": "example",
+    "generatedAt": "2026-05-04T01:30:00.000Z"
+  },
+  "project": {
+    "slug": "fitness",
+    "projectRef": "examplefitnessref",
+    "projectName": "FawxzzyFitness",
+    "region": "us-west-2",
+    "status": "ACTIVE_HEALTHY",
+    "postgresVersion": "17.6.1.104",
+    "observedAt": "2026-05-04T01:30:00.000Z"
+  },
+  "database": {
+    "schemas": [
+      {
+        "schema": "public",
+        "tableCount": 5
+      },
+      {
+        "schema": "auth",
+        "tableCount": 4
+      }
+    ],
+    "tables": [
+      {
+        "name": "profiles",
+        "schema": "public",
+        "rlsEnabled": true,
+        "rows": 10,
+        "comment": "Example profile table."
+      },
+      {
+        "name": "sessions",
+        "schema": "public",
+        "rlsEnabled": true,
+        "rows": 25,
+        "comment": "Example workout sessions table."
+      },
+      {
+        "name": "users",
+        "schema": "auth",
+        "rlsEnabled": true,
+        "rows": 12,
+        "comment": "Example auth users table."
+      }
+    ],
+    "rlsSummary": {
+      "enabledTables": 3,
+      "disabledTables": 0,
+      "disabledTableNames": []
+    }
+  },
+  "migrations": {
+    "count": 3,
+    "latestVersion": "003",
+    "items": [
+      {
+        "version": "001",
+        "name": "init"
+      },
+      {
+        "version": "002",
+        "name": "routines"
+      },
+      {
+        "version": "003",
+        "name": "sets_reps_history"
+      }
+    ]
+  },
+  "extensions": {
+    "installedCount": 2,
+    "installed": [
+      {
+        "name": "pgcrypto",
+        "schema": "extensions",
+        "installedVersion": "1.3",
+        "defaultVersion": "1.3"
+      },
+      {
+        "name": "uuid-ossp",
+        "schema": "extensions",
+        "installedVersion": "1.1",
+        "defaultVersion": "1.1"
+      }
+    ]
+  },
+  "edgeFunctions": {
+    "count": 0,
+    "items": []
+  },
+  "advisors": {
+    "security": {
+      "observationMode": "manual",
+      "summary": "Example only. No live advisor findings recorded in this fixture.",
+      "findingsCount": 0
+    },
+    "performance": {
+      "observationMode": "manual",
+      "summary": "Example only. No live advisor findings recorded in this fixture.",
+      "findingsCount": 0
+    }
+  },
+  "posture": {
+    "rlsSecurityPosture": "protected",
+    "privacyClaimPosture": "draft",
+    "summary": "Example inventory is RLS-protected in the sampled tables, but privacy claims remain draft until live security evidence is reviewed.",
+    "blockedReasons": []
+  }
+}

@@ -49,10 +49,12 @@ const requiredFiles = [
   "packages/contracts/proof-refresh-draft.schema.json",
   "packages/contracts/provider-capture.schema.json",
   "packages/contracts/provider-observations.schema.json",
+  "packages/contracts/supabase-inventory-draft.schema.json",
   "scripts/render-registry.mjs",
   "scripts/render-console-data.mjs",
   "scripts/normalize-provider-observations.mjs",
   "scripts/render-proof-refresh-draft.mjs",
+  "scripts/render-supabase-inventory-draft.mjs",
   "scripts/serve-console.mjs",
   "docs/architecture/FOUNDATION_BLUEPRINT.md",
   "docs/architecture/PROJECT_REGISTRY.md",
@@ -60,8 +62,10 @@ const requiredFiles = [
   "docs/operations/PROOF_REFRESH.md",
   "docs/operations/PROVIDER_CAPTURE.md",
   "docs/operations/PROVIDER_OBSERVATIONS.md",
+  "docs/operations/SUPABASE_INVENTORY.md",
   "fixtures/provider-capture.example.json",
   "fixtures/provider-observations.example.json",
+  "fixtures/supabase-inventory.example.json",
   "apps/console/public/index.html",
   "apps/console/public/assets/main.js",
   "apps/console/public/assets/styles.css",
@@ -197,7 +201,7 @@ function validateExampleFixture(filePath, fixture) {
   }
 
   if (filePath.endsWith(".example.json")) {
-    if (fixture.captureMode !== "example") {
+    if (fixture.captureMode !== undefined && fixture.captureMode !== "example") {
       errors.push(`${filePath} captureMode must be example`);
     }
     if (!isIsoTimestamp(fixture.generatedAt)) {
@@ -247,7 +251,9 @@ for (const runtimeArtifact of [
   ".foundation/proof-refresh-draft.json",
   ".foundation/proof-refresh-draft.md",
   ".foundation/provider-observations.normalized.json",
-  ".foundation/provider-observations.normalized.md"
+  ".foundation/provider-observations.normalized.md",
+  ".foundation/supabase-inventory-draft.json",
+  ".foundation/supabase-inventory-draft.md"
 ]) {
   if (isGitTracked(runtimeArtifact)) {
     errors.push(`${runtimeArtifact} must remain untracked runtime output`);
@@ -286,6 +292,27 @@ for (const fixtureFile of fixtureFiles) {
       (fixture.supabase?.projects?.length ?? 0);
     if (hasProviderEvidence === 0) {
       errors.push(`${fixtureFile} must include at least one provider evidence entry`);
+    }
+  }
+
+  if (fixtureFile === "fixtures/supabase-inventory.example.json") {
+    if (fixture.schemaVersion !== 1) {
+      errors.push(`${fixtureFile} schemaVersion must be 1`);
+    }
+    if (fixture.status !== "proposal-only") {
+      errors.push(`${fixtureFile} status must be proposal-only`);
+    }
+    if (fixture.mutationAuthority !== "none") {
+      errors.push(`${fixtureFile} mutationAuthority must be none`);
+    }
+    if (!fixture.project?.projectRef || !fixture.project?.projectName) {
+      errors.push(`${fixtureFile} must include project ref and project name`);
+    }
+    if (!Array.isArray(fixture.database?.tables) || fixture.database.tables.length === 0) {
+      errors.push(`${fixtureFile} must include at least one table summary`);
+    }
+    if (!fixture.posture?.privacyClaimPosture || !["unclaimed", "draft", "proved", "blocked"].includes(fixture.posture.privacyClaimPosture)) {
+      errors.push(`${fixtureFile} privacyClaimPosture must be unclaimed, draft, proved, or blocked`);
     }
   }
 }
