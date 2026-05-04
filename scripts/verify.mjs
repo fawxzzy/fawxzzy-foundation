@@ -36,7 +36,17 @@ const proofQualityCatalog = {
 };
 const proofQualityStates = new Set(Object.keys(proofQualityCatalog));
 const warningClasses = new Map();
-const migratedSplitStateProjects = new Set(["foundation", "fitness", "playbook", "lifeline"]);
+const splitStateRequiredProjects = new Set([
+  "foundation",
+  "fitness",
+  "playbook",
+  "lifeline",
+  "atlas",
+  "mazer",
+  "trove",
+  "nat-1-games"
+]);
+const scorecardRequiredProjects = new Set(["foundation", "fitness", "playbook", "lifeline"]);
 const desiredLifecycleStates = new Set(["active", "incubating", "observed-deployment", "planned", "historical"]);
 const desiredRoleStates = new Set(["control-plane", "application", "governance-runtime", "operator-runtime", "workspace-architecture"]);
 const observedRepoStates = new Set(["verified", "missing", "private-source", "not-applicable", "unknown"]);
@@ -484,10 +494,10 @@ if (registry) {
     if (slugs.has(project.slug)) errors.push(`Duplicate project slug: ${project.slug}`);
     slugs.add(project.slug);
 
-    if (migratedSplitStateProjects.has(project.slug)) {
+    if (splitStateRequiredProjects.has(project.slug)) {
       validateSplitState(label, project);
     }
-    validateScorecard(label, project, migratedSplitStateProjects.has(project.slug));
+    validateScorecard(label, project, scorecardRequiredProjects.has(project.slug));
 
     if (!project.repo?.fullName) errors.push(`${label}: missing repo.fullName`);
     if (project.repo?.fullName) repoNames.add(project.repo.fullName);

@@ -1,11 +1,11 @@
 {
   "build": {
-    "generatedAt": "2026-05-04T03:49:36.866Z",
+    "generatedAt": "2026-05-04T04:43:11.510Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-04T18:10:00.000Z",
+    "updatedAt": "2026-05-04T19:35:00.000Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
@@ -281,6 +281,28 @@
       "status": "active",
       "priority": 2,
       "summary": "Architecture and workspace inventory layer for the broader Fawxzzy stack.",
+      "desiredState": {
+        "lifecycle": "active",
+        "role": "workspace-architecture",
+        "summary": "ATLAS should remain the stack boundary, coordination layer, and workspace architecture inventory for the project family.",
+        "ownerIntent": "Foundation should project ATLAS coordination truth without replacing the stack root or treating it like an application runtime."
+      },
+      "observedState": {
+        "repo": "verified",
+        "deployment": "not-applicable",
+        "database": "not-applicable",
+        "proof": "not-applicable",
+        "summary": "Foundation verifies the public ATLAS source repo and intentionally does not expect a deployment or database surface from the workspace architecture layer."
+      },
+      "healthState": {
+        "overall": "healthy",
+        "quality": "advisory",
+        "warnings": [
+          "ATLAS is intentionally tracked as a coordination and architecture repo without a deployment-proof lane."
+        ],
+        "blockers": [],
+        "summary": "The observed repo-only state matches the intended workspace-architecture role, but Foundation still treats ATLAS as a read-first coordination surface rather than a scored runtime."
+      },
       "repo": {
         "owner": "fawxzzy",
         "name": "ATLAS",
@@ -755,6 +777,26 @@
       "status": "active",
       "priority": 3,
       "summary": "Interactive/game application surface.",
+      "desiredState": {
+        "lifecycle": "active",
+        "role": "application",
+        "summary": "Mazer should remain an active application surface with current deployment proof and owner-repo implementation truth kept outside Foundation.",
+        "ownerIntent": "Track READY production proof and repo ownership without inventing data or governance claims that Mazer has not published yet."
+      },
+      "observedState": {
+        "repo": "verified",
+        "deployment": "ready",
+        "database": "unknown",
+        "proof": "current",
+        "summary": "Foundation observes a verified public repo, READY production deployment, and current clean proof for Mazer, but no database posture is modeled here yet."
+      },
+      "healthState": {
+        "overall": "healthy",
+        "quality": "clean",
+        "warnings": [],
+        "blockers": [],
+        "summary": "Desired application ownership, live deployment evidence, and current clean proof are aligned for Mazer."
+      },
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-mazer",
@@ -836,6 +878,26 @@
       "status": "active",
       "priority": 3,
       "summary": "Curated content/data collection project surface.",
+      "desiredState": {
+        "lifecycle": "active",
+        "role": "application",
+        "summary": "Trove should remain an active content and data application surface with current deployment proof and owner-repo truth preserved.",
+        "ownerIntent": "Track clean production proof and project identity while leaving future governance and data-contract expansion in the Trove owner repo until explicit contracts exist."
+      },
+      "observedState": {
+        "repo": "verified",
+        "deployment": "ready",
+        "database": "unknown",
+        "proof": "current",
+        "summary": "Foundation observes a verified public repo, READY production deployment, and current clean proof for Trove, but no database or privacy posture lane is modeled yet."
+      },
+      "healthState": {
+        "overall": "healthy",
+        "quality": "clean",
+        "warnings": [],
+        "blockers": [],
+        "summary": "Desired application ownership, live deployment evidence, and current clean proof are aligned for Trove."
+      },
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-trove",
@@ -914,6 +976,26 @@
       "status": "observed-deployment",
       "priority": 4,
       "summary": "Production deployment proof is captured from Vercel, and the intentionally private source is accepted via explicit Vercel provenance.",
+      "desiredState": {
+        "lifecycle": "observed-deployment",
+        "role": "application",
+        "summary": "Nat 1 Games should remain a deployment-observed application in Foundation while its intentionally private source stays outside public repo verification.",
+        "ownerIntent": "Track READY production proof and accepted private-source provenance without weakening the explicit policy boundary for the private GitHub repo."
+      },
+      "observedState": {
+        "repo": "private-source",
+        "deployment": "ready",
+        "database": "unknown",
+        "proof": "current",
+        "summary": "Foundation observes accepted private-source provenance from Vercel, a READY production deployment, and current proof for Nat 1 Games without direct GitHub repo access."
+      },
+      "healthState": {
+        "overall": "healthy",
+        "quality": "accepted-private-source",
+        "warnings": [],
+        "blockers": [],
+        "summary": "Observed deployment evidence and accepted private-source provenance align with the intended observed-deployment role for Nat 1 Games."
+      },
       "repo": {
         "owner": "ZachariahRedfield",
         "name": "nat1-games",

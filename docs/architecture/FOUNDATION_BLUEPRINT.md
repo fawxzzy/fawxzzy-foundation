@@ -60,6 +60,7 @@ Each project has:
 - Rule: scorecards consume split-state truth; they do not replace registry evidence.
 - Pattern: `desiredState -> observedState -> healthState -> scorecard -> recommended next action`.
 - Failure mode: numeric scores without evidence explanations create false confidence.
+- Rule: split-state migration should complete across the full registry before scorecard parity or deployment parity claims are treated as complete.
 
 ## Proof quality policy
 

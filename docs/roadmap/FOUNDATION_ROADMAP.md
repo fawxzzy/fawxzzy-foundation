@@ -88,6 +88,7 @@ Current build lane:
 - Phase 4B adds live advisor evidence, schema scope classification, and split RLS posture so privacy claim posture can stay conservative for the right reasons instead of collapsing everything into a single mixed-RLS label.
 - Phase 4D now precedes scorecards: desired state, observed state, and health judgment must be separate machine fields before Phase 4C adds scorecards on top of `healthState`.
 - Phase 4C adds explainable health scorecards for migrated split-state projects only. Scorecards summarize evidence completeness, proof freshness, deployment posture, and data/security posture without inventing new claims.
+- Phase 4D-B completes split-state migration for `atlas`, `mazer`, `trove`, and `nat-1-games` without changing their existing proof facts or accepted-private-source policy.
 
 Initial contracts:
 
@@ -120,7 +121,7 @@ Scorecard rules:
 
 - Scorecards consume split-state truth; they do not replace registry evidence.
 - Each score must remain explainable through dimension summaries, warnings, blockers, and a recommended next action.
-- Non-migrated projects remain unscored until split-state migration is complete.
+- Projects may remain unscored until scorecard coverage is intentionally extended, even after split-state migration is complete.
 
 ## Phase 5 - Playbook read-interface bridge
 
