@@ -36,6 +36,15 @@ const proofQualityCatalog = {
 };
 const proofQualityStates = new Set(Object.keys(proofQualityCatalog));
 const warningClasses = new Map();
+const migratedSplitStateProjects = new Set(["foundation", "fitness", "playbook", "lifeline"]);
+const desiredLifecycleStates = new Set(["active", "incubating", "observed-deployment", "planned", "historical"]);
+const desiredRoleStates = new Set(["control-plane", "application", "governance-runtime", "operator-runtime", "workspace-architecture"]);
+const observedRepoStates = new Set(["verified", "missing", "private-source", "not-applicable", "unknown"]);
+const observedDeploymentStates = new Set(["ready", "missing", "not-applicable", "unknown"]);
+const observedDatabaseStates = new Set(["observed", "not-applicable", "unknown"]);
+const observedProofStates = new Set(["current", "stale", "pending", "not-applicable"]);
+const healthOverallStates = new Set(["healthy", "warning", "blocked", "unknown"]);
+const healthQualityStates = new Set(["clean", "accepted-private-source", "advisory", "blocked"]);
 
 const requiredFiles = [
   "README.md",
@@ -223,6 +232,69 @@ function validateHealthFacet(projectLabel, facetName, facet) {
   }
 }
 
+function validateSplitState(projectLabel, project) {
+  if (!project.desiredState || typeof project.desiredState !== "object") {
+    errors.push(`${projectLabel}: desiredState is required for migrated projects`);
+    return;
+  }
+  if (!desiredLifecycleStates.has(project.desiredState.lifecycle)) {
+    errors.push(`${projectLabel}: desiredState.lifecycle must be a supported lifecycle`);
+  }
+  if (!desiredRoleStates.has(project.desiredState.role)) {
+    errors.push(`${projectLabel}: desiredState.role must be a supported role`);
+  }
+  if (!project.desiredState.summary || typeof project.desiredState.summary !== "string") {
+    errors.push(`${projectLabel}: desiredState.summary is required`);
+  }
+  if (!project.desiredState.ownerIntent || typeof project.desiredState.ownerIntent !== "string") {
+    errors.push(`${projectLabel}: desiredState.ownerIntent is required`);
+  }
+
+  if (!project.observedState || typeof project.observedState !== "object") {
+    errors.push(`${projectLabel}: observedState is required for migrated projects`);
+  } else {
+    if (!observedRepoStates.has(project.observedState.repo)) {
+      errors.push(`${projectLabel}: observedState.repo must be a supported state`);
+    }
+    if (!observedDeploymentStates.has(project.observedState.deployment)) {
+      errors.push(`${projectLabel}: observedState.deployment must be a supported state`);
+    }
+    if (!observedDatabaseStates.has(project.observedState.database)) {
+      errors.push(`${projectLabel}: observedState.database must be a supported state`);
+    }
+    if (!observedProofStates.has(project.observedState.proof)) {
+      errors.push(`${projectLabel}: observedState.proof must be a supported state`);
+    }
+    if (!project.observedState.summary || typeof project.observedState.summary !== "string") {
+      errors.push(`${projectLabel}: observedState.summary is required`);
+    }
+  }
+
+  if (!project.healthState || typeof project.healthState !== "object") {
+    errors.push(`${projectLabel}: healthState is required for migrated projects`);
+  } else {
+    if (!healthOverallStates.has(project.healthState.overall)) {
+      errors.push(`${projectLabel}: healthState.overall must be a supported state`);
+    }
+    if (!healthQualityStates.has(project.healthState.quality)) {
+      errors.push(`${projectLabel}: healthState.quality must be a supported state`);
+    }
+    if (!Array.isArray(project.healthState.warnings)) {
+      errors.push(`${projectLabel}: healthState.warnings must be an array`);
+    }
+    if (!Array.isArray(project.healthState.blockers)) {
+      errors.push(`${projectLabel}: healthState.blockers must be an array`);
+    }
+    if (!project.healthState.summary || typeof project.healthState.summary !== "string") {
+      errors.push(`${projectLabel}: healthState.summary is required`);
+    }
+  }
+
+  if (project.status !== project.desiredState.lifecycle) {
+    errors.push(`${projectLabel}: legacy status must match desiredState.lifecycle for migrated projects`);
+  }
+}
+
 for (const file of requiredFiles) {
   if (!(await exists(file))) {
     errors.push(`Missing required file: ${file}`);
@@ -348,6 +420,10 @@ if (registry) {
     if (typeof project.priority !== "number") errors.push(`${label}: priority must be a number`);
     if (slugs.has(project.slug)) errors.push(`Duplicate project slug: ${project.slug}`);
     slugs.add(project.slug);
+
+    if (migratedSplitStateProjects.has(project.slug)) {
+      validateSplitState(label, project);
+    }
 
     if (!project.repo?.fullName) errors.push(`${label}: missing repo.fullName`);
     if (project.repo?.fullName) repoNames.add(project.repo.fullName);
@@ -512,6 +588,11 @@ if (registry) {
 if (registry && consoleData) {
   if (consoleData.summary?.totalProjects !== registry.projects.length) {
     errors.push("Console data project count does not match registry. Run pnpm build.");
+  }
+
+  const activeProjects = registry.projects.filter((project) => (project.desiredState?.lifecycle ?? project.status) === "active").length;
+  if (consoleData.summary?.activeProjects !== activeProjects) {
+    errors.push("Console data active project count does not match registry. Run pnpm build.");
   }
 
   const staleProofProjects = (consoleData.projects ?? []).filter((project) => project.health?.proof?.isStale).length;

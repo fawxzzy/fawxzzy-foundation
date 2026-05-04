@@ -2,7 +2,7 @@
 
 Generated from `data/projects.json`. Do not hand-edit this file unless the generator is also updated.
 
-Updated: 2026-05-04T15:30:00.000Z
+Updated: 2026-05-04T17:05:00.000Z
 
 ## Summary
 
@@ -11,24 +11,39 @@ Updated: 2026-05-04T15:30:00.000Z
 - Active projects: 7
 - Deployment-mapped projects: 5
 
+## State Model
+
+- Rule: Desired state, observed state, and health judgment must remain separate machine fields.
+- Pattern: `desiredState -> observedState -> healthState -> derived prose`.
+- Failure mode: Scorecards built on blended status fields create false precision and rewrite pressure.
+- Legacy compatibility: `status` remains present for existing consumers, but migrated projects derive it from the split model.
+
 ## Projects
 
-| Slug | Name | Kind | Status | Repo | Repo exists | Vercel | First next action |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| foundation | Fawxzzy Foundation | control-plane | active | fawxzzy/fawxzzy-foundation | yes | fawxzzy-foundation | Generate proposal-only proof refresh drafts without changing the pinned active-control-plane promotion proof |
-| playbook | Fawxzzy Playbook | governance-runtime | active | fawxzzy/fawxzzy-playbook | yes | - | adopt Playbook bootstrap in Foundation once package install is available |
-| atlas | ATLAS | workspace-architecture | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
-| fitness | Fawxzzy Fitness | application | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness (primary), fawxzzy-fitness-prod-deploy (historical) | monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project |
-| lifeline | Fawxzzy Lifeline | operator-runtime | active | fawxzzy/fawxzzy-lifeline | yes | - | define Foundation lifeline target once deployment runtime is chosen |
-| mazer | Fawxzzy Mazer | application-game | active | fawxzzy/fawxzzy-mazer | yes | fawxzzy-mazer | surface build/runtime proof in Foundation console |
-| trove | Fawxzzy Trove | content-data | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | monitor future Trove deployment proof freshness |
-| nat-1-games | Nat 1 Games | application | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | refresh proof only from READY production deployments whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main |
+| Slug | Name | Kind | Desired lifecycle | Observed proof | Health | Legacy status | Repo | Repo exists | Vercel | First next action |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| foundation | Fawxzzy Foundation | control-plane | active | current | healthy | active | fawxzzy/fawxzzy-foundation | yes | fawxzzy-foundation | Build explainable scorecards that consume healthState rather than the legacy blended status field |
+| playbook | Fawxzzy Playbook | governance-runtime | active | not-applicable | healthy | active | fawxzzy/fawxzzy-playbook | yes | - | adopt Playbook bootstrap in Foundation once package install is available |
+| atlas | ATLAS | workspace-architecture | - | - | - | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
+| fitness | Fawxzzy Fitness | application | active | current | warning | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness (primary), fawxzzy-fitness-prod-deploy (historical) | monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project |
+| lifeline | Fawxzzy Lifeline | operator-runtime | active | not-applicable | healthy | active | fawxzzy/fawxzzy-lifeline | yes | - | define Foundation lifeline target once deployment runtime is chosen |
+| mazer | Fawxzzy Mazer | application-game | - | - | - | active | fawxzzy/fawxzzy-mazer | yes | fawxzzy-mazer | surface build/runtime proof in Foundation console |
+| trove | Fawxzzy Trove | content-data | - | - | - | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | monitor future Trove deployment proof freshness |
+| nat-1-games | Nat 1 Games | application | - | - | - | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | refresh proof only from READY production deployments whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main |
 
 
 ## Health Ledger
 
 ### Fawxzzy Foundation
-- Overall health: `healthy` - Promotion proof stays pinned to the original active-control-plane deployment while the latest production parity is tracked separately.
+- Desired: lifecycle `active`, role `control-plane`
+- Desired summary: Foundation should remain the active read-first control plane for the project family.
+- Owner intent: Project registry truth, proof health, privacy posture, and operator status stay here without taking execution authority.
+- Observed: repo `verified`, deployment `ready`, database `not-applicable`, proof `current`
+- Observed summary: Foundation is publicly versioned, mapped to production on Vercel, and its pinned promotion proof remains current.
+- Health judgment: overall `healthy`, quality `clean`
+- Health summary: Desired control-plane role, live deployment evidence, and clean pinned proof currently align.
+- Legacy compatibility status: `active`
+- Overall health facet: `healthy` - Promotion proof stays pinned to the original active-control-plane deployment while the latest production parity is tracked separately.
 - GitHub: `verified` - GitHub repo exists, is public, and tracks main as the default branch. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel: `verified` - Vercel project is mapped under the fawxzzy team. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel projects: `fawxzzy-foundation`
@@ -45,7 +60,16 @@ Updated: 2026-05-04T15:30:00.000Z
 - Latest observed deployment id: `dpl_DSsSc2vNP3bGJZWZvAoCeFjrLuwJ`
 
 ### Fawxzzy Playbook
-- Overall health: `tracked` - GitHub repo truth is recorded; deployment proof has not been introduced into Foundation yet.
+- Desired: lifecycle `active`, role `governance-runtime`
+- Desired summary: Playbook should be the deterministic governance and verification runtime for repo-local truth.
+- Owner intent: Foundation should ingest Playbook read surfaces and receipts without re-implementing Playbook execution.
+- Observed: repo `verified`, deployment `not-applicable`, database `not-applicable`, proof `not-applicable`
+- Observed summary: Foundation currently verifies Playbook source ownership, but no deployment or proof target is defined here yet.
+- Health judgment: overall `healthy`, quality `advisory`
+- Health summary: The observed state is acceptable for the intended governance-runtime role, but Foundation visibility is still partial.
+- Health warning: Foundation has not yet ingested Playbook verification receipts or read interfaces.
+- Legacy compatibility status: `active`
+- Overall health facet: `tracked` - GitHub repo truth is recorded; deployment proof has not been introduced into Foundation yet.
 - GitHub: `verified` - GitHub repo exists and is recorded in Foundation. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel: `not-applicable` - No Vercel project is mapped for Playbook in Foundation yet. (checked `2026-05-01T03:18:52.146Z`)
 - Deployment: `not-applicable` - Foundation has no deployment proof target for Playbook yet. (checked `2026-05-01T03:18:52.146Z`)
@@ -53,7 +77,7 @@ Updated: 2026-05-04T15:30:00.000Z
 - Proof freshness window: 168h
 
 ### ATLAS
-- Overall health: `tracked` - Foundation tracks the GitHub source-of-truth repo, but no deployment proof is expected from this workspace layer.
+- Overall health facet: `tracked` - Foundation tracks the GitHub source-of-truth repo, but no deployment proof is expected from this workspace layer.
 - GitHub: `verified` - GitHub repo exists and is recorded in Foundation. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel: `not-applicable` - No Vercel project is mapped for the workspace inventory layer. (checked `2026-05-01T03:18:52.146Z`)
 - Deployment: `not-applicable` - Foundation does not expect a deployment surface for ATLAS. (checked `2026-05-01T03:18:52.146Z`)
@@ -61,7 +85,17 @@ Updated: 2026-05-04T15:30:00.000Z
 - Proof freshness window: 168h
 
 ### Fawxzzy Fitness
-- Overall health: `deployment-observed` - GitHub repo is public, the primary Vercel production deployment is proved, and the legacy fawxzzy-fitness-prod-deploy lane is now classified as historical.
+- Desired: lifecycle `active`, role `application`
+- Desired summary: Fitness should remain the primary application proving ground for deployment proof, privacy posture, and Supabase governance.
+- Owner intent: Track clean production proof and conservative private-data posture without moving Fitness implementation truth into Foundation.
+- Observed: repo `verified`, deployment `ready`, database `observed`, proof `current`
+- Observed summary: Foundation observes a verified public repo, READY production deployment, current deployment proof, and an active Supabase project with advisor evidence.
+- Health judgment: overall `warning`, quality `advisory`
+- Health summary: Deployment proof is clean, but privacy and database posture still require remediation tracking before Fitness can be treated as fully healthy.
+- Health warning: Supabase advisor evidence currently blocks stronger privacy posture claims for Fitness.
+- Health warning: Historical prod-deploy mapping remains documented until active inventory or remediation changes.
+- Legacy compatibility status: `active`
+- Overall health facet: `deployment-observed` - GitHub repo is public, the primary Vercel production deployment is proved, and the legacy fawxzzy-fitness-prod-deploy lane is now classified as historical.
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Primary Vercel project is visible under the fawxzzy team. The recorded fawxzzy-fitness-prod-deploy project ID now returns 404 and is absent from the current team inventory, so Foundation keeps it only as a historical mapping. (checked `2026-05-02T18:04:46.3873760Z`)
 - Vercel projects: `fawxzzy-fitness`
@@ -76,7 +110,16 @@ Updated: 2026-05-04T15:30:00.000Z
 - Latest observed deployment id: `dpl_B8f413NisExwpfyCzEw74JgRhpcS`
 
 ### Fawxzzy Lifeline
-- Overall health: `tracked` - GitHub repo truth is recorded; deployment proof will follow once Lifeline runtime targets are formalized.
+- Desired: lifecycle `active`, role `operator-runtime`
+- Desired summary: Lifeline should remain the execution and runtime receipt boundary for stack operations.
+- Owner intent: Foundation should project Lifeline receipts and runtime outcomes without becoming the executor.
+- Observed: repo `verified`, deployment `not-applicable`, database `not-applicable`, proof `not-applicable`
+- Observed summary: Foundation currently verifies Lifeline source ownership, but execution receipts are not yet projected into the control plane.
+- Health judgment: overall `healthy`, quality `advisory`
+- Health summary: The intended operator-runtime role is clear, but Foundation still has partial observation of Lifeline outcomes.
+- Health warning: Foundation has not yet ingested Lifeline execution receipts or rollback-state evidence.
+- Legacy compatibility status: `active`
+- Overall health facet: `tracked` - GitHub repo truth is recorded; deployment proof will follow once Lifeline runtime targets are formalized.
 - GitHub: `verified` - GitHub repo exists and is recorded in Foundation. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel: `not-applicable` - No Vercel project is mapped for Lifeline. (checked `2026-05-01T03:18:52.146Z`)
 - Deployment: `not-applicable` - Foundation has not defined a deployment surface for Lifeline. (checked `2026-05-01T03:18:52.146Z`)
@@ -84,7 +127,7 @@ Updated: 2026-05-04T15:30:00.000Z
 - Proof freshness window: 168h
 
 ### Fawxzzy Mazer
-- Overall health: `deployment-observed` - GitHub repo is public and a current production deployment proof is captured from Vercel.
+- Overall health facet: `deployment-observed` - GitHub repo is public and a current production deployment proof is captured from Vercel.
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `fawxzzy-mazer`
@@ -99,7 +142,7 @@ Updated: 2026-05-04T15:30:00.000Z
 - Latest observed deployment id: `dpl_9yFBd8hRjq1uKoibCZC7bFMBtrMR`
 
 ### Fawxzzy Trove
-- Overall health: `deployment-observed` - GitHub repo is public and a current production deployment proof is captured from Vercel.
+- Overall health facet: `deployment-observed` - GitHub repo is public and a current production deployment proof is captured from Vercel.
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `fawxzzy-trove`
@@ -114,7 +157,7 @@ Updated: 2026-05-04T15:30:00.000Z
 - Latest observed deployment id: `dpl_CjmRU5tRnirBC42hs2eWg4WKK4QL`
 
 ### Nat 1 Games
-- Overall health: `deployment-observed` - A current Vercel production deployment is proved, and Vercel metadata confirms the intentionally private GitHub source repo.
+- Overall health facet: `deployment-observed` - A current Vercel production deployment is proved, and Vercel metadata confirms the intentionally private GitHub source repo.
 - GitHub: `private-source` - GitHub public API does not expose ZachariahRedfield/nat1-games, and Vercel production metadata confirms that private source repo on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel projects: `nat-1-games`

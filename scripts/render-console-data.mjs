@@ -54,6 +54,10 @@ function getProofWarningStateCounts(projects) {
   }, {});
 }
 
+function getLifecycle(project) {
+  return project.desiredState?.lifecycle ?? project.status;
+}
+
 const registry = JSON.parse(await readFile(registryPath, "utf8"));
 const now = Date.now();
 const projects = registry.projects.map((project) => ({
@@ -76,7 +80,7 @@ const payload = {
     owner: registry.owner,
     updatedAt: registry.updatedAt,
     totalProjects: projects.length,
-    activeProjects: projects.filter((project) => project.status === "active").length,
+    activeProjects: projects.filter((project) => getLifecycle(project) === "active").length,
     deploymentMappedProjects: projects.filter((project) => project.vercel?.exists).length,
     currentProofProjects: projects.filter((project) => project.health?.proof?.status === "current" && !project.health.proof.isStale).length,
     staleProofProjects: projects.filter((project) => project.health?.proof?.isStale).length,

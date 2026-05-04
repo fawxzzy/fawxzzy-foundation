@@ -1,11 +1,11 @@
 {
   "build": {
-    "generatedAt": "2026-05-04T01:45:58.668Z",
+    "generatedAt": "2026-05-04T03:21:27.189Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-04T15:30:00.000Z",
+    "updatedAt": "2026-05-04T17:05:00.000Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
@@ -29,6 +29,26 @@
       "status": "active",
       "priority": 1,
       "summary": "Active control-plane registry and console repo with pinned promotion proof, refreshed production parity, and local verification gates.",
+      "desiredState": {
+        "lifecycle": "active",
+        "role": "control-plane",
+        "summary": "Foundation should remain the active read-first control plane for the project family.",
+        "ownerIntent": "Project registry truth, proof health, privacy posture, and operator status stay here without taking execution authority."
+      },
+      "observedState": {
+        "repo": "verified",
+        "deployment": "ready",
+        "database": "not-applicable",
+        "proof": "current",
+        "summary": "Foundation is publicly versioned, mapped to production on Vercel, and its pinned promotion proof remains current."
+      },
+      "healthState": {
+        "overall": "healthy",
+        "quality": "clean",
+        "warnings": [],
+        "blockers": [],
+        "summary": "Desired control-plane role, live deployment evidence, and clean pinned proof currently align."
+      },
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-foundation",
@@ -201,9 +221,9 @@
         ]
       },
       "nextActions": [
+        "Build explainable scorecards that consume healthState rather than the legacy blended status field",
         "Generate proposal-only proof refresh drafts without changing the pinned active-control-plane promotion proof",
         "Normalize manually captured provider evidence into provider-observations inputs",
-        "Integrate Supabase advisor evidence into the Fitness inventory draft before making stronger privacy claims",
         "Keep generated registry surfaces aligned with data/projects.json",
         "Expand deployment health coverage for downstream project surfaces"
       ]
@@ -270,6 +290,28 @@
       "status": "active",
       "priority": 1,
       "summary": "Deterministic repo intelligence, governance, verification, and safe remediation runtime.",
+      "desiredState": {
+        "lifecycle": "active",
+        "role": "governance-runtime",
+        "summary": "Playbook should be the deterministic governance and verification runtime for repo-local truth.",
+        "ownerIntent": "Foundation should ingest Playbook read surfaces and receipts without re-implementing Playbook execution."
+      },
+      "observedState": {
+        "repo": "verified",
+        "deployment": "not-applicable",
+        "database": "not-applicable",
+        "proof": "not-applicable",
+        "summary": "Foundation currently verifies Playbook source ownership, but no deployment or proof target is defined here yet."
+      },
+      "healthState": {
+        "overall": "healthy",
+        "quality": "advisory",
+        "warnings": [
+          "Foundation has not yet ingested Playbook verification receipts or read interfaces."
+        ],
+        "blockers": [],
+        "summary": "The observed state is acceptable for the intended governance-runtime role, but Foundation visibility is still partial."
+      },
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-playbook",
@@ -329,6 +371,28 @@
       "status": "active",
       "priority": 2,
       "summary": "Local runtime/operator layer and restart/status flow for app targets.",
+      "desiredState": {
+        "lifecycle": "active",
+        "role": "operator-runtime",
+        "summary": "Lifeline should remain the execution and runtime receipt boundary for stack operations.",
+        "ownerIntent": "Foundation should project Lifeline receipts and runtime outcomes without becoming the executor."
+      },
+      "observedState": {
+        "repo": "verified",
+        "deployment": "not-applicable",
+        "database": "not-applicable",
+        "proof": "not-applicable",
+        "summary": "Foundation currently verifies Lifeline source ownership, but execution receipts are not yet projected into the control plane."
+      },
+      "healthState": {
+        "overall": "healthy",
+        "quality": "advisory",
+        "warnings": [
+          "Foundation has not yet ingested Lifeline execution receipts or rollback-state evidence."
+        ],
+        "blockers": [],
+        "summary": "The intended operator-runtime role is clear, but Foundation still has partial observation of Lifeline outcomes."
+      },
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-lifeline",
@@ -386,6 +450,29 @@
       "status": "active",
       "priority": 2,
       "summary": "Fitness and wellness app surface.",
+      "desiredState": {
+        "lifecycle": "active",
+        "role": "application",
+        "summary": "Fitness should remain the primary application proving ground for deployment proof, privacy posture, and Supabase governance.",
+        "ownerIntent": "Track clean production proof and conservative private-data posture without moving Fitness implementation truth into Foundation."
+      },
+      "observedState": {
+        "repo": "verified",
+        "deployment": "ready",
+        "database": "observed",
+        "proof": "current",
+        "summary": "Foundation observes a verified public repo, READY production deployment, current deployment proof, and an active Supabase project with advisor evidence."
+      },
+      "healthState": {
+        "overall": "warning",
+        "quality": "advisory",
+        "warnings": [
+          "Supabase advisor evidence currently blocks stronger privacy posture claims for Fitness.",
+          "Historical prod-deploy mapping remains documented until active inventory or remediation changes."
+        ],
+        "blockers": [],
+        "summary": "Deployment proof is clean, but privacy and database posture still require remediation tracking before Fitness can be treated as fully healthy."
+      },
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-fitness",
@@ -474,8 +561,8 @@
       ],
       "nextActions": [
         "monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project",
+        "turn the blocked Supabase privacy posture into Fitness-owned remediation tracking",
         "keep the historical fawxzzy-fitness-prod-deploy mapping documented unless it reappears in active team inventory",
-        "capture and review Supabase advisor evidence before making any privacy or security posture claims",
         "surface deployment health in Foundation console"
       ]
     },

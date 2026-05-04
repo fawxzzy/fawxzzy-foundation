@@ -24,7 +24,7 @@ function statusClass(status) {
 
 function toneClass(status) {
   const value = String(status);
-  if (["healthy", "verified", "ready", "current", "clean"].includes(value)) return "tone-good";
+  if (["healthy", "verified", "ready", "current", "clean", "active", "observed"].includes(value)) return "tone-good";
   if (
     [
       "pending-proof",
@@ -36,12 +36,16 @@ function toneClass(status) {
       "repo-tracked",
       "dirty",
       "private-source",
-      "legacy-mapping"
+      "legacy-mapping",
+      "warning",
+      "advisory",
+      "incubating",
+      "planned"
     ].includes(value)
   ) {
     return "tone-warn";
   }
-  if (["stale", "missing", "failed"].includes(value)) return "tone-bad";
+  if (["stale", "missing", "failed", "blocked", "historical"].includes(value)) return "tone-bad";
   return "tone-neutral";
 }
 
@@ -74,6 +78,66 @@ function renderHealthRow(label, facet, extras = [], badges = []) {
       <p class="health-summary">${text(facet.summary)}</p>
       ${meta ? `<p class="health-meta">${meta}</p>` : ""}
     </div>
+  `;
+}
+
+function renderStateRow(label, summary, badges = [], detail = "") {
+  if (!summary && badges.length === 0 && !detail) return "";
+
+  return `
+    <div class="state-row">
+      <div class="health-row-header">
+        <p class="health-label">${label}</p>
+        <div class="status-pills">
+          ${badges.map((badge) => `<span class="status-pill ${toneClass(badge)}">${text(badge)}</span>`).join("")}
+        </div>
+      </div>
+      ${summary ? `<p class="health-summary">${text(summary)}</p>` : ""}
+      ${detail ? `<p class="health-meta">${detail}</p>` : ""}
+    </div>
+  `;
+}
+
+function renderStatePanel(project) {
+  if (!project.desiredState && !project.observedState && !project.healthState) return "";
+
+  const desired = project.desiredState;
+  const observed = project.observedState;
+  const healthState = project.healthState;
+  const healthDetail = [
+    ...(healthState?.warnings ?? []).map((warning) => `warning: ${warning}`),
+    ...(healthState?.blockers ?? []).map((blocker) => `blocker: ${blocker}`)
+  ].join(" | ");
+
+  return `
+    <section class="state-panel">
+      <div class="state-panel-header">
+        <div>
+          <p class="health-kicker">State model</p>
+          <h4>Desired, observed, health</h4>
+        </div>
+        <p class="health-overview">Legacy status remains for compatibility, but the split fields are now the machine truth for migrated projects.</p>
+      </div>
+      <div class="state-grid">
+        ${renderStateRow(
+          "Desired",
+          desired?.summary,
+          [desired?.lifecycle, desired?.role].filter(Boolean),
+          desired?.ownerIntent ?? ""
+        )}
+        ${renderStateRow(
+          "Observed",
+          observed?.summary,
+          [observed?.repo, observed?.deployment, observed?.database, observed?.proof].filter(Boolean)
+        )}
+        ${renderStateRow(
+          "Health",
+          healthState?.summary,
+          [healthState?.overall, healthState?.quality].filter(Boolean),
+          healthDetail
+        )}
+      </div>
+    </section>
   `;
 }
 
@@ -201,17 +265,20 @@ function projectCard(project) {
     "No deployment mapped";
   const next = project.nextActions?.[0] ?? "No next action recorded";
   const stack = project.stack?.slice(0, 4) ?? [];
+  const lifecycleLabel = project.desiredState?.lifecycle ?? project.status;
 
   return `
     <article class="card">
-      <p class="eyebrow ${statusClass(project.status)}">${text(project.status)}</p>
+      <p class="eyebrow ${statusClass(lifecycleLabel)}">${text(lifecycleLabel)}</p>
       <h3>${text(project.name)}</h3>
       <p>${text(project.summary)}</p>
       <div class="tags">
         <span class="tag">${text(project.kind)}</span>
         <span class="tag">${repoLabel}</span>
         <span class="tag">${deploymentLabel}</span>
+        ${project.status !== lifecycleLabel ? `<span class="tag">legacy ${text(project.status)}</span>` : ""}
       </div>
+      ${renderStatePanel(project)}
       ${renderHealth(project)}
       ${renderPromotion(project)}
       <p><strong>Next:</strong> ${text(next)}</p>

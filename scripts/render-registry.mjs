@@ -8,10 +8,10 @@ const root = path.resolve(__dirname, "..");
 const registryPath = path.join(root, "data/projects.json");
 const outputPath = path.join(root, "docs/architecture/PROJECT_REGISTRY.md");
 
-function value(value) {
-  if (value === null || value === undefined) return "unknown";
-  if (typeof value === "boolean") return value ? "yes" : "no";
-  return String(value);
+function value(input) {
+  if (input === null || input === undefined) return "unknown";
+  if (typeof input === "boolean") return input ? "yes" : "no";
+  return String(input);
 }
 
 function escapeMd(input) {
@@ -29,14 +29,21 @@ function vercelLabel(project) {
   return project.vercel.projectName ?? (project.vercel.exists ? "mapped" : "planned");
 }
 
-function formatTimestamp(value) {
-  return value ? `\`${value}\`` : "unknown";
+function formatTimestamp(input) {
+  return input ? `\`${input}\`` : "unknown";
 }
 
 function formatProofQuality(proof) {
   if (!Array.isArray(proof?.qualityStates) || proof.qualityStates.length === 0) return "";
   const states = proof.qualityStates.map((state) => `\`${state}\``).join(", ");
   return proof.qualitySummary ? `${states} - ${proof.qualitySummary}` : states;
+}
+
+function isProofStale(proof, now = Date.now()) {
+  if (!proof?.lastDeploymentProofAt || typeof proof.staleAfterHours !== "number") return false;
+  const observedAt = Date.parse(proof.lastDeploymentProofAt);
+  if (Number.isNaN(observedAt)) return false;
+  return now - observedAt > proof.staleAfterHours * 60 * 60 * 1000;
 }
 
 function renderProofRemediation(proof) {
@@ -57,11 +64,38 @@ function renderProofRemediation(proof) {
   return lines;
 }
 
-function isProofStale(proof, now = Date.now()) {
-  if (!proof?.lastDeploymentProofAt || typeof proof.staleAfterHours !== "number") return false;
-  const observedAt = Date.parse(proof.lastDeploymentProofAt);
-  if (Number.isNaN(observedAt)) return false;
-  return now - observedAt > proof.staleAfterHours * 60 * 60 * 1000;
+function renderStateMachine(project) {
+  const lines = [];
+
+  if (project.desiredState) {
+    lines.push(`- Desired: lifecycle \`${project.desiredState.lifecycle}\`, role \`${project.desiredState.role}\``);
+    lines.push(`- Desired summary: ${project.desiredState.summary}`);
+    lines.push(`- Owner intent: ${project.desiredState.ownerIntent}`);
+  }
+
+  if (project.observedState) {
+    lines.push(
+      `- Observed: repo \`${project.observedState.repo}\`, deployment \`${project.observedState.deployment}\`, database \`${project.observedState.database}\`, proof \`${project.observedState.proof}\``
+    );
+    lines.push(`- Observed summary: ${project.observedState.summary}`);
+  }
+
+  if (project.healthState) {
+    lines.push(`- Health judgment: overall \`${project.healthState.overall}\`, quality \`${project.healthState.quality}\``);
+    lines.push(`- Health summary: ${project.healthState.summary}`);
+    for (const warning of project.healthState.warnings ?? []) {
+      lines.push(`- Health warning: ${warning}`);
+    }
+    for (const blocker of project.healthState.blockers ?? []) {
+      lines.push(`- Health blocker: ${blocker}`);
+    }
+  }
+
+  if (project.desiredState || project.observedState || project.healthState) {
+    lines.push(`- Legacy compatibility status: \`${project.status}\``);
+  }
+
+  return lines;
 }
 
 function renderHealth(project, now = Date.now()) {
@@ -69,7 +103,8 @@ function renderHealth(project, now = Date.now()) {
   if (!health) return "";
 
   const lines = [`### ${project.name}`];
-  lines.push(`- Overall health: \`${health.status}\` - ${health.summary}`);
+  lines.push(...renderStateMachine(project));
+  lines.push(`- Overall health facet: \`${health.status}\` - ${health.summary}`);
   lines.push(`- GitHub: \`${health.github.status}\` - ${health.github.summary} (checked ${formatTimestamp(health.github.checkedAt)})`);
   lines.push(`- Vercel: \`${health.vercel.status}\` - ${health.vercel.summary} (checked ${formatTimestamp(health.vercel.checkedAt)})`);
 
@@ -92,7 +127,7 @@ function renderHealth(project, now = Date.now()) {
   if (health.deployment.message) deploymentFacts.push(`message "${escapeMd(health.deployment.message)}"`);
   if (deploymentFacts.length) lines.push(`- Latest deployment facts: ${deploymentFacts.join(", ")}`);
 
-  const stale = isProofStale(health.proof);
+  const stale = isProofStale(health.proof, now);
   lines.push(
     `- Proof: \`${health.proof.status}${stale ? " / stale" : ""}\` - ${health.proof.summary} (checked ${formatTimestamp(health.proof.checkedAt)})`
   );
@@ -176,6 +211,9 @@ const rows = projects.map((project) => [
   project.slug,
   project.name,
   project.kind,
+  project.desiredState?.lifecycle ?? "-",
+  project.observedState?.proof ?? "-",
+  project.healthState?.overall ?? "-",
   project.status,
   project.repo?.fullName ?? "-",
   value(project.repo?.exists),
@@ -193,6 +231,7 @@ const healthSections = projects
   .filter(Boolean)
   .join("\n\n");
 
+const activeCount = projects.filter((project) => (project.desiredState?.lifecycle ?? project.status) === "active").length;
 const md = `# Project Registry
 
 Generated from \`data/projects.json\`. Do not hand-edit this file unless the generator is also updated.
@@ -203,13 +242,20 @@ Updated: ${registry.updatedAt}
 
 - Owner: ${registry.owner}
 - Projects: ${projects.length}
-- Active projects: ${projects.filter((project) => project.status === "active").length}
+- Active projects: ${activeCount}
 - Deployment-mapped projects: ${projects.filter((project) => project.vercel?.exists).length}
+
+## State Model
+
+- Rule: Desired state, observed state, and health judgment must remain separate machine fields.
+- Pattern: \`desiredState -> observedState -> healthState -> derived prose\`.
+- Failure mode: Scorecards built on blended status fields create false precision and rewrite pressure.
+- Legacy compatibility: \`status\` remains present for existing consumers, but migrated projects derive it from the split model.
 
 ## Projects
 
-| Slug | Name | Kind | Status | Repo | Repo exists | Vercel | First next action |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| Slug | Name | Kind | Desired lifecycle | Observed proof | Health | Legacy status | Repo | Repo exists | Vercel | First next action |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 ${rows.map((row) => `| ${row.map(escapeMd).join(" | ")} |`).join("\n")}
 
 ${healthSections ? `\n## Health Ledger\n\n${healthSections}\n` : ""}

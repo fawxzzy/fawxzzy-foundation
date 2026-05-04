@@ -27,6 +27,41 @@ export type FoundationSupabaseSchemaScope =
 
 export type FoundationSupabaseRlsPosture = "protected" | "mixed" | "unprotected" | "unknown";
 
+export type FoundationDesiredLifecycle =
+  | "active"
+  | "incubating"
+  | "observed-deployment"
+  | "planned"
+  | "historical";
+
+export type FoundationDesiredRole =
+  | "control-plane"
+  | "application"
+  | "governance-runtime"
+  | "operator-runtime"
+  | "workspace-architecture";
+
+export type FoundationObservedRepoState =
+  | "verified"
+  | "missing"
+  | "private-source"
+  | "not-applicable"
+  | "unknown";
+
+export type FoundationObservedDeploymentState =
+  | "ready"
+  | "missing"
+  | "not-applicable"
+  | "unknown";
+
+export type FoundationObservedDatabaseState = "observed" | "not-applicable" | "unknown";
+
+export type FoundationObservedProofState = "current" | "stale" | "pending" | "not-applicable";
+
+export type FoundationHealthOverallState = "healthy" | "warning" | "blocked" | "unknown";
+
+export type FoundationHealthQualityState = "clean" | "accepted-private-source" | "advisory" | "blocked";
+
 export type FoundationVercelProject = {
   name: string;
   id?: string;
@@ -235,6 +270,29 @@ export type FoundationProjectHealth = {
   proof: FoundationProofHealth;
 };
 
+export type FoundationDesiredState = {
+  lifecycle: FoundationDesiredLifecycle;
+  role: FoundationDesiredRole;
+  summary: string;
+  ownerIntent: string;
+};
+
+export type FoundationObservedState = {
+  repo: FoundationObservedRepoState;
+  deployment: FoundationObservedDeploymentState;
+  database: FoundationObservedDatabaseState;
+  proof: FoundationObservedProofState;
+  summary: string;
+};
+
+export type FoundationHealthState = {
+  overall: FoundationHealthOverallState;
+  quality: FoundationHealthQualityState;
+  warnings: string[];
+  blockers: string[];
+  summary: string;
+};
+
 export type FoundationPromotion = {
   label: string;
   targetLabel?: string;
@@ -262,6 +320,9 @@ export type FoundationProject = {
   status: string;
   priority: number;
   summary: string;
+  desiredState?: FoundationDesiredState;
+  observedState?: FoundationObservedState;
+  healthState?: FoundationHealthState;
   repo: FoundationRepo;
   supabase?: FoundationSupabaseProject;
   vercel?: {
@@ -288,8 +349,8 @@ export type FoundationRegistry = {
 
 export function summarizeRegistry(registry: FoundationRegistry) {
   const total = registry.projects.length;
-  const active = registry.projects.filter((project) => project.status === "active").length;
-  const bootstrap = registry.projects.filter((project) => project.status === "bootstrap").length;
+  const active = registry.projects.filter((project) => (project.desiredState?.lifecycle ?? project.status) === "active").length;
+  const bootstrap = registry.projects.filter((project) => (project.desiredState?.lifecycle ?? project.status) === "bootstrap").length;
   const deploymentMapped = registry.projects.filter((project) => project.vercel?.exists).length;
 
   return {

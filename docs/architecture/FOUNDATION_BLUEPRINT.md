@@ -36,7 +36,10 @@ Each project has:
 - `slug` - stable project key.
 - `name` - human-readable name.
 - `kind` - project category.
-- `status` - lifecycle state.
+- `desiredState` - operator intent and desired lifecycle/role.
+- `observedState` - what Foundation can actually prove from observed evidence.
+- `healthState` - judgment, quality, warnings, and blockers derived from desired and observed state.
+- `status` - legacy compatibility lifecycle field derived from the split state model where migrated.
 - `repo` - GitHub ownership and existence truth.
 - `vercel` - deployment mapping when known.
 - `health.github` - latest GitHub state check.
@@ -47,6 +50,12 @@ Each project has:
 - `stack` - major technical shape.
 - `contracts` - known governance/docs/runtime contracts.
 - `nextActions` - explicit next responsible moves.
+
+## State model rules
+
+- Rule: desired state, observed state, and health judgment must remain separate machine fields.
+- Pattern: `desiredState -> observedState -> healthState -> derived prose`.
+- Failure mode: scorecards built on blended status fields create false precision and rewrite pressure.
 
 ## Proof quality policy
 

@@ -86,6 +86,7 @@ Current build lane:
 
 - Phase 4A introduces the first read-only Supabase inventory draft so Foundation can represent database and security posture without mutating Supabase.
 - Phase 4B adds live advisor evidence, schema scope classification, and split RLS posture so privacy claim posture can stay conservative for the right reasons instead of collapsing everything into a single mixed-RLS label.
+- Phase 4D now precedes scorecards: desired state, observed state, and health judgment must be separate machine fields before Phase 4C adds scorecards on top of `healthState`.
 
 Initial contracts:
 
@@ -105,6 +106,14 @@ Non-goals:
 - No database mutation in the first pass.
 - No new Supabase project until cost and intent are reviewed.
 - No privacy claims without RLS/security proof.
+
+Sequencing rule:
+
+- Phase 4D - desired/live/health separation
+- Phase 4C - scorecards and explainable health
+- Phase 4E - approved registry change bundles
+
+Scorecards should consume `healthState`, not raw blended project status.
 
 ## Phase 5 - Playbook read-interface bridge
 

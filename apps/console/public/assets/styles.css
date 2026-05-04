@@ -186,6 +186,34 @@ h4 {
   background: rgba(8, 11, 18, 0.48);
 }
 
+.state-panel {
+  margin: 18px 0;
+  padding: 16px;
+  border: 1px solid rgba(252, 211, 77, 0.16);
+  border-radius: 16px;
+  background: rgba(20, 28, 46, 0.5);
+}
+
+.state-panel-header {
+  display: grid;
+  grid-template-columns: minmax(0, 180px) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.state-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.state-row {
+  padding: 12px;
+  border: 1px solid rgba(51, 65, 95, 0.72);
+  border-radius: 14px;
+  background: rgba(13, 19, 32, 0.72);
+}
+
 .health-panel-header {
   display: grid;
   grid-template-columns: minmax(0, 140px) minmax(0, 1fr);
@@ -353,8 +381,13 @@ h4 {
 
 .status-bootstrap,
 .status-incubating,
-.status-observed-deployment {
+.status-observed-deployment,
+.status-planned {
   color: var(--warn);
+}
+
+.status-historical {
+  color: var(--bad);
 }
 
 pre {
@@ -376,6 +409,7 @@ code {
   }
 
   .health-panel-header,
+  .state-panel-header,
   .health-grid {
     grid-template-columns: 1fr;
   }
