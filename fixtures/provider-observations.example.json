@@ -1,0 +1,113 @@
+{
+  "$schema": "../packages/contracts/provider-observations.schema.json",
+  "schemaVersion": 1,
+  "captureMode": "example",
+  "coverage": "partial",
+  "generatedAt": "2026-05-03T12:00:00.000Z",
+  "source": {
+    "label": "phase-3b-example",
+    "summary": "Safe example fixture for proof refresh draft inputs. Demonstrates newer, conflict, and missing cases without live provider access."
+  },
+  "projects": [
+    {
+      "slug": "foundation",
+      "name": "Fawxzzy Foundation",
+      "githubRepo": {
+        "observedAt": "2026-05-03T12:00:00.000Z",
+        "status": "verified",
+        "exists": true,
+        "fullName": "fawxzzy/fawxzzy-foundation",
+        "visibility": "public",
+        "defaultBranch": "main",
+        "url": "https://github.com/fawxzzy/fawxzzy-foundation"
+      },
+      "githubChecks": {
+        "observedAt": "2026-05-03T12:00:00.000Z",
+        "status": "verified",
+        "workflowName": "Foundation CI",
+        "conclusion": "success",
+        "commitSha": "440e5c458e777e20310139b569e2b23d66c2dfa7",
+        "branch": "main"
+      },
+      "vercelProject": {
+        "observedAt": "2026-05-03T12:00:00.000Z",
+        "status": "verified",
+        "teamSlug": "fawxzzy",
+        "projectNames": [
+          "fawxzzy-foundation"
+        ],
+        "projectIds": [
+          "prj_o37CPLlESB6Zybe8GB74BX3wrkpy"
+        ]
+      },
+      "vercelDeployment": {
+        "observedAt": "2026-05-03T12:00:00.000Z",
+        "status": "ready",
+        "target": "production",
+        "projectName": "fawxzzy-foundation",
+        "deploymentId": "dpl_exampleFoundationNewer",
+        "alias": "fawxzzy-foundation.vercel.app",
+        "githubCommitSha": "440e5c458e777e20310139b569e2b23d66c2dfa7",
+        "message": "Add proof refresh draft pipeline parity deploy",
+        "gitDirty": false
+      }
+    },
+    {
+      "slug": "fitness",
+      "name": "Fawxzzy Fitness",
+      "vercelProject": {
+        "observedAt": "2026-05-02T18:04:46.3873760Z",
+        "status": "verified",
+        "teamSlug": "fawxzzy",
+        "projectNames": [
+          "fawxzzy-fitness"
+        ],
+        "projectIds": [
+          "prj_rtlFVOMFAWCRoJ3SQjHloi89881K"
+        ]
+      },
+      "vercelDeployment": {
+        "observedAt": "2026-05-02T18:04:46.3873760Z",
+        "status": "ready",
+        "target": "production",
+        "projectName": "fawxzzy-fitness",
+        "deploymentId": "dpl_exampleFitnessConflict",
+        "alias": "fitness-conflict.vercel.app",
+        "githubCommitSha": "01bf2dc272ad7c892bf2dac64d47b2b47d943cff",
+        "message": "Example conflict observation",
+        "gitDirty": false
+      },
+      "supabaseProject": {
+        "observedAt": "2026-05-02T18:04:46.3873760Z",
+        "status": "active",
+        "projectRef": "fitness-example-ref",
+        "projectName": "FawxzzyFitness",
+        "region": "us-west-2",
+        "postgresVersion": "17.6.1.104",
+        "organization": "fawxzzy"
+      }
+    },
+    {
+      "slug": "trove",
+      "name": "Fawxzzy Trove",
+      "vercelProject": {
+        "observedAt": "2026-05-02T17:19:13.7580000Z",
+        "status": "verified",
+        "teamSlug": "fawxzzy",
+        "projectNames": [
+          "fawxzzy-trove"
+        ],
+        "projectIds": [
+          "prj_vhUyajI4AL6BgCF40VnKtdxrBLuV"
+        ]
+      },
+      "vercelDeployment": {
+        "observedAt": "2026-05-02T17:19:13.7580000Z",
+        "status": "missing",
+        "target": "production",
+        "projectName": "fawxzzy-trove",
+        "summary": "Example missing deployment observation."
+      }
+    }
+  ]
+}

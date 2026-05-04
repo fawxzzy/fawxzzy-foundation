@@ -1,0 +1,266 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fawxzzy.dev/contracts/provider-observations.schema.json",
+  "title": "Foundation Provider Observations",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "captureMode",
+    "coverage",
+    "generatedAt",
+    "source",
+    "projects"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "captureMode": {
+      "type": "string",
+      "enum": ["example", "operator-capture"]
+    },
+    "coverage": {
+      "type": "string",
+      "enum": ["partial", "full"]
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "object",
+      "required": ["label"],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slug"],
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "githubRepo": {
+            "$ref": "#/$defs/providerFacetGithubRepo"
+          },
+          "githubChecks": {
+            "$ref": "#/$defs/providerFacetGithubChecks"
+          },
+          "vercelProject": {
+            "$ref": "#/$defs/providerFacetVercelProject"
+          },
+          "vercelDeployment": {
+            "$ref": "#/$defs/providerFacetVercelDeployment"
+          },
+          "supabaseProject": {
+            "$ref": "#/$defs/providerFacetSupabaseProject"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "providerFacetBase": {
+      "type": "object",
+      "required": ["observedAt", "status"],
+      "properties": {
+        "observedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "ready",
+            "missing",
+            "not-found",
+            "private-source",
+            "historical",
+            "tracked",
+            "active",
+            "not-applicable",
+            "pending",
+            "unknown"
+          ]
+        },
+        "summary": {
+          "type": "string"
+        }
+      }
+    },
+    "providerFacetGithubRepo": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/providerFacetBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "exists": {
+              "type": ["boolean", "null"]
+            },
+            "owner": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "fullName": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "visibility": {
+              "type": "string"
+            },
+            "defaultBranch": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "providerFacetGithubChecks": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/providerFacetBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "workflowName": {
+              "type": "string"
+            },
+            "conclusion": {
+              "type": "string"
+            },
+            "commitSha": {
+              "type": "string"
+            },
+            "runId": {
+              "type": "string"
+            },
+            "branch": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "providerFacetVercelProject": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/providerFacetBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "teamSlug": {
+              "type": "string"
+            },
+            "projectNames": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "projectIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "providerFacetVercelDeployment": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/providerFacetBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "target": {
+              "type": "string"
+            },
+            "projectName": {
+              "type": "string"
+            },
+            "deploymentId": {
+              "type": "string"
+            },
+            "alias": {
+              "type": "string"
+            },
+            "githubCommitSha": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "gitDirty": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "providerFacetSupabaseProject": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/providerFacetBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "projectRef": {
+              "type": "string"
+            },
+            "projectName": {
+              "type": "string"
+            },
+            "region": {
+              "type": "string"
+            },
+            "postgresVersion": {
+              "type": "string"
+            },
+            "organization": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

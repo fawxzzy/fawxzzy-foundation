@@ -60,26 +60,120 @@ export type FoundationProofRemediation = {
   classes: FoundationProofRemediationClass[];
 };
 
-export type FoundationProofRefreshDisposition =
+export type FoundationProofRefreshPrimaryDisposition =
   | "unchanged-proof"
   | "stale-proof"
   | "provider-newer-than-registry"
-  | "provider-missing";
+  | "provider-missing"
+  | "provider-conflict";
 
-export type FoundationProofRefreshPolicyFlag =
+export type FoundationProofRefreshSupplementalClassification =
   | "accepted-private-source"
-  | "historical-mapping";
+  | "historical-mapping"
+  | "immutable-promotion-proof";
+
+export type FoundationProofRefreshClassification =
+  | FoundationProofRefreshPrimaryDisposition
+  | FoundationProofRefreshSupplementalClassification;
+
+export type FoundationObservationMode = "registry-only" | "external-file";
+
+export type FoundationProviderObservationFacetStatus =
+  | "verified"
+  | "ready"
+  | "missing"
+  | "not-found"
+  | "private-source"
+  | "historical"
+  | "tracked"
+  | "active"
+  | "not-applicable"
+  | "pending"
+  | "unknown";
+
+export type FoundationProviderObservationFacet = {
+  observedAt: string;
+  status: FoundationProviderObservationFacetStatus;
+  summary?: string;
+};
+
+export type FoundationGitHubRepoObservation = FoundationProviderObservationFacet & {
+  exists?: boolean | null;
+  owner?: string;
+  name?: string;
+  fullName?: string;
+  url?: string;
+  visibility?: string;
+  defaultBranch?: string;
+};
+
+export type FoundationGitHubChecksObservation = FoundationProviderObservationFacet & {
+  workflowName?: string;
+  conclusion?: string;
+  commitSha?: string;
+  runId?: string;
+  branch?: string;
+};
+
+export type FoundationVercelProjectObservation = FoundationProviderObservationFacet & {
+  teamSlug?: string;
+  projectNames?: string[];
+  projectIds?: string[];
+};
+
+export type FoundationVercelDeploymentObservation = FoundationProviderObservationFacet & {
+  target?: string;
+  projectName?: string;
+  deploymentId?: string;
+  alias?: string;
+  githubCommitSha?: string;
+  message?: string;
+  gitDirty?: boolean;
+};
+
+export type FoundationSupabaseProjectObservation = FoundationProviderObservationFacet & {
+  projectRef?: string;
+  projectName?: string;
+  region?: string;
+  postgresVersion?: string;
+  organization?: string;
+};
+
+export type FoundationProviderObservationProject = {
+  slug: string;
+  name?: string;
+  githubRepo?: FoundationGitHubRepoObservation;
+  githubChecks?: FoundationGitHubChecksObservation;
+  vercelProject?: FoundationVercelProjectObservation;
+  vercelDeployment?: FoundationVercelDeploymentObservation;
+  supabaseProject?: FoundationSupabaseProjectObservation;
+  notes?: string[];
+};
+
+export type FoundationProviderObservationSnapshot = {
+  schemaVersion: number;
+  captureMode: "example" | "operator-capture";
+  coverage: "partial" | "full";
+  generatedAt: string;
+  source: {
+    label: string;
+    summary?: string;
+  };
+  projects: FoundationProviderObservationProject[];
+};
 
 export type FoundationProofRefreshProject = {
   slug: string;
   name: string;
-  disposition: FoundationProofRefreshDisposition;
-  policyFlags: FoundationProofRefreshPolicyFlag[];
+  observationMode: FoundationObservationMode;
+  primaryDisposition: FoundationProofRefreshPrimaryDisposition;
+  classifications: FoundationProofRefreshClassification[];
   observedAt: string | null;
   proofCheckedAt: string;
   lastDeploymentProofAt?: string | null;
   immutablePromotionProof: boolean;
   immutableFields: string[];
+  conflictFields: string[];
   rationale: string[];
   proposedActions: string[];
 };
@@ -93,11 +187,19 @@ export type FoundationProofRefreshDraft = {
     path: string;
     updatedAt: string;
   };
+  observationInput: {
+    mode: FoundationObservationMode;
+    path?: string;
+    captureMode?: "example" | "operator-capture";
+    coverage?: "partial" | "full";
+    generatedAt?: string;
+  };
   workflow: string[];
   summary: {
     totalProjects: number;
-    dispositionCounts: Record<FoundationProofRefreshDisposition, number>;
-    policyFlagCounts: Record<FoundationProofRefreshPolicyFlag, number>;
+    primaryDispositionCounts: Record<FoundationProofRefreshPrimaryDisposition, number>;
+    classificationCounts: Record<FoundationProofRefreshClassification, number>;
+    externalObservationProjects: number;
     immutablePromotionProofProjects: number;
   };
   projects: FoundationProofRefreshProject[];

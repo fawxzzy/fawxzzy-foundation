@@ -47,6 +47,7 @@ Next:
 - Generate proof-refresh drafts.
 - Separate observation from mutation.
 - Add stale-proof refresh queue.
+- Accept file-based live provider observation inputs before adding direct provider reads.
 
 ## Phase 3 - Proof refresh automation
 
@@ -62,6 +63,11 @@ Flow:
 5. Verify draft invariants.
 6. Human/operator applies registry changes.
 7. Build and verify.
+
+Current build lane:
+
+- Phase 3A introduced proposal-only draft generation from registry-recorded observations.
+- Phase 3B adds file-based provider observation inputs so external evidence can be compared against registry truth without direct provider API calls from the draft command.
 
 Non-goals:
 

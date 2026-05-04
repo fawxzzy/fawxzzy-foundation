@@ -80,9 +80,9 @@ async function doctor() {
   await runScript("scripts/verify.mjs");
 }
 
-async function runScript(relativePath) {
+async function runScript(relativePath, args = []) {
   await new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, [path.join(root, relativePath)], {
+    const child = spawn(process.execPath, [path.join(root, relativePath), ...args], {
       cwd: root,
       stdio: "inherit"
     });
@@ -97,14 +97,24 @@ async function runScript(relativePath) {
 async function proofRefresh(args) {
   const [subcommand, ...rest] = args;
   if (subcommand !== "refresh") {
-    throw new Error("Usage: foundation proof refresh --draft");
+    throw new Error("Usage: foundation proof refresh --draft [--observations <path>]");
   }
 
   if (!rest.includes("--draft")) {
     throw new Error("Proof refresh is proposal-only. Re-run with --draft.");
   }
 
-  await runScript("scripts/render-proof-refresh-draft.mjs");
+  const observationsIndex = rest.indexOf("--observations");
+  const scriptArgs = [];
+  if (observationsIndex !== -1) {
+    const observationPath = rest[observationsIndex + 1];
+    if (!observationPath || observationPath.startsWith("--")) {
+      throw new Error("Missing path after --observations.");
+    }
+    scriptArgs.push("--observations", observationPath);
+  }
+
+  await runScript("scripts/render-proof-refresh-draft.mjs", scriptArgs);
 }
 
 function help() {
@@ -113,7 +123,7 @@ function help() {
 Commands:
   status [--json]      Print registry summary
   projects [--json]    List registered projects
-  proof refresh --draft
+  proof refresh --draft [--observations <path>]
                        Generate a proposal-only proof refresh draft
   doctor               Run local verification
   help                 Show this help

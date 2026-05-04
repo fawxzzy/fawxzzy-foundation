@@ -9,6 +9,7 @@
     "mutationAuthority",
     "generatedAt",
     "sourceRegistry",
+    "observationInput",
     "workflow",
     "summary",
     "projects"
@@ -44,6 +45,32 @@
       },
       "additionalProperties": false
     },
+    "observationInput": {
+      "type": "object",
+      "required": ["mode"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["registry-only", "external-file"]
+        },
+        "path": {
+          "type": "string"
+        },
+        "captureMode": {
+          "type": "string",
+          "enum": ["example", "operator-capture"]
+        },
+        "coverage": {
+          "type": "string",
+          "enum": ["partial", "full"]
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
     "workflow": {
       "type": "array",
       "items": {
@@ -55,8 +82,9 @@
       "type": "object",
       "required": [
         "totalProjects",
-        "dispositionCounts",
-        "policyFlagCounts",
+        "primaryDispositionCounts",
+        "classificationCounts",
+        "externalObservationProjects",
         "immutablePromotionProofProjects"
       ],
       "properties": {
@@ -64,30 +92,51 @@
           "type": "integer",
           "minimum": 0
         },
-        "dispositionCounts": {
+        "primaryDispositionCounts": {
           "type": "object",
           "required": [
             "unchanged-proof",
             "stale-proof",
             "provider-newer-than-registry",
-            "provider-missing"
+            "provider-missing",
+            "provider-conflict"
           ],
           "properties": {
             "unchanged-proof": { "type": "integer", "minimum": 0 },
             "stale-proof": { "type": "integer", "minimum": 0 },
             "provider-newer-than-registry": { "type": "integer", "minimum": 0 },
-            "provider-missing": { "type": "integer", "minimum": 0 }
+            "provider-missing": { "type": "integer", "minimum": 0 },
+            "provider-conflict": { "type": "integer", "minimum": 0 }
           },
           "additionalProperties": false
         },
-        "policyFlagCounts": {
+        "classificationCounts": {
           "type": "object",
-          "required": ["accepted-private-source", "historical-mapping"],
+          "required": [
+            "unchanged-proof",
+            "stale-proof",
+            "provider-newer-than-registry",
+            "provider-missing",
+            "provider-conflict",
+            "accepted-private-source",
+            "historical-mapping",
+            "immutable-promotion-proof"
+          ],
           "properties": {
+            "unchanged-proof": { "type": "integer", "minimum": 0 },
+            "stale-proof": { "type": "integer", "minimum": 0 },
+            "provider-newer-than-registry": { "type": "integer", "minimum": 0 },
+            "provider-missing": { "type": "integer", "minimum": 0 },
+            "provider-conflict": { "type": "integer", "minimum": 0 },
             "accepted-private-source": { "type": "integer", "minimum": 0 },
-            "historical-mapping": { "type": "integer", "minimum": 0 }
+            "historical-mapping": { "type": "integer", "minimum": 0 },
+            "immutable-promotion-proof": { "type": "integer", "minimum": 0 }
           },
           "additionalProperties": false
+        },
+        "externalObservationProjects": {
+          "type": "integer",
+          "minimum": 0
         },
         "immutablePromotionProofProjects": {
           "type": "integer",
@@ -103,32 +152,48 @@
         "required": [
           "slug",
           "name",
-          "disposition",
-          "policyFlags",
+          "observationMode",
+          "primaryDisposition",
+          "classifications",
           "observedAt",
           "proofCheckedAt",
           "immutablePromotionProof",
           "immutableFields",
+          "conflictFields",
           "rationale",
           "proposedActions"
         ],
         "properties": {
           "slug": { "type": "string" },
           "name": { "type": "string" },
-          "disposition": {
+          "observationMode": {
+            "type": "string",
+            "enum": ["registry-only", "external-file"]
+          },
+          "primaryDisposition": {
             "type": "string",
             "enum": [
               "unchanged-proof",
               "stale-proof",
               "provider-newer-than-registry",
-              "provider-missing"
+              "provider-missing",
+              "provider-conflict"
             ]
           },
-          "policyFlags": {
+          "classifications": {
             "type": "array",
             "items": {
               "type": "string",
-              "enum": ["accepted-private-source", "historical-mapping"]
+              "enum": [
+                "unchanged-proof",
+                "stale-proof",
+                "provider-newer-than-registry",
+                "provider-missing",
+                "provider-conflict",
+                "accepted-private-source",
+                "historical-mapping",
+                "immutable-promotion-proof"
+              ]
             },
             "uniqueItems": true
           },
@@ -148,6 +213,12 @@
             "type": "boolean"
           },
           "immutableFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conflictFields": {
             "type": "array",
             "items": {
               "type": "string"

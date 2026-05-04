@@ -47,6 +47,7 @@ const requiredFiles = [
   "packages/cli/bin/foundation.mjs",
   "packages/core/src/index.ts",
   "packages/contracts/proof-refresh-draft.schema.json",
+  "packages/contracts/provider-observations.schema.json",
   "scripts/render-registry.mjs",
   "scripts/render-console-data.mjs",
   "scripts/render-proof-refresh-draft.mjs",
@@ -55,6 +56,8 @@ const requiredFiles = [
   "docs/architecture/PROJECT_REGISTRY.md",
   "docs/roadmap/FOUNDATION_ROADMAP.md",
   "docs/operations/PROOF_REFRESH.md",
+  "docs/operations/PROVIDER_OBSERVATIONS.md",
+  "fixtures/provider-observations.example.json",
   "apps/console/public/index.html",
   "apps/console/public/assets/main.js",
   "apps/console/public/assets/styles.css",
@@ -136,6 +139,30 @@ function isGitTracked(relativePath) {
   return result.status === 0;
 }
 
+function containsUnsafeExampleContent(value, pathParts = []) {
+  const unsafeKeyPattern = /(token|secret|password|authorization|cookie|api[-_]?key)/i;
+  const unsafeValuePattern = /(ghp_|github_pat_|postgres:\/\/|service_role|bearer\s+[a-z0-9._-]+)/i;
+
+  if (Array.isArray(value)) {
+    return value.some((entry, index) => containsUnsafeExampleContent(entry, [...pathParts, String(index)]));
+  }
+
+  if (value && typeof value === "object") {
+    return Object.entries(value).some(([key, entry]) => {
+      if (unsafeKeyPattern.test(key)) {
+        return true;
+      }
+      return containsUnsafeExampleContent(entry, [...pathParts, key]);
+    });
+  }
+
+  if (typeof value === "string") {
+    return unsafeValuePattern.test(value);
+  }
+
+  return false;
+}
+
 function validateHealthFacet(projectLabel, facetName, facet) {
   if (!facet || typeof facet !== "object") {
     errors.push(`${projectLabel}: missing health.${facetName}`);
@@ -158,6 +185,7 @@ for (const file of requiredFiles) {
 const config = await readJson("foundation.config.json");
 const registry = await readJson("data/projects.json");
 const consoleData = await readJson("apps/console/public/foundation.projects.json");
+const exampleObservations = await readJson("fixtures/provider-observations.example.json");
 const gitignore = await readText(".gitignore");
 const now = Date.now();
 
@@ -175,6 +203,27 @@ if (gitignore) {
 for (const runtimeArtifact of [".foundation/proof-refresh-draft.json", ".foundation/proof-refresh-draft.md"]) {
   if (isGitTracked(runtimeArtifact)) {
     errors.push(`${runtimeArtifact} must remain untracked runtime output`);
+  }
+}
+
+if (exampleObservations) {
+  if (exampleObservations.schemaVersion !== 1) {
+    errors.push("fixtures/provider-observations.example.json schemaVersion must be 1");
+  }
+  if (exampleObservations.captureMode !== "example") {
+    errors.push("fixtures/provider-observations.example.json captureMode must be example");
+  }
+  if (!["partial", "full"].includes(exampleObservations.coverage)) {
+    errors.push("fixtures/provider-observations.example.json coverage must be partial or full");
+  }
+  if (!isIsoTimestamp(exampleObservations.generatedAt)) {
+    errors.push("fixtures/provider-observations.example.json generatedAt must be an ISO timestamp");
+  }
+  if (!Array.isArray(exampleObservations.projects) || exampleObservations.projects.length === 0) {
+    errors.push("fixtures/provider-observations.example.json must include at least one project");
+  }
+  if (containsUnsafeExampleContent(exampleObservations)) {
+    errors.push("fixtures/provider-observations.example.json must not contain tokens, secrets, credentials, or connection strings");
   }
 }
 

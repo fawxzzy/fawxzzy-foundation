@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Foundation proof refresh is proposal-only. It compares the registry's recorded proof against the current provider observation already captured in `data/projects.json` and emits review artifacts under `.foundation/`.
+Foundation proof refresh is proposal-only. It can compare the registry's recorded proof either against the provider observation already captured in `data/projects.json` or against an external file-based observation snapshot, and it emits review artifacts under `.foundation/`.
 
 ## Operator workflow
 
@@ -35,6 +35,12 @@ Or through the operator CLI:
 pnpm foundation proof refresh --draft
 ```
 
+With an external observation file:
+
+```bash
+pnpm foundation proof refresh --draft --observations fixtures/provider-observations.example.json
+```
+
 Artifacts:
 
 - `.foundation/proof-refresh-draft.json`
@@ -50,11 +56,15 @@ Primary disposition:
 - `stale-proof`
 - `provider-newer-than-registry`
 - `provider-missing`
+- `provider-conflict`
 
-Policy flags:
+Supplemental classifications:
 
 - `accepted-private-source`
 - `historical-mapping`
+- `immutable-promotion-proof`
+
+External observation input stays read-only. The file is evidence for comparison only; it does not grant mutation authority or provider access.
 
 ## Foundation immutability rule
 
