@@ -134,6 +134,21 @@ export type FoundationProofRefreshClassification =
   | FoundationProofRefreshSupplementalClassification;
 
 export type FoundationObservationMode = "registry-only" | "external-file";
+export type FoundationRegistryChangeBundleStatus = "proposed" | "approved" | "rejected" | "superseded";
+export type FoundationRegistryChangeSourceKind =
+  | "proof-refresh-draft"
+  | "provider-observation"
+  | "supabase-inventory-draft"
+  | "manual";
+export type FoundationRegistryChangeOperationType = "add" | "replace" | "remove";
+export type FoundationRegistryChangeEvidenceKind =
+  | "proof-refresh-draft"
+  | "provider-observation"
+  | "supabase-advisor"
+  | "supabase-inventory-draft"
+  | "deployment-proof"
+  | "manual-note";
+export type FoundationRegistryChangeApprovalStatus = "pending" | "approved" | "rejected" | "superseded";
 
 export type FoundationProviderObservationFacetStatus =
   | "verified"
@@ -260,6 +275,46 @@ export type FoundationProofRefreshDraft = {
     immutablePromotionProofProjects: number;
   };
   projects: FoundationProofRefreshProject[];
+};
+
+export type FoundationRegistryChangeSource = {
+  kind: FoundationRegistryChangeSourceKind;
+  path: string;
+  sha256: string;
+  summary: string;
+};
+
+export type FoundationRegistryChangeOperation = {
+  op: FoundationRegistryChangeOperationType;
+  path: string;
+  summary: string;
+  requiresReview: boolean;
+};
+
+export type FoundationRegistryChangeEvidence = {
+  kind: FoundationRegistryChangeEvidenceKind;
+  summary: string;
+  reference: string;
+};
+
+export type FoundationRegistryChangeApproval = {
+  required: boolean;
+  status: FoundationRegistryChangeApprovalStatus;
+  approvedBy: string | null;
+  approvedAt: string | null;
+  notes: string[];
+};
+
+export type FoundationRegistryChangeBundle = {
+  schemaVersion: number;
+  status: FoundationRegistryChangeBundleStatus;
+  mutationAuthority: "none";
+  generatedAt: string;
+  source: FoundationRegistryChangeSource;
+  affectedProjects: string[];
+  operations: FoundationRegistryChangeOperation[];
+  evidence: FoundationRegistryChangeEvidence[];
+  approval: FoundationRegistryChangeApproval;
 };
 
 export type FoundationProjectHealth = {

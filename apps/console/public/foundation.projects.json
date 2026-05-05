@@ -1,11 +1,11 @@
 {
   "build": {
-    "generatedAt": "2026-05-05T00:37:10.513Z",
+    "generatedAt": "2026-05-05T01:02:43.727Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-04T20:15:00.000Z",
+    "updatedAt": "2026-05-05T01:15:00.000Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
@@ -93,7 +93,7 @@
         ],
         "warnings": [],
         "blockers": [],
-        "nextAction": "Add approved registry change bundles keyed to reviewed draft hashes and affected slugs."
+        "nextAction": "Ingest Playbook verification receipts and read-first artifacts into Foundation."
       },
       "repo": {
         "owner": "fawxzzy",
@@ -172,11 +172,13 @@
         "data/projects.json",
         "packages/contracts/foundation.schema.json",
         "packages/contracts/proof-refresh-draft.schema.json",
+        "packages/contracts/registry-change-bundle.schema.json",
         "packages/contracts/provider-capture.schema.json",
         "packages/contracts/provider-observations.schema.json",
         "packages/contracts/supabase-inventory-draft.schema.json",
         "docs/roadmap/FOUNDATION_ROADMAP.md",
         "docs/operations/PROOF_REFRESH.md",
+        "docs/operations/REGISTRY_CHANGE_BUNDLES.md",
         "docs/operations/PROVIDER_CAPTURE.md",
         "docs/operations/PROVIDER_OBSERVATIONS.md",
         "docs/operations/SUPABASE_INVENTORY.md"
@@ -267,7 +269,7 @@
         ]
       },
       "nextActions": [
-        "Add approved registry change bundles keyed to reviewed draft hashes and affected slugs",
+        "Ingest Playbook verification receipts and read-first artifacts into Foundation",
         "Generate proposal-only proof refresh drafts without changing the pinned active-control-plane promotion proof",
         "Normalize manually captured provider evidence into provider-observations inputs",
         "Keep generated registry surfaces aligned with data/projects.json",

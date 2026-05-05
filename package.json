@@ -14,6 +14,7 @@
     "console:serve": "node scripts/serve-console.mjs",
     "provider:observations:normalize": "node scripts/normalize-provider-observations.mjs",
     "proof:refresh:draft": "node scripts/render-proof-refresh-draft.mjs",
+    "registry:change-bundle": "node scripts/render-registry-change-bundle.mjs",
     "supabase:inventory:draft": "node scripts/render-supabase-inventory-draft.mjs",
     "registry:render": "node scripts/render-registry.mjs",
     "console:data": "node scripts/render-console-data.mjs",

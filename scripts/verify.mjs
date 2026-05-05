@@ -67,6 +67,19 @@ const healthQualityStates = new Set(["clean", "accepted-private-source", "adviso
 const scorecardStatuses = new Set(["scored", "pending-split-migration"]);
 const scorecardVerdicts = new Set(["healthy", "warning", "blocked", "unknown"]);
 const scorecardDimensionStates = new Set(["pass", "warn", "fail", "not-applicable"]);
+const registryChangeBundleStatuses = new Set(["proposed", "approved", "rejected", "superseded"]);
+const registryChangeSourceKinds = new Set(["proof-refresh-draft", "provider-observation", "supabase-inventory-draft", "manual"]);
+const registryChangeOperationTypes = new Set(["add", "replace", "remove"]);
+const registryChangeEvidenceKinds = new Set([
+  "proof-refresh-draft",
+  "provider-observation",
+  "supabase-advisor",
+  "supabase-inventory-draft",
+  "deployment-proof",
+  "manual-note"
+]);
+const registryChangeApprovalStatuses = new Set(["pending", "approved", "rejected", "superseded"]);
+const sha256Pattern = /^[a-f0-9]{64}$/i;
 
 const requiredFiles = [
   "README.md",
@@ -78,6 +91,7 @@ const requiredFiles = [
   "packages/cli/bin/foundation.mjs",
   "packages/core/src/index.ts",
   "packages/contracts/proof-refresh-draft.schema.json",
+  "packages/contracts/registry-change-bundle.schema.json",
   "packages/contracts/provider-capture.schema.json",
   "packages/contracts/provider-observations.schema.json",
   "packages/contracts/supabase-inventory-draft.schema.json",
@@ -85,17 +99,20 @@ const requiredFiles = [
   "scripts/render-console-data.mjs",
   "scripts/normalize-provider-observations.mjs",
   "scripts/render-proof-refresh-draft.mjs",
+  "scripts/render-registry-change-bundle.mjs",
   "scripts/render-supabase-inventory-draft.mjs",
   "scripts/serve-console.mjs",
   "docs/architecture/FOUNDATION_BLUEPRINT.md",
   "docs/architecture/PROJECT_REGISTRY.md",
   "docs/roadmap/FOUNDATION_ROADMAP.md",
   "docs/operations/PROOF_REFRESH.md",
+  "docs/operations/REGISTRY_CHANGE_BUNDLES.md",
   "docs/operations/PROVIDER_CAPTURE.md",
   "docs/operations/PROVIDER_OBSERVATIONS.md",
   "docs/operations/SUPABASE_INVENTORY.md",
   "fixtures/provider-capture.example.json",
   "fixtures/provider-observations.example.json",
+  "fixtures/registry-change-bundle.example.json",
   "fixtures/supabase-inventory.example.json",
   "apps/console/public/index.html",
   "apps/console/public/assets/main.js",
@@ -238,6 +255,113 @@ function validateExampleFixture(filePath, fixture) {
     if (!isIsoTimestamp(fixture.generatedAt)) {
       errors.push(`${filePath} generatedAt must be an ISO timestamp`);
     }
+  }
+}
+
+function validateRegistryChangeBundleFixture(filePath, fixture) {
+  if (fixture.schemaVersion !== 1) {
+    errors.push(`${filePath} schemaVersion must be 1`);
+  }
+  if (!registryChangeBundleStatuses.has(fixture.status)) {
+    errors.push(`${filePath} status must be proposed, approved, rejected, or superseded`);
+  }
+  if (fixture.mutationAuthority !== "none") {
+    errors.push(`${filePath} mutationAuthority must be none`);
+  }
+
+  if (!fixture.source || typeof fixture.source !== "object") {
+    errors.push(`${filePath} source is required`);
+  } else {
+    if (!registryChangeSourceKinds.has(fixture.source.kind)) {
+      errors.push(`${filePath} source.kind must be a supported bundle source kind`);
+    }
+    if (typeof fixture.source.path !== "string" || fixture.source.path.length === 0) {
+      errors.push(`${filePath} source.path is required`);
+    }
+    if (typeof fixture.source.summary !== "string" || fixture.source.summary.length === 0) {
+      errors.push(`${filePath} source.summary is required`);
+    }
+    if (typeof fixture.source.sha256 !== "string" || !sha256Pattern.test(fixture.source.sha256)) {
+      errors.push(`${filePath} source.sha256 must be a 64 character hexadecimal string`);
+    }
+  }
+
+  if (!Array.isArray(fixture.affectedProjects) || fixture.affectedProjects.length === 0) {
+    errors.push(`${filePath} affectedProjects must include at least one project slug`);
+  }
+
+  if (!Array.isArray(fixture.operations) || fixture.operations.length === 0) {
+    errors.push(`${filePath} operations must include at least one change operation`);
+  } else {
+    for (const operation of fixture.operations) {
+      if (!registryChangeOperationTypes.has(operation?.op)) {
+        errors.push(`${filePath} operation.op must be add, replace, or remove`);
+      }
+      if (typeof operation?.path !== "string" || operation.path.length === 0) {
+        errors.push(`${filePath} operation.path is required`);
+      }
+      if (typeof operation?.summary !== "string" || operation.summary.length === 0) {
+        errors.push(`${filePath} operation.summary is required`);
+      }
+      if (typeof operation?.requiresReview !== "boolean") {
+        errors.push(`${filePath} operation.requiresReview must be boolean`);
+      }
+    }
+  }
+
+  if (!Array.isArray(fixture.evidence) || fixture.evidence.length === 0) {
+    errors.push(`${filePath} evidence must include at least one supporting reference`);
+  } else {
+    for (const evidence of fixture.evidence) {
+      if (!registryChangeEvidenceKinds.has(evidence?.kind)) {
+        errors.push(`${filePath} evidence.kind must be a supported evidence kind`);
+      }
+      if (typeof evidence?.summary !== "string" || evidence.summary.length === 0) {
+        errors.push(`${filePath} evidence.summary is required`);
+      }
+      if (typeof evidence?.reference !== "string" || evidence.reference.length === 0) {
+        errors.push(`${filePath} evidence.reference is required`);
+      }
+    }
+  }
+
+  if (!fixture.approval || typeof fixture.approval !== "object") {
+    errors.push(`${filePath} approval is required`);
+    return;
+  }
+
+  if (typeof fixture.approval.required !== "boolean") {
+    errors.push(`${filePath} approval.required must be boolean`);
+  }
+  if (!registryChangeApprovalStatuses.has(fixture.approval.status)) {
+    errors.push(`${filePath} approval.status must be pending, approved, rejected, or superseded`);
+  }
+  if (fixture.approval.approvedBy !== null && typeof fixture.approval.approvedBy !== "string") {
+    errors.push(`${filePath} approval.approvedBy must be string or null`);
+  }
+  if (fixture.approval.approvedAt !== null && !isIsoTimestamp(fixture.approval.approvedAt)) {
+    errors.push(`${filePath} approval.approvedAt must be null or an ISO timestamp`);
+  }
+  if (!Array.isArray(fixture.approval.notes)) {
+    errors.push(`${filePath} approval.notes must be an array`);
+  }
+
+  if (fixture.status === "proposed" && fixture.approval.status !== "pending") {
+    errors.push(`${filePath} proposed bundles must keep approval.status pending`);
+  }
+  if (fixture.status === "approved") {
+    if (fixture.approval.status !== "approved") {
+      errors.push(`${filePath} approved bundles must keep approval.status approved`);
+    }
+    if (!fixture.approval.approvedBy || !fixture.approval.approvedAt) {
+      errors.push(`${filePath} approved bundles must include approvedBy and approvedAt`);
+    }
+  }
+  if (fixture.status === "rejected" && fixture.approval.status !== "rejected") {
+    errors.push(`${filePath} rejected bundles must keep approval.status rejected`);
+  }
+  if (fixture.status === "superseded" && fixture.approval.status !== "superseded") {
+    errors.push(`${filePath} superseded bundles must keep approval.status superseded`);
   }
 }
 
@@ -406,6 +530,8 @@ for (const runtimeArtifact of [
   ".foundation/proof-refresh-draft.md",
   ".foundation/provider-observations.normalized.json",
   ".foundation/provider-observations.normalized.md",
+  ".foundation/registry-change-bundle.json",
+  ".foundation/registry-change-bundle.md",
   ".foundation/supabase-inventory.live-input.json",
   ".foundation/supabase-inventory-draft.json",
   ".foundation/supabase-inventory-draft.md"
@@ -478,6 +604,10 @@ for (const fixtureFile of fixtureFiles) {
     if (!fixture.posture?.privacyClaimPosture || !["unclaimed", "draft", "proved", "blocked"].includes(fixture.posture.privacyClaimPosture)) {
       errors.push(`${fixtureFile} privacyClaimPosture must be unclaimed, draft, proved, or blocked`);
     }
+  }
+
+  if (fixtureFile === "fixtures/registry-change-bundle.example.json") {
+    validateRegistryChangeBundleFixture(fixtureFile, fixture);
   }
 }
 

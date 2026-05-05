@@ -1,0 +1,52 @@
+{
+  "$schema": "../packages/contracts/registry-change-bundle.schema.json",
+  "schemaVersion": 1,
+  "status": "proposed",
+  "mutationAuthority": "none",
+  "generatedAt": "2026-05-05T01:15:00.000Z",
+  "source": {
+    "kind": "supabase-inventory-draft",
+    "path": "fixtures/supabase-inventory.example.json",
+    "sha256": "994a76efac5720dc81333246a1c4afb95e4f2cc8bc2f7ddf88902b016dc8b9d5",
+    "summary": "Example reviewed Supabase inventory draft fixture awaiting operator approval before any Fitness registry edits."
+  },
+  "affectedProjects": [
+    "fitness"
+  ],
+  "operations": [
+    {
+      "op": "replace",
+      "path": "projects[fitness].healthState",
+      "summary": "Update Fitness health judgment after a reviewed Supabase inventory and advisor pass.",
+      "requiresReview": true
+    },
+    {
+      "op": "replace",
+      "path": "projects[fitness].scorecard",
+      "summary": "Adjust Fitness scorecard only after the revised health judgment is accepted.",
+      "requiresReview": true
+    }
+  ],
+  "evidence": [
+    {
+      "kind": "supabase-inventory-draft",
+      "summary": "Reviewed Supabase inventory draft fixture for Fitness.",
+      "reference": "fixtures/supabase-inventory.example.json"
+    },
+    {
+      "kind": "supabase-advisor",
+      "summary": "Security and performance advisor guidance remains attached to the example inventory lane.",
+      "reference": "docs/operations/SUPABASE_INVENTORY.md"
+    }
+  ],
+  "approval": {
+    "required": true,
+    "status": "pending",
+    "approvedBy": null,
+    "approvedAt": null,
+    "notes": [
+      "Example fixture only.",
+      "Approval is required before any manual registry edit."
+    ]
+  }
+}

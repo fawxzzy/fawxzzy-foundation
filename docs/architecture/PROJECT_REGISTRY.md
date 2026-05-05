@@ -2,7 +2,7 @@
 
 Generated from `data/projects.json`. Do not hand-edit this file unless the generator is also updated.
 
-Updated: 2026-05-04T20:15:00.000Z
+Updated: 2026-05-05T01:15:00.000Z
 
 ## Summary
 
@@ -25,7 +25,7 @@ Updated: 2026-05-04T20:15:00.000Z
 
 | Slug | Name | Kind | Desired lifecycle | Observed proof | Health | Scorecard | Legacy status | Repo | Repo exists | Vercel | First next action |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| foundation | Fawxzzy Foundation | control-plane | active | current | healthy | healthy 100/100 | active | fawxzzy/fawxzzy-foundation | yes | fawxzzy-foundation | Add approved registry change bundles keyed to reviewed draft hashes and affected slugs |
+| foundation | Fawxzzy Foundation | control-plane | active | current | healthy | healthy 100/100 | active | fawxzzy/fawxzzy-foundation | yes | fawxzzy-foundation | Ingest Playbook verification receipts and read-first artifacts into Foundation |
 | playbook | Fawxzzy Playbook | governance-runtime | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/fawxzzy-playbook | yes | - | adopt Playbook bootstrap in Foundation once package install is available |
 | atlas | ATLAS | workspace-architecture | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
 | fitness | Fawxzzy Fitness | application | active | current | warning | warning 85/100 | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness (primary), fawxzzy-fitness-prod-deploy (historical) | monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project |
@@ -51,7 +51,7 @@ Updated: 2026-05-04T20:15:00.000Z
 - Score Proof freshness: `pass` 25/25 - Proof is current, clean, and anchored to the pinned active-control-plane promotion proof.
 - Score Deployment posture: `pass` 25/25 - Foundation has a READY production deployment with clean observed provenance.
 - Score Data and security posture: `not-applicable` 25/25 - Foundation itself is not using an application database posture lane in this scorecard slice.
-- Score next action: Add approved registry change bundles keyed to reviewed draft hashes and affected slugs.
+- Score next action: Ingest Playbook verification receipts and read-first artifacts into Foundation.
 - Overall health facet: `healthy` - Promotion proof stays pinned to the original active-control-plane deployment while the latest production parity is tracked separately.
 - GitHub: `verified` - GitHub repo exists, is public, and tracks main as the default branch. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel: `verified` - Vercel project is mapped under the fawxzzy team. (checked `2026-05-01T03:18:52.146Z`)

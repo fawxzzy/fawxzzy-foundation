@@ -90,6 +90,7 @@ Current build lane:
 - Phase 4C adds explainable health scorecards across the split-state registry. Scorecards summarize evidence completeness, proof freshness, deployment posture, and data/security posture without inventing new claims.
 - Phase 4D-B completes split-state migration for `atlas`, `mazer`, `trove`, and `nat-1-games` without changing their existing proof facts or accepted-private-source policy.
 - Phase 4C-B completes scorecard parity for `atlas`, `mazer`, `trove`, and `nat-1-games`, including accepted-private-source scoring for Nat 1 Games without weakening the private-source policy boundary.
+- Phase 4E adds approved registry change bundles so proposal artifacts can be reviewed, approved, and converted into explicit manual registry-edit instructions without granting mutation authority.
 
 Initial contracts:
 
@@ -124,6 +125,7 @@ Scorecard rules:
 - Each score must remain explainable through dimension summaries, warnings, blockers, and a recommended next action.
 - Full registry split-state should precede full registry scorecards.
 - Accepted private-source policy can still score as healthy when current provenance is explicit and policy boundaries remain intact.
+- Approved registry change bundles should name the reviewed source draft hash, affected project slugs, required evidence references, and explicit manual operations before any registry edit is promoted.
 
 ## Phase 5 - Playbook read-interface bridge
 

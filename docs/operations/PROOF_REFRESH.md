@@ -9,16 +9,17 @@ Foundation proof refresh is proposal-only. It can compare the registry's recorde
 1. Read provider observation.
 2. Generate a draft.
 3. Review the proposed classification and rationale.
-4. Edit `data/projects.json` manually if the draft should be promoted.
-5. Run `pnpm build`.
-6. Run `pnpm verify:local`.
-7. Commit the registry update and generated surfaces.
-8. Deploy Foundation only if source is clean and a Foundation-only parity update is intended.
+4. Render a registry change bundle when the draft is ready for approval.
+5. Edit `data/projects.json` manually only after the bundle is approved.
+6. Run `pnpm build`.
+7. Run `pnpm verify:local`.
+8. Commit the registry update and generated surfaces.
+9. Deploy Foundation only if source is clean and a Foundation-only parity update is intended.
 
 Canonical flow:
 
 ```text
-provider observation -> draft -> review -> registry edit -> build -> verify -> commit -> optional deploy
+provider observation -> draft -> review -> registry change bundle -> approval -> registry edit -> build -> verify -> commit -> optional deploy
 ```
 
 ## Commands
@@ -54,6 +55,11 @@ Artifacts:
 - `.foundation/proof-refresh-draft.md`
 
 Both artifacts remain runtime-only and must stay gitignored.
+
+Approval artifacts also stay under `.foundation/`:
+
+- `.foundation/registry-change-bundle.json`
+- `.foundation/registry-change-bundle.md`
 
 ## Classification model
 

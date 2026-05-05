@@ -136,6 +136,25 @@ async function supabaseCommand(args) {
   await runScript("scripts/render-supabase-inventory-draft.mjs", ["--input", inputPath]);
 }
 
+async function registryCommand(args) {
+  const [subcommand, ...rest] = args;
+  if (subcommand !== "change-bundle") {
+    throw new Error("Usage: foundation registry change-bundle --input <path>");
+  }
+
+  const inputIndex = rest.indexOf("--input");
+  if (inputIndex === -1) {
+    throw new Error("Registry change bundle requires --input <path>.");
+  }
+
+  const inputPath = rest[inputIndex + 1];
+  if (!inputPath || inputPath.startsWith("--")) {
+    throw new Error("Missing path after --input.");
+  }
+
+  await runScript("scripts/render-registry-change-bundle.mjs", ["--input", inputPath]);
+}
+
 function help() {
   console.log(`Foundation CLI
 
@@ -144,6 +163,8 @@ Commands:
   projects [--json]    List registered projects
   proof refresh --draft [--observations <path>]
                        Generate a proposal-only proof refresh draft
+  registry change-bundle --input <path>
+                       Render a proposal-only registry change bundle
   supabase inventory --draft --input <path>
                        Render a read-only Supabase inventory draft
   doctor               Run local verification
@@ -158,6 +179,7 @@ try {
   if (command === "status") await status({ json: wantsJson });
   else if (command === "projects") await projects({ json: wantsJson });
   else if (command === "proof") await proofRefresh(args);
+  else if (command === "registry") await registryCommand(args);
   else if (command === "supabase") await supabaseCommand(args);
   else if (command === "doctor") await doctor();
   else if (command === "help" || command === "--help" || command === "-h") help();

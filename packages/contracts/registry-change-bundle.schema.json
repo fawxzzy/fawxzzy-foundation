@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fawxzzy.dev/contracts/registry-change-bundle.schema.json",
+  "title": "Foundation Registry Change Bundle",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "status",
+    "mutationAuthority",
+    "generatedAt",
+    "source",
+    "affectedProjects",
+    "operations",
+    "evidence",
+    "approval"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["proposed", "approved", "rejected", "superseded"]
+    },
+    "mutationAuthority": {
+      "type": "string",
+      "const": "none"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "object",
+      "required": ["kind", "path", "sha256", "summary"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["proof-refresh-draft", "provider-observation", "supabase-inventory-draft", "manual"]
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "affectedProjects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["op", "path", "summary", "requiresReview"],
+        "properties": {
+          "op": {
+            "type": "string",
+            "enum": ["add", "replace", "remove"]
+          },
+          "path": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "requiresReview": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["kind", "summary", "reference"],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "proof-refresh-draft",
+              "provider-observation",
+              "supabase-advisor",
+              "supabase-inventory-draft",
+              "deployment-proof",
+              "manual-note"
+            ]
+          },
+          "summary": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "approval": {
+      "type": "object",
+      "required": ["required", "status", "approvedBy", "approvedAt", "notes"],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "approved", "rejected", "superseded"]
+        },
+        "approvedBy": {
+          "type": ["string", "null"]
+        },
+        "approvedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
