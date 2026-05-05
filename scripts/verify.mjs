@@ -80,6 +80,9 @@ const registryChangeEvidenceKinds = new Set([
 ]);
 const registryChangeApprovalStatuses = new Set(["pending", "approved", "rejected", "superseded"]);
 const sha256Pattern = /^[a-f0-9]{64}$/i;
+const playbookVerificationStatuses = new Set(["passed", "warning", "failed", "missing"]);
+const playbookArtifactStatuses = new Set(["present", "partial", "missing"]);
+const playbookPostureStates = new Set(["ready", "partial", "blocked"]);
 
 const requiredFiles = [
   "README.md",
@@ -90,6 +93,7 @@ const requiredFiles = [
   "packages/contracts/foundation.schema.json",
   "packages/cli/bin/foundation.mjs",
   "packages/core/src/index.ts",
+  "packages/contracts/playbook-read-interface.schema.json",
   "packages/contracts/proof-refresh-draft.schema.json",
   "packages/contracts/registry-change-bundle.schema.json",
   "packages/contracts/provider-capture.schema.json",
@@ -98,6 +102,7 @@ const requiredFiles = [
   "scripts/render-registry.mjs",
   "scripts/render-console-data.mjs",
   "scripts/normalize-provider-observations.mjs",
+  "scripts/render-playbook-ingestion-draft.mjs",
   "scripts/render-proof-refresh-draft.mjs",
   "scripts/render-registry-change-bundle.mjs",
   "scripts/render-supabase-inventory-draft.mjs",
@@ -105,11 +110,13 @@ const requiredFiles = [
   "docs/architecture/FOUNDATION_BLUEPRINT.md",
   "docs/architecture/PROJECT_REGISTRY.md",
   "docs/roadmap/FOUNDATION_ROADMAP.md",
+  "docs/operations/PLAYBOOK_INGESTION.md",
   "docs/operations/PROOF_REFRESH.md",
   "docs/operations/REGISTRY_CHANGE_BUNDLES.md",
   "docs/operations/PROVIDER_CAPTURE.md",
   "docs/operations/PROVIDER_OBSERVATIONS.md",
   "docs/operations/SUPABASE_INVENTORY.md",
+  "fixtures/playbook-read-interface.example.json",
   "fixtures/provider-capture.example.json",
   "fixtures/provider-observations.example.json",
   "fixtures/registry-change-bundle.example.json",
@@ -365,6 +372,147 @@ function validateRegistryChangeBundleFixture(filePath, fixture) {
   }
 }
 
+function validatePlaybookArtifactGroup(filePath, groupName, group) {
+  if (!group || typeof group !== "object") {
+    errors.push(`${filePath} ${groupName} is required`);
+    return;
+  }
+  if (!playbookArtifactStatuses.has(group.status)) {
+    errors.push(`${filePath} ${groupName}.status must be present, partial, or missing`);
+  }
+  if (!isIsoTimestamp(group.observedAt)) {
+    errors.push(`${filePath} ${groupName}.observedAt must be an ISO timestamp`);
+  }
+  if (typeof group.summary !== "string" || group.summary.length === 0) {
+    errors.push(`${filePath} ${groupName}.summary is required`);
+  }
+  if (!Array.isArray(group.items)) {
+    errors.push(`${filePath} ${groupName}.items must be an array`);
+    return;
+  }
+
+  for (const [index, item] of group.items.entries()) {
+    if (!item || typeof item !== "object") {
+      errors.push(`${filePath} ${groupName}.items[${index}] must be an object`);
+      continue;
+    }
+    if (typeof item.kind !== "string" || item.kind.length === 0) {
+      errors.push(`${filePath} ${groupName}.items[${index}].kind is required`);
+    }
+    if (typeof item.path !== "string" || item.path.length === 0) {
+      errors.push(`${filePath} ${groupName}.items[${index}].path is required`);
+    }
+    if (!playbookArtifactStatuses.has(item.status)) {
+      errors.push(`${filePath} ${groupName}.items[${index}].status must be present, partial, or missing`);
+    }
+    if (typeof item.summary !== "string" || item.summary.length === 0) {
+      errors.push(`${filePath} ${groupName}.items[${index}].summary is required`);
+    }
+  }
+}
+
+function validatePlaybookReadInterfaceFixture(filePath, fixture) {
+  if (fixture.schemaVersion !== 1) {
+    errors.push(`${filePath} schemaVersion must be 1`);
+  }
+  if (fixture.status !== "proposal-only") {
+    errors.push(`${filePath} status must be proposal-only`);
+  }
+  if (fixture.mutationAuthority !== "none") {
+    errors.push(`${filePath} mutationAuthority must be none`);
+  }
+  if (!["example", "operator-capture"].includes(fixture.captureMode)) {
+    errors.push(`${filePath} captureMode must be example or operator-capture`);
+  }
+
+  if (!fixture.input || typeof fixture.input !== "object") {
+    errors.push(`${filePath} input is required`);
+  } else {
+    if (typeof fixture.input.path !== "string" || fixture.input.path.length === 0) {
+      errors.push(`${filePath} input.path is required`);
+    }
+    if (!["example", "operator-capture"].includes(fixture.input.captureMode)) {
+      errors.push(`${filePath} input.captureMode must be example or operator-capture`);
+    }
+    if (!isIsoTimestamp(fixture.input.generatedAt)) {
+      errors.push(`${filePath} input.generatedAt must be an ISO timestamp`);
+    }
+  }
+
+  if (!fixture.playbook || typeof fixture.playbook !== "object") {
+    errors.push(`${filePath} playbook is required`);
+  } else {
+    for (const field of ["slug", "name", "repoFullName", "visibility", "defaultBranch"]) {
+      if (typeof fixture.playbook[field] !== "string" || fixture.playbook[field].length === 0) {
+        errors.push(`${filePath} playbook.${field} is required`);
+      }
+    }
+    if (!isIsoTimestamp(fixture.playbook.observedAt)) {
+      errors.push(`${filePath} playbook.observedAt must be an ISO timestamp`);
+    }
+  }
+
+  if (!fixture.verification || typeof fixture.verification !== "object") {
+    errors.push(`${filePath} verification is required`);
+  } else {
+    if (!playbookVerificationStatuses.has(fixture.verification.receiptStatus)) {
+      errors.push(`${filePath} verification.receiptStatus must be passed, warning, failed, or missing`);
+    }
+    for (const field of ["receiptPath", "command", "summary"]) {
+      if (typeof fixture.verification[field] !== "string" || fixture.verification[field].length === 0) {
+        errors.push(`${filePath} verification.${field} is required`);
+      }
+    }
+    if (!isIsoTimestamp(fixture.verification.observedAt)) {
+      errors.push(`${filePath} verification.observedAt must be an ISO timestamp`);
+    }
+  }
+
+  validatePlaybookArtifactGroup(filePath, "commandArtifacts", fixture.commandArtifacts);
+  validatePlaybookArtifactGroup(filePath, "patternArtifacts", fixture.patternArtifacts);
+  validatePlaybookArtifactGroup(filePath, "policyArtifacts", fixture.policyArtifacts);
+
+  if (!fixture.posture || typeof fixture.posture !== "object") {
+    errors.push(`${filePath} posture is required`);
+  } else {
+    if (!playbookPostureStates.has(fixture.posture.readiness)) {
+      errors.push(`${filePath} posture.readiness must be ready, partial, or blocked`);
+    }
+    if (!playbookPostureStates.has(fixture.posture.policyCoverage)) {
+      errors.push(`${filePath} posture.policyCoverage must be ready, partial, or blocked`);
+    }
+    if (!Array.isArray(fixture.posture.warnings)) {
+      errors.push(`${filePath} posture.warnings must be an array`);
+    }
+    if (!Array.isArray(fixture.posture.blockers)) {
+      errors.push(`${filePath} posture.blockers must be an array`);
+    }
+    if (typeof fixture.posture.summary !== "string" || fixture.posture.summary.length === 0) {
+      errors.push(`${filePath} posture.summary is required`);
+    }
+  }
+
+  if (!Array.isArray(fixture.recommendedRegistryUpdates) || fixture.recommendedRegistryUpdates.length === 0) {
+    errors.push(`${filePath} recommendedRegistryUpdates must include at least one suggested update`);
+  } else {
+    for (const [index, update] of fixture.recommendedRegistryUpdates.entries()) {
+      if (!update || typeof update !== "object") {
+        errors.push(`${filePath} recommendedRegistryUpdates[${index}] must be an object`);
+        continue;
+      }
+      if (typeof update.path !== "string" || update.path.length === 0) {
+        errors.push(`${filePath} recommendedRegistryUpdates[${index}].path is required`);
+      }
+      if (typeof update.summary !== "string" || update.summary.length === 0) {
+        errors.push(`${filePath} recommendedRegistryUpdates[${index}].summary is required`);
+      }
+      if (typeof update.requiresApproval !== "boolean") {
+        errors.push(`${filePath} recommendedRegistryUpdates[${index}].requiresApproval must be boolean`);
+      }
+    }
+  }
+}
+
 function validateHealthFacet(projectLabel, facetName, facet) {
   if (!facet || typeof facet !== "object") {
     errors.push(`${projectLabel}: missing health.${facetName}`);
@@ -528,6 +676,8 @@ if (gitignore) {
 for (const runtimeArtifact of [
   ".foundation/proof-refresh-draft.json",
   ".foundation/proof-refresh-draft.md",
+  ".foundation/playbook-ingestion-draft.json",
+  ".foundation/playbook-ingestion-draft.md",
   ".foundation/provider-observations.normalized.json",
   ".foundation/provider-observations.normalized.md",
   ".foundation/registry-change-bundle.json",
@@ -556,6 +706,10 @@ for (const fixtureFile of fixtureFiles) {
     if (!Array.isArray(fixture.projects) || fixture.projects.length === 0) {
       errors.push(`${fixtureFile} must include at least one project`);
     }
+  }
+
+  if (fixtureFile === "fixtures/playbook-read-interface.example.json") {
+    validatePlaybookReadInterfaceFixture(fixtureFile, fixture);
   }
 
   if (fixtureFile === "fixtures/provider-capture.example.json") {

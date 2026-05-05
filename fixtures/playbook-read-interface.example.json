@@ -1,0 +1,106 @@
+{
+  "$schema": "../packages/contracts/playbook-read-interface.schema.json",
+  "schemaVersion": 1,
+  "status": "proposal-only",
+  "mutationAuthority": "none",
+  "captureMode": "example",
+  "generatedAt": "2026-05-05T02:00:00.000Z",
+  "input": {
+    "path": "fixtures/playbook-read-interface.example.json",
+    "captureMode": "example",
+    "generatedAt": "2026-05-05T02:00:00.000Z"
+  },
+  "playbook": {
+    "slug": "playbook",
+    "name": "Fawxzzy Playbook",
+    "repoFullName": "fawxzzy/fawxzzy-playbook",
+    "visibility": "public",
+    "defaultBranch": "main",
+    "observedAt": "2026-05-05T02:00:00.000Z"
+  },
+  "verification": {
+    "receiptStatus": "passed",
+    "receiptPath": ".playbook/local-verification-receipt.json",
+    "observedAt": "2026-05-05T02:00:00.000Z",
+    "command": "pnpm verify",
+    "summary": "Example verification receipt indicates that Playbook completed a local verification pass."
+  },
+  "commandArtifacts": {
+    "status": "present",
+    "observedAt": "2026-05-05T02:00:00.000Z",
+    "summary": "Command-truth and operator-surface artifacts are present in this example capture.",
+    "items": [
+      {
+        "kind": "command-truth",
+        "path": "docs/contracts/command-truth.json",
+        "status": "present",
+        "summary": "Example command-truth contract is available for ingestion."
+      },
+      {
+        "kind": "operator-surface",
+        "path": "docs/ops/playbook-operator-surface.md",
+        "status": "present",
+        "summary": "Example operator-surface contract is available for ingestion."
+      }
+    ]
+  },
+  "patternArtifacts": {
+    "status": "partial",
+    "observedAt": "2026-05-05T02:00:00.000Z",
+    "summary": "Pattern and proposal artifacts are partially represented in this example capture.",
+    "items": [
+      {
+        "kind": "workflow-pack",
+        "path": "docs/patterns/workflow-pack-reuse.md",
+        "status": "present",
+        "summary": "Example workflow-pack guidance is available."
+      },
+      {
+        "kind": "proposal",
+        "path": "docs/proposals/read-first-control-plane.md",
+        "status": "partial",
+        "summary": "Example proposal artifact is captured, but full history is intentionally omitted."
+      }
+    ]
+  },
+  "policyArtifacts": {
+    "status": "present",
+    "observedAt": "2026-05-05T02:00:00.000Z",
+    "summary": "Policy and readiness artifacts are present in this example capture.",
+    "items": [
+      {
+        "kind": "readiness",
+        "path": "docs/readiness/playbook-readiness.json",
+        "status": "present",
+        "summary": "Example readiness artifact is available."
+      },
+      {
+        "kind": "policy",
+        "path": "docs/policy/governance-boundaries.md",
+        "status": "present",
+        "summary": "Example policy artifact is available."
+      }
+    ]
+  },
+  "posture": {
+    "readiness": "partial",
+    "policyCoverage": "ready",
+    "warnings": [
+      "Example capture does not include the full historical pattern archive."
+    ],
+    "blockers": [],
+    "summary": "Example Playbook evidence is good enough to exercise the ingestion path, but still demonstrates a partial readiness lane."
+  },
+  "recommendedRegistryUpdates": [
+    {
+      "path": "projects[playbook].nextActions[0]",
+      "summary": "Replace generic bootstrap phrasing with explicit Playbook read-interface ingestion follow-through after reviewed evidence is supplied.",
+      "requiresApproval": true
+    },
+    {
+      "path": "projects[playbook].scorecard.nextAction",
+      "summary": "Point Playbook scorecard follow-up at reviewed receipt ingestion rather than bootstrap-only wording.",
+      "requiresApproval": true
+    }
+  ]
+}

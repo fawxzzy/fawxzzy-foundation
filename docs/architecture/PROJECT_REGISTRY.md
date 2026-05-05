@@ -2,7 +2,7 @@
 
 Generated from `data/projects.json`. Do not hand-edit this file unless the generator is also updated.
 
-Updated: 2026-05-05T01:15:00.000Z
+Updated: 2026-05-05T04:15:00.000Z
 
 ## Summary
 
@@ -26,7 +26,7 @@ Updated: 2026-05-05T01:15:00.000Z
 | Slug | Name | Kind | Desired lifecycle | Observed proof | Health | Scorecard | Legacy status | Repo | Repo exists | Vercel | First next action |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | foundation | Fawxzzy Foundation | control-plane | active | current | healthy | healthy 100/100 | active | fawxzzy/fawxzzy-foundation | yes | fawxzzy-foundation | Ingest Playbook verification receipts and read-first artifacts into Foundation |
-| playbook | Fawxzzy Playbook | governance-runtime | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/fawxzzy-playbook | yes | - | adopt Playbook bootstrap in Foundation once package install is available |
+| playbook | Fawxzzy Playbook | governance-runtime | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/fawxzzy-playbook | yes | - | provide Playbook verification receipts and read-first artifacts to the Foundation ingestion draft |
 | atlas | ATLAS | workspace-architecture | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
 | fitness | Fawxzzy Fitness | application | active | current | warning | warning 85/100 | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness (primary), fawxzzy-fitness-prod-deploy (historical) | monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project |
 | lifeline | Fawxzzy Lifeline | operator-runtime | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/fawxzzy-lifeline | yes | - | define Foundation lifeline target once deployment runtime is chosen |
@@ -75,16 +75,16 @@ Updated: 2026-05-05T01:15:00.000Z
 - Observed: repo `verified`, deployment `not-applicable`, database `not-applicable`, proof `not-applicable`
 - Observed summary: Foundation currently verifies Playbook source ownership, but no deployment or proof target is defined here yet.
 - Health judgment: overall `healthy`, quality `advisory`
-- Health summary: The observed state is acceptable for the intended governance-runtime role, but Foundation visibility is still partial.
-- Health warning: Foundation has not yet ingested Playbook verification receipts or read interfaces.
+- Health summary: The observed state is acceptable for the intended governance-runtime role, but Foundation still needs supplied Playbook read artifacts before visibility can move beyond a partial view.
+- Health warning: Foundation now has a Playbook ingestion lane, but no reviewed Playbook verification receipts or read-interface artifacts have been supplied yet.
 - Legacy compatibility status: `active`
 - Scorecard: `healthy` 90/100
-- Score Evidence completeness: `warn` 15/25 - Split-state truth is present, but Playbook verification receipts and read-interface evidence are not yet ingested.
+- Score Evidence completeness: `warn` 15/25 - Split-state truth is present, and Foundation now has an ingestion lane, but no reviewed Playbook verification receipts or read-interface evidence have been supplied yet.
 - Score Proof freshness: `not-applicable` 25/25 - No deployment proof target is defined for Playbook in Foundation yet.
 - Score Deployment posture: `not-applicable` 25/25 - Foundation does not currently track a deployment lane for Playbook.
 - Score Data and security posture: `not-applicable` 25/25 - No Playbook database or privacy posture lane is modeled in Foundation yet.
-- Score warning: Foundation has not yet ingested Playbook verification receipts or read interfaces.
-- Score next action: Adopt Playbook bootstrap in Foundation once package install is available.
+- Score warning: Foundation now has a Playbook ingestion lane, but no reviewed Playbook verification receipts or read-interface artifacts have been supplied yet.
+- Score next action: Provide Playbook verification receipts and read-first artifacts to the Foundation ingestion draft.
 - Overall health facet: `tracked` - GitHub repo truth is recorded; deployment proof has not been introduced into Foundation yet.
 - GitHub: `verified` - GitHub repo exists and is recorded in Foundation. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel: `not-applicable` - No Vercel project is mapped for Playbook in Foundation yet. (checked `2026-05-01T03:18:52.146Z`)

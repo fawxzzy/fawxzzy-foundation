@@ -1,11 +1,11 @@
 {
   "build": {
-    "generatedAt": "2026-05-05T01:02:43.727Z",
+    "generatedAt": "2026-05-05T22:19:06.904Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-05T01:15:00.000Z",
+    "updatedAt": "2026-05-05T04:15:00.000Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
@@ -172,12 +172,14 @@
         "data/projects.json",
         "packages/contracts/foundation.schema.json",
         "packages/contracts/proof-refresh-draft.schema.json",
+        "packages/contracts/playbook-read-interface.schema.json",
         "packages/contracts/registry-change-bundle.schema.json",
         "packages/contracts/provider-capture.schema.json",
         "packages/contracts/provider-observations.schema.json",
         "packages/contracts/supabase-inventory-draft.schema.json",
         "docs/roadmap/FOUNDATION_ROADMAP.md",
         "docs/operations/PROOF_REFRESH.md",
+        "docs/operations/PLAYBOOK_INGESTION.md",
         "docs/operations/REGISTRY_CHANGE_BUNDLES.md",
         "docs/operations/PROVIDER_CAPTURE.md",
         "docs/operations/PROVIDER_OBSERVATIONS.md",
@@ -422,10 +424,10 @@
         "overall": "healthy",
         "quality": "advisory",
         "warnings": [
-          "Foundation has not yet ingested Playbook verification receipts or read interfaces."
+          "Foundation now has a Playbook ingestion lane, but no reviewed Playbook verification receipts or read-interface artifacts have been supplied yet."
         ],
         "blockers": [],
-        "summary": "The observed state is acceptable for the intended governance-runtime role, but Foundation visibility is still partial."
+        "summary": "The observed state is acceptable for the intended governance-runtime role, but Foundation still needs supplied Playbook read artifacts before visibility can move beyond a partial view."
       },
       "scorecard": {
         "status": "scored",
@@ -439,7 +441,7 @@
             "state": "warn",
             "points": 15,
             "maxPoints": 25,
-            "summary": "Split-state truth is present, but Playbook verification receipts and read-interface evidence are not yet ingested."
+            "summary": "Split-state truth is present, and Foundation now has an ingestion lane, but no reviewed Playbook verification receipts or read-interface evidence have been supplied yet."
           },
           {
             "key": "proof",
@@ -467,10 +469,10 @@
           }
         ],
         "warnings": [
-          "Foundation has not yet ingested Playbook verification receipts or read interfaces."
+          "Foundation now has a Playbook ingestion lane, but no reviewed Playbook verification receipts or read-interface artifacts have been supplied yet."
         ],
         "blockers": [],
-        "nextAction": "Adopt Playbook bootstrap in Foundation once package install is available."
+        "nextAction": "Provide Playbook verification receipts and read-first artifacts to the Foundation ingestion draft."
       },
       "repo": {
         "owner": "fawxzzy",
@@ -521,7 +523,7 @@
         "docs/contracts/command-truth.json"
       ],
       "nextActions": [
-        "adopt Playbook bootstrap in Foundation once package install is available"
+        "provide Playbook verification receipts and read-first artifacts to the Foundation ingestion draft"
       ]
     },
     {

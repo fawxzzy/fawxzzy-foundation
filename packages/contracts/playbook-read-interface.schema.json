@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fawxzzy.dev/contracts/playbook-read-interface.schema.json",
+  "title": "Foundation Playbook Read Interface Draft",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "status",
+    "mutationAuthority",
+    "captureMode",
+    "generatedAt",
+    "input",
+    "playbook",
+    "verification",
+    "commandArtifacts",
+    "patternArtifacts",
+    "policyArtifacts",
+    "posture",
+    "recommendedRegistryUpdates"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "status": {
+      "type": "string",
+      "const": "proposal-only"
+    },
+    "mutationAuthority": {
+      "type": "string",
+      "const": "none"
+    },
+    "captureMode": {
+      "type": "string",
+      "enum": ["example", "operator-capture"]
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "input": {
+      "type": "object",
+      "required": ["path", "captureMode", "generatedAt"],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "captureMode": {
+          "type": "string",
+          "enum": ["example", "operator-capture"]
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "playbook": {
+      "type": "object",
+      "required": ["slug", "name", "repoFullName", "visibility", "defaultBranch", "observedAt"],
+      "properties": {
+        "slug": { "type": "string" },
+        "name": { "type": "string" },
+        "repoFullName": { "type": "string" },
+        "visibility": { "type": "string" },
+        "defaultBranch": { "type": "string" },
+        "observedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "verification": {
+      "type": "object",
+      "required": ["receiptStatus", "receiptPath", "observedAt", "command", "summary"],
+      "properties": {
+        "receiptStatus": {
+          "type": "string",
+          "enum": ["passed", "warning", "failed", "missing"]
+        },
+        "receiptPath": { "type": "string" },
+        "observedAt": { "type": "string", "format": "date-time" },
+        "command": { "type": "string" },
+        "summary": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "commandArtifacts": {
+      "$ref": "#/$defs/artifactGroup"
+    },
+    "patternArtifacts": {
+      "$ref": "#/$defs/artifactGroup"
+    },
+    "policyArtifacts": {
+      "$ref": "#/$defs/artifactGroup"
+    },
+    "posture": {
+      "type": "object",
+      "required": ["readiness", "policyCoverage", "warnings", "blockers", "summary"],
+      "properties": {
+        "readiness": {
+          "type": "string",
+          "enum": ["ready", "partial", "blocked"]
+        },
+        "policyCoverage": {
+          "type": "string",
+          "enum": ["ready", "partial", "blocked"]
+        },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "blockers": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "recommendedRegistryUpdates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "summary", "requiresApproval"],
+        "properties": {
+          "path": { "type": "string" },
+          "summary": { "type": "string" },
+          "requiresApproval": { "type": "boolean" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "required": ["kind", "path", "status", "summary"],
+      "properties": {
+        "kind": { "type": "string" },
+        "path": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["present", "partial", "missing"]
+        },
+        "summary": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "artifactGroup": {
+      "type": "object",
+      "required": ["status", "observedAt", "summary", "items"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["present", "partial", "missing"]
+        },
+        "observedAt": { "type": "string", "format": "date-time" },
+        "summary": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/artifact" }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

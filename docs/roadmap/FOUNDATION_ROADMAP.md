@@ -132,6 +132,10 @@ Scorecard rules:
 Goal:
 Consume Playbook-style read-first control-plane interfaces for readiness/proof, run-state inspection, longitudinal state, and cross-repo pattern comparison.
 
+Current build lane:
+
+- Phase 5A adds a proposal-only Playbook ingestion draft for verification receipts, command-truth artifacts, readiness surfaces, and governance artifacts without executing Playbook or mutating the Foundation registry.
+
 Foundation should aggregate:
 
 - repo-local verification receipts,
@@ -145,6 +149,18 @@ Boundary:
 - read-first,
 - per-repo provenance preserved,
 - no batch mutation without explicit approval.
+
+Rule:
+
+- Foundation ingests Playbook read artifacts; it does not execute or replace Playbook.
+
+Pattern:
+
+- `Playbook receipt/artifact -> ingestion draft -> registry change bundle -> approved manual registry update`
+
+Failure mode:
+
+- Treating Foundation as the governance runtime duplicates Playbook and breaks repo ownership boundaries.
 
 ## Phase 6 - Lifeline execution receipt bridge
 

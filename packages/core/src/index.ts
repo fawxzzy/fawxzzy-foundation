@@ -149,6 +149,9 @@ export type FoundationRegistryChangeEvidenceKind =
   | "deployment-proof"
   | "manual-note";
 export type FoundationRegistryChangeApprovalStatus = "pending" | "approved" | "rejected" | "superseded";
+export type FoundationPlaybookVerificationReceiptStatus = "passed" | "warning" | "failed" | "missing";
+export type FoundationPlaybookArtifactStatus = "present" | "partial" | "missing";
+export type FoundationPlaybookPostureState = "ready" | "partial" | "blocked";
 
 export type FoundationProviderObservationFacetStatus =
   | "verified"
@@ -315,6 +318,70 @@ export type FoundationRegistryChangeBundle = {
   operations: FoundationRegistryChangeOperation[];
   evidence: FoundationRegistryChangeEvidence[];
   approval: FoundationRegistryChangeApproval;
+};
+
+export type FoundationPlaybookIdentity = {
+  slug: string;
+  name: string;
+  repoFullName: string;
+  visibility: string;
+  defaultBranch: string;
+  observedAt: string;
+};
+
+export type FoundationPlaybookVerificationReceipt = {
+  receiptStatus: FoundationPlaybookVerificationReceiptStatus;
+  receiptPath: string;
+  observedAt: string;
+  command: string;
+  summary: string;
+};
+
+export type FoundationPlaybookArtifact = {
+  kind: string;
+  path: string;
+  status: FoundationPlaybookArtifactStatus;
+  summary: string;
+};
+
+export type FoundationPlaybookArtifactGroup = {
+  status: FoundationPlaybookArtifactStatus;
+  observedAt: string;
+  summary: string;
+  items: FoundationPlaybookArtifact[];
+};
+
+export type FoundationPlaybookPosture = {
+  readiness: FoundationPlaybookPostureState;
+  policyCoverage: FoundationPlaybookPostureState;
+  warnings: string[];
+  blockers: string[];
+  summary: string;
+};
+
+export type FoundationPlaybookRegistryUpdate = {
+  path: string;
+  summary: string;
+  requiresApproval: boolean;
+};
+
+export type FoundationPlaybookIngestionDraft = {
+  schemaVersion: number;
+  status: "proposal-only";
+  mutationAuthority: "none";
+  generatedAt: string;
+  input: {
+    path: string;
+    captureMode: "example" | "operator-capture";
+    generatedAt: string;
+  };
+  playbook: FoundationPlaybookIdentity;
+  verification: FoundationPlaybookVerificationReceipt;
+  commandArtifacts: FoundationPlaybookArtifactGroup;
+  patternArtifacts: FoundationPlaybookArtifactGroup;
+  policyArtifacts: FoundationPlaybookArtifactGroup;
+  posture: FoundationPlaybookPosture;
+  recommendedRegistryUpdates: FoundationPlaybookRegistryUpdate[];
 };
 
 export type FoundationProjectHealth = {
