@@ -46,7 +46,16 @@ const splitStateRequiredProjects = new Set([
   "trove",
   "nat-1-games"
 ]);
-const scorecardRequiredProjects = new Set(["foundation", "fitness", "playbook", "lifeline"]);
+const scorecardRequiredProjects = new Set([
+  "foundation",
+  "fitness",
+  "playbook",
+  "lifeline",
+  "atlas",
+  "mazer",
+  "trove",
+  "nat-1-games"
+]);
 const desiredLifecycleStates = new Set(["active", "incubating", "observed-deployment", "planned", "historical"]);
 const desiredRoleStates = new Set(["control-plane", "application", "governance-runtime", "operator-runtime", "workspace-architecture"]);
 const observedRepoStates = new Set(["verified", "missing", "private-source", "not-applicable", "unknown"]);

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-05-04T19:35:00.000Z",
-  "source": "phase-4d-b-complete-split-state-migration",
+  "updatedAt": "2026-05-04T20:15:00.000Z",
+  "source": "phase-4c-b-complete-registry-scorecards",
   "owner": "fawxzzy",
   "principles": [
     "private-first runtime artifacts",
@@ -286,6 +286,51 @@
         ],
         "blockers": [],
         "summary": "The observed repo-only state matches the intended workspace-architecture role, but Foundation still treats ATLAS as a read-first coordination surface rather than a scored runtime."
+      },
+      "scorecard": {
+        "status": "scored",
+        "verdict": "healthy",
+        "score": 90,
+        "maxScore": 100,
+        "dimensions": [
+          {
+            "key": "evidence",
+            "label": "Evidence completeness",
+            "state": "warn",
+            "points": 15,
+            "maxPoints": 25,
+            "summary": "Split-state truth and repo visibility are present, but Foundation has not yet ingested ATLAS-side coordination receipts or validation artifacts."
+          },
+          {
+            "key": "proof",
+            "label": "Proof",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "ATLAS is tracked as a coordination and workspace inventory layer rather than a deployment-proof target."
+          },
+          {
+            "key": "deployment",
+            "label": "Deployment posture",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Foundation does not expect a deployment surface for ATLAS."
+          },
+          {
+            "key": "data-security",
+            "label": "Data and security posture",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "ATLAS is not modeled as an application data or privacy surface inside Foundation."
+          }
+        ],
+        "warnings": [
+          "Foundation has not yet ingested ATLAS coordination receipts or validation artifacts."
+        ],
+        "blockers": [],
+        "nextAction": "Sync Foundation registry from ATLAS workspace observations and future coordination receipts."
       },
       "repo": {
         "owner": "fawxzzy",
@@ -777,6 +822,49 @@
         "blockers": [],
         "summary": "Desired application ownership, live deployment evidence, and current clean proof are aligned for Mazer."
       },
+      "scorecard": {
+        "status": "scored",
+        "verdict": "healthy",
+        "score": 100,
+        "maxScore": 100,
+        "dimensions": [
+          {
+            "key": "evidence",
+            "label": "Evidence completeness",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Split-state truth, repo visibility, and current deployment evidence are all present for Mazer."
+          },
+          {
+            "key": "proof",
+            "label": "Proof freshness",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Current clean proof is captured from the live production alias."
+          },
+          {
+            "key": "deployment",
+            "label": "Deployment posture",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Mazer has a READY production deployment with recorded commit provenance."
+          },
+          {
+            "key": "data-security",
+            "label": "Data and security posture",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "No database or privacy posture lane is modeled for Mazer in Foundation yet."
+          }
+        ],
+        "warnings": [],
+        "blockers": [],
+        "nextAction": "Surface build and runtime proof details for Mazer in the Foundation console."
+      },
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-mazer",
@@ -877,6 +965,49 @@
         "blockers": [],
         "summary": "Desired application ownership, live deployment evidence, and current clean proof are aligned for Trove."
       },
+      "scorecard": {
+        "status": "scored",
+        "verdict": "healthy",
+        "score": 100,
+        "maxScore": 100,
+        "dimensions": [
+          {
+            "key": "evidence",
+            "label": "Evidence completeness",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Split-state truth, repo visibility, and current deployment evidence are all present for Trove."
+          },
+          {
+            "key": "proof",
+            "label": "Proof freshness",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Current clean proof is captured from the live production alias."
+          },
+          {
+            "key": "deployment",
+            "label": "Deployment posture",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Trove has a READY production deployment with clean recorded provenance."
+          },
+          {
+            "key": "data-security",
+            "label": "Data and security posture",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "No database or privacy posture lane is modeled for Trove in Foundation yet."
+          }
+        ],
+        "warnings": [],
+        "blockers": [],
+        "nextAction": "Monitor Trove deployment proof freshness and add repo-local governance contracts when they exist."
+      },
       "repo": {
         "owner": "fawxzzy",
         "name": "fawxzzy-trove",
@@ -973,6 +1104,49 @@
         "warnings": [],
         "blockers": [],
         "summary": "Observed deployment evidence and accepted private-source provenance align with the intended observed-deployment role for Nat 1 Games."
+      },
+      "scorecard": {
+        "status": "scored",
+        "verdict": "healthy",
+        "score": 100,
+        "maxScore": 100,
+        "dimensions": [
+          {
+            "key": "evidence",
+            "label": "Evidence completeness",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Split-state truth, Vercel deployment evidence, and accepted private-source provenance are all present for Nat 1 Games."
+          },
+          {
+            "key": "proof",
+            "label": "Proof freshness",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Current proof is accepted under the private-source policy because Vercel still identifies the intended source repo on main."
+          },
+          {
+            "key": "deployment",
+            "label": "Deployment posture",
+            "state": "pass",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "Nat 1 Games has a READY production deployment with recorded commit provenance."
+          },
+          {
+            "key": "data-security",
+            "label": "Data and security posture",
+            "state": "not-applicable",
+            "points": 25,
+            "maxPoints": 25,
+            "summary": "No database or privacy posture lane is modeled for Nat 1 Games in Foundation yet."
+          }
+        ],
+        "warnings": [],
+        "blockers": [],
+        "nextAction": "Refresh Nat 1 Games proof only from READY production deployments whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main."
       },
       "repo": {
         "owner": "ZachariahRedfield",

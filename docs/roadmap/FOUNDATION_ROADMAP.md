@@ -87,8 +87,9 @@ Current build lane:
 - Phase 4A introduces the first read-only Supabase inventory draft so Foundation can represent database and security posture without mutating Supabase.
 - Phase 4B adds live advisor evidence, schema scope classification, and split RLS posture so privacy claim posture can stay conservative for the right reasons instead of collapsing everything into a single mixed-RLS label.
 - Phase 4D now precedes scorecards: desired state, observed state, and health judgment must be separate machine fields before Phase 4C adds scorecards on top of `healthState`.
-- Phase 4C adds explainable health scorecards for migrated split-state projects only. Scorecards summarize evidence completeness, proof freshness, deployment posture, and data/security posture without inventing new claims.
+- Phase 4C adds explainable health scorecards across the split-state registry. Scorecards summarize evidence completeness, proof freshness, deployment posture, and data/security posture without inventing new claims.
 - Phase 4D-B completes split-state migration for `atlas`, `mazer`, `trove`, and `nat-1-games` without changing their existing proof facts or accepted-private-source policy.
+- Phase 4C-B completes scorecard parity for `atlas`, `mazer`, `trove`, and `nat-1-games`, including accepted-private-source scoring for Nat 1 Games without weakening the private-source policy boundary.
 
 Initial contracts:
 
@@ -121,7 +122,8 @@ Scorecard rules:
 
 - Scorecards consume split-state truth; they do not replace registry evidence.
 - Each score must remain explainable through dimension summaries, warnings, blockers, and a recommended next action.
-- Projects may remain unscored until scorecard coverage is intentionally extended, even after split-state migration is complete.
+- Full registry split-state should precede full registry scorecards.
+- Accepted private-source policy can still score as healthy when current provenance is explicit and policy boundaries remain intact.
 
 ## Phase 5 - Playbook read-interface bridge
 

@@ -61,6 +61,7 @@ Each project has:
 - Pattern: `desiredState -> observedState -> healthState -> scorecard -> recommended next action`.
 - Failure mode: numeric scores without evidence explanations create false confidence.
 - Rule: split-state migration should complete across the full registry before scorecard parity or deployment parity claims are treated as complete.
+- Rule: accepted private-source policy can still score as healthy when current deployment provenance remains explicit and the policy boundary is preserved.
 
 ## Proof quality policy
 

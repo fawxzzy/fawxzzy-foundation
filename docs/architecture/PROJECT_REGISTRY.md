@@ -2,7 +2,7 @@
 
 Generated from `data/projects.json`. Do not hand-edit this file unless the generator is also updated.
 
-Updated: 2026-05-04T19:35:00.000Z
+Updated: 2026-05-04T20:15:00.000Z
 
 ## Summary
 
@@ -27,12 +27,12 @@ Updated: 2026-05-04T19:35:00.000Z
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | foundation | Fawxzzy Foundation | control-plane | active | current | healthy | healthy 100/100 | active | fawxzzy/fawxzzy-foundation | yes | fawxzzy-foundation | Add approved registry change bundles keyed to reviewed draft hashes and affected slugs |
 | playbook | Fawxzzy Playbook | governance-runtime | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/fawxzzy-playbook | yes | - | adopt Playbook bootstrap in Foundation once package install is available |
-| atlas | ATLAS | workspace-architecture | active | not-applicable | healthy | - | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
+| atlas | ATLAS | workspace-architecture | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
 | fitness | Fawxzzy Fitness | application | active | current | warning | warning 85/100 | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness (primary), fawxzzy-fitness-prod-deploy (historical) | monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project |
 | lifeline | Fawxzzy Lifeline | operator-runtime | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/fawxzzy-lifeline | yes | - | define Foundation lifeline target once deployment runtime is chosen |
-| mazer | Fawxzzy Mazer | application-game | active | current | healthy | - | active | fawxzzy/fawxzzy-mazer | yes | fawxzzy-mazer | surface build/runtime proof in Foundation console |
-| trove | Fawxzzy Trove | content-data | active | current | healthy | - | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | monitor future Trove deployment proof freshness |
-| nat-1-games | Nat 1 Games | application | observed-deployment | current | healthy | - | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | refresh proof only from READY production deployments whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main |
+| mazer | Fawxzzy Mazer | application-game | active | current | healthy | healthy 100/100 | active | fawxzzy/fawxzzy-mazer | yes | fawxzzy-mazer | surface build/runtime proof in Foundation console |
+| trove | Fawxzzy Trove | content-data | active | current | healthy | healthy 100/100 | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | monitor future Trove deployment proof freshness |
+| nat-1-games | Nat 1 Games | application | observed-deployment | current | healthy | healthy 100/100 | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | refresh proof only from READY production deployments whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main |
 
 
 ## Health Ledger
@@ -102,6 +102,13 @@ Updated: 2026-05-04T19:35:00.000Z
 - Health summary: The observed repo-only state matches the intended workspace-architecture role, but Foundation still treats ATLAS as a read-first coordination surface rather than a scored runtime.
 - Health warning: ATLAS is intentionally tracked as a coordination and architecture repo without a deployment-proof lane.
 - Legacy compatibility status: `active`
+- Scorecard: `healthy` 90/100
+- Score Evidence completeness: `warn` 15/25 - Split-state truth and repo visibility are present, but Foundation has not yet ingested ATLAS-side coordination receipts or validation artifacts.
+- Score Proof: `not-applicable` 25/25 - ATLAS is tracked as a coordination and workspace inventory layer rather than a deployment-proof target.
+- Score Deployment posture: `not-applicable` 25/25 - Foundation does not expect a deployment surface for ATLAS.
+- Score Data and security posture: `not-applicable` 25/25 - ATLAS is not modeled as an application data or privacy surface inside Foundation.
+- Score warning: Foundation has not yet ingested ATLAS coordination receipts or validation artifacts.
+- Score next action: Sync Foundation registry from ATLAS workspace observations and future coordination receipts.
 - Overall health facet: `tracked` - Foundation tracks the GitHub source-of-truth repo, but no deployment proof is expected from this workspace layer.
 - GitHub: `verified` - GitHub repo exists and is recorded in Foundation. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel: `not-applicable` - No Vercel project is mapped for the workspace inventory layer. (checked `2026-05-01T03:18:52.146Z`)
@@ -175,6 +182,12 @@ Updated: 2026-05-04T19:35:00.000Z
 - Health judgment: overall `healthy`, quality `clean`
 - Health summary: Desired application ownership, live deployment evidence, and current clean proof are aligned for Mazer.
 - Legacy compatibility status: `active`
+- Scorecard: `healthy` 100/100
+- Score Evidence completeness: `pass` 25/25 - Split-state truth, repo visibility, and current deployment evidence are all present for Mazer.
+- Score Proof freshness: `pass` 25/25 - Current clean proof is captured from the live production alias.
+- Score Deployment posture: `pass` 25/25 - Mazer has a READY production deployment with recorded commit provenance.
+- Score Data and security posture: `not-applicable` 25/25 - No database or privacy posture lane is modeled for Mazer in Foundation yet.
+- Score next action: Surface build and runtime proof details for Mazer in the Foundation console.
 - Overall health facet: `deployment-observed` - GitHub repo is public and a current production deployment proof is captured from Vercel.
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
@@ -198,6 +211,12 @@ Updated: 2026-05-04T19:35:00.000Z
 - Health judgment: overall `healthy`, quality `clean`
 - Health summary: Desired application ownership, live deployment evidence, and current clean proof are aligned for Trove.
 - Legacy compatibility status: `active`
+- Scorecard: `healthy` 100/100
+- Score Evidence completeness: `pass` 25/25 - Split-state truth, repo visibility, and current deployment evidence are all present for Trove.
+- Score Proof freshness: `pass` 25/25 - Current clean proof is captured from the live production alias.
+- Score Deployment posture: `pass` 25/25 - Trove has a READY production deployment with clean recorded provenance.
+- Score Data and security posture: `not-applicable` 25/25 - No database or privacy posture lane is modeled for Trove in Foundation yet.
+- Score next action: Monitor Trove deployment proof freshness and add repo-local governance contracts when they exist.
 - Overall health facet: `deployment-observed` - GitHub repo is public and a current production deployment proof is captured from Vercel.
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
@@ -221,6 +240,12 @@ Updated: 2026-05-04T19:35:00.000Z
 - Health judgment: overall `healthy`, quality `accepted-private-source`
 - Health summary: Observed deployment evidence and accepted private-source provenance align with the intended observed-deployment role for Nat 1 Games.
 - Legacy compatibility status: `observed-deployment`
+- Scorecard: `healthy` 100/100
+- Score Evidence completeness: `pass` 25/25 - Split-state truth, Vercel deployment evidence, and accepted private-source provenance are all present for Nat 1 Games.
+- Score Proof freshness: `pass` 25/25 - Current proof is accepted under the private-source policy because Vercel still identifies the intended source repo on main.
+- Score Deployment posture: `pass` 25/25 - Nat 1 Games has a READY production deployment with recorded commit provenance.
+- Score Data and security posture: `not-applicable` 25/25 - No database or privacy posture lane is modeled for Nat 1 Games in Foundation yet.
+- Score next action: Refresh Nat 1 Games proof only from READY production deployments whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main.
 - Overall health facet: `deployment-observed` - A current Vercel production deployment is proved, and Vercel metadata confirms the intentionally private GitHub source repo.
 - GitHub: `private-source` - GitHub public API does not expose ZachariahRedfield/nat1-games, and Vercel production metadata confirms that private source repo on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Vercel project is visible under the fawxzzy team and exposes a current production target. (checked `2026-05-01T03:45:12.577Z`)
