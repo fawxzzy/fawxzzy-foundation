@@ -1,11 +1,11 @@
 {
   "build": {
-    "generatedAt": "2026-05-05T22:19:06.904Z",
+    "generatedAt": "2026-05-06T16:10:13.961Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-05T04:15:00.000Z",
+    "updatedAt": "2026-05-06T15:20:00.000Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
@@ -171,6 +171,7 @@
         "foundation.config.json",
         "data/projects.json",
         "packages/contracts/foundation.schema.json",
+        "packages/contracts/lifeline-receipt-projection.schema.json",
         "packages/contracts/proof-refresh-draft.schema.json",
         "packages/contracts/playbook-read-interface.schema.json",
         "packages/contracts/registry-change-bundle.schema.json",
@@ -178,6 +179,7 @@
         "packages/contracts/provider-observations.schema.json",
         "packages/contracts/supabase-inventory-draft.schema.json",
         "docs/roadmap/FOUNDATION_ROADMAP.md",
+        "docs/operations/LIFELINE_RECEIPT_PROJECTION.md",
         "docs/operations/PROOF_REFRESH.md",
         "docs/operations/PLAYBOOK_INGESTION.md",
         "docs/operations/REGISTRY_CHANGE_BUNDLES.md",
@@ -550,10 +552,10 @@
         "overall": "healthy",
         "quality": "advisory",
         "warnings": [
-          "Foundation has not yet ingested Lifeline execution receipts or rollback-state evidence."
+          "Foundation now has a Lifeline receipt projection lane, but no reviewed Lifeline receipts or rollback-state artifacts have been supplied yet."
         ],
         "blockers": [],
-        "summary": "The intended operator-runtime role is clear, but Foundation still has partial observation of Lifeline outcomes."
+        "summary": "The intended operator-runtime role is clear, but Foundation still needs supplied Lifeline receipts before its view of execution outcomes can move beyond a partial state."
       },
       "scorecard": {
         "status": "scored",
@@ -567,7 +569,7 @@
             "state": "warn",
             "points": 15,
             "maxPoints": 25,
-            "summary": "Split-state truth is present, but Lifeline execution receipts and rollback evidence are not yet projected into Foundation."
+            "summary": "Split-state truth is present, and Foundation now has a receipt projection lane, but no reviewed Lifeline receipts or rollback evidence have been supplied yet."
           },
           {
             "key": "proof",
@@ -595,10 +597,10 @@
           }
         ],
         "warnings": [
-          "Foundation has not yet ingested Lifeline execution receipts or rollback-state evidence."
+          "Foundation now has a Lifeline receipt projection lane, but no reviewed Lifeline receipts or rollback-state artifacts have been supplied yet."
         ],
         "blockers": [],
-        "nextAction": "Define Foundation Lifeline target once deployment runtime is chosen."
+        "nextAction": "Provide reviewed Lifeline receipts and rollback-state artifacts to the Foundation receipt projection."
       },
       "repo": {
         "owner": "fawxzzy",
@@ -647,7 +649,7 @@
         ".playbook"
       ],
       "nextActions": [
-        "define Foundation lifeline target once deployment runtime is chosen"
+        "provide reviewed Lifeline receipts and rollback-state artifacts to the Foundation receipt projection"
       ]
     },
     {

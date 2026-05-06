@@ -152,6 +152,11 @@ export type FoundationRegistryChangeApprovalStatus = "pending" | "approved" | "r
 export type FoundationPlaybookVerificationReceiptStatus = "passed" | "warning" | "failed" | "missing";
 export type FoundationPlaybookArtifactStatus = "present" | "partial" | "missing";
 export type FoundationPlaybookPostureState = "ready" | "partial" | "blocked";
+export type FoundationLifelineApprovalState = "approved" | "pending" | "not-required" | "rejected" | "unknown";
+export type FoundationLifelineExecutionState = "succeeded" | "warning" | "failed" | "pending" | "not-run";
+export type FoundationLifelineHealthcheckState = "passed" | "warning" | "failed" | "not-applicable" | "unknown";
+export type FoundationLifelineRollbackAvailability = "available" | "unavailable" | "not-applicable" | "unknown";
+export type FoundationLifelineRiskClass = "low" | "moderate" | "high" | "critical" | "unknown";
 
 export type FoundationProviderObservationFacetStatus =
   | "verified"
@@ -382,6 +387,54 @@ export type FoundationPlaybookIngestionDraft = {
   policyArtifacts: FoundationPlaybookArtifactGroup;
   posture: FoundationPlaybookPosture;
   recommendedRegistryUpdates: FoundationPlaybookRegistryUpdate[];
+};
+
+export type FoundationLifelineIdentity = {
+  slug: string;
+  name: string;
+  repoFullName: string;
+  visibility: string;
+  defaultBranch: string;
+  observedAt: string;
+};
+
+export type FoundationLifelineReceipt = {
+  targetRuntime: string;
+  environment: string;
+  action: string;
+  receiptId: string;
+  receiptPath: string;
+  approvalState: FoundationLifelineApprovalState;
+  executionState: FoundationLifelineExecutionState;
+  healthcheckState: FoundationLifelineHealthcheckState;
+  rollbackAvailability: FoundationLifelineRollbackAvailability;
+  riskClass: FoundationLifelineRiskClass;
+  observedAt: string;
+  summary: string;
+};
+
+export type FoundationLifelineRegistryUpdate = {
+  path: string;
+  summary: string;
+  requiresApproval: boolean;
+};
+
+export type FoundationLifelineReceiptProjection = {
+  schemaVersion: number;
+  status: "proposal-only";
+  mutationAuthority: "none";
+  captureMode: "example" | "operator-capture";
+  generatedAt: string;
+  input: {
+    path: string;
+    captureMode: "example" | "operator-capture";
+    generatedAt: string;
+  };
+  lifeline: FoundationLifelineIdentity;
+  receipt: FoundationLifelineReceipt;
+  warnings: string[];
+  blockers: string[];
+  recommendedRegistryUpdates: FoundationLifelineRegistryUpdate[];
 };
 
 export type FoundationProjectHealth = {

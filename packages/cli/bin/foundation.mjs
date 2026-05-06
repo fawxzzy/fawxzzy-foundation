@@ -155,6 +155,25 @@ async function playbookCommand(args) {
   await runScript("scripts/render-playbook-ingestion-draft.mjs", ["--input", inputPath]);
 }
 
+async function lifelineCommand(args) {
+  const [subcommand, nested, ...rest] = args;
+  if (subcommand !== "receipt" || nested !== "project") {
+    throw new Error("Usage: foundation lifeline receipt project --input <path>");
+  }
+
+  const inputIndex = rest.indexOf("--input");
+  if (inputIndex === -1) {
+    throw new Error("Lifeline receipt projection requires --input <path>.");
+  }
+
+  const inputPath = rest[inputIndex + 1];
+  if (!inputPath || inputPath.startsWith("--")) {
+    throw new Error("Missing path after --input.");
+  }
+
+  await runScript("scripts/render-lifeline-receipt-projection.mjs", ["--input", inputPath]);
+}
+
 async function registryCommand(args) {
   const [subcommand, ...rest] = args;
   if (subcommand !== "change-bundle") {
@@ -184,6 +203,8 @@ Commands:
                        Generate a proposal-only proof refresh draft
   playbook ingestion --draft --input <path>
                        Render a proposal-only Playbook ingestion draft
+  lifeline receipt project --input <path>
+                       Render a proposal-only Lifeline receipt projection
   registry change-bundle --input <path>
                        Render a proposal-only registry change bundle
   supabase inventory --draft --input <path>
@@ -201,6 +222,7 @@ try {
   else if (command === "projects") await projects({ json: wantsJson });
   else if (command === "proof") await proofRefresh(args);
   else if (command === "playbook") await playbookCommand(args);
+  else if (command === "lifeline") await lifelineCommand(args);
   else if (command === "registry") await registryCommand(args);
   else if (command === "supabase") await supabaseCommand(args);
   else if (command === "doctor") await doctor();

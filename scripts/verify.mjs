@@ -83,6 +83,11 @@ const sha256Pattern = /^[a-f0-9]{64}$/i;
 const playbookVerificationStatuses = new Set(["passed", "warning", "failed", "missing"]);
 const playbookArtifactStatuses = new Set(["present", "partial", "missing"]);
 const playbookPostureStates = new Set(["ready", "partial", "blocked"]);
+const lifelineApprovalStates = new Set(["approved", "pending", "not-required", "rejected", "unknown"]);
+const lifelineExecutionStates = new Set(["succeeded", "warning", "failed", "pending", "not-run"]);
+const lifelineHealthcheckStates = new Set(["passed", "warning", "failed", "not-applicable", "unknown"]);
+const lifelineRollbackStates = new Set(["available", "unavailable", "not-applicable", "unknown"]);
+const lifelineRiskClasses = new Set(["low", "moderate", "high", "critical", "unknown"]);
 
 const requiredFiles = [
   "README.md",
@@ -93,6 +98,7 @@ const requiredFiles = [
   "packages/contracts/foundation.schema.json",
   "packages/cli/bin/foundation.mjs",
   "packages/core/src/index.ts",
+  "packages/contracts/lifeline-receipt-projection.schema.json",
   "packages/contracts/playbook-read-interface.schema.json",
   "packages/contracts/proof-refresh-draft.schema.json",
   "packages/contracts/registry-change-bundle.schema.json",
@@ -101,6 +107,7 @@ const requiredFiles = [
   "packages/contracts/supabase-inventory-draft.schema.json",
   "scripts/render-registry.mjs",
   "scripts/render-console-data.mjs",
+  "scripts/render-lifeline-receipt-projection.mjs",
   "scripts/normalize-provider-observations.mjs",
   "scripts/render-playbook-ingestion-draft.mjs",
   "scripts/render-proof-refresh-draft.mjs",
@@ -110,12 +117,14 @@ const requiredFiles = [
   "docs/architecture/FOUNDATION_BLUEPRINT.md",
   "docs/architecture/PROJECT_REGISTRY.md",
   "docs/roadmap/FOUNDATION_ROADMAP.md",
+  "docs/operations/LIFELINE_RECEIPT_PROJECTION.md",
   "docs/operations/PLAYBOOK_INGESTION.md",
   "docs/operations/PROOF_REFRESH.md",
   "docs/operations/REGISTRY_CHANGE_BUNDLES.md",
   "docs/operations/PROVIDER_CAPTURE.md",
   "docs/operations/PROVIDER_OBSERVATIONS.md",
   "docs/operations/SUPABASE_INVENTORY.md",
+  "fixtures/lifeline-receipt-projection.example.json",
   "fixtures/playbook-read-interface.example.json",
   "fixtures/provider-capture.example.json",
   "fixtures/provider-observations.example.json",
@@ -231,7 +240,7 @@ function containsUnsafeExampleContent(value, pathParts = []) {
 
   if (value && typeof value === "object") {
     return Object.entries(value).some(([key, entry]) => {
-      if (unsafeKeyPattern.test(key) && !pathParts.includes("countsByName")) {
+      if (unsafeKeyPattern.test(key) && key !== "environment" && !pathParts.includes("countsByName")) {
         return true;
       }
       return containsUnsafeExampleContent(entry, [...pathParts, key]);
@@ -513,6 +522,103 @@ function validatePlaybookReadInterfaceFixture(filePath, fixture) {
   }
 }
 
+function validateLifelineReceiptProjectionFixture(filePath, fixture) {
+  if (fixture.schemaVersion !== 1) {
+    errors.push(`${filePath} schemaVersion must be 1`);
+  }
+  if (fixture.status !== "proposal-only") {
+    errors.push(`${filePath} status must be proposal-only`);
+  }
+  if (fixture.mutationAuthority !== "none") {
+    errors.push(`${filePath} mutationAuthority must be none`);
+  }
+  if (!["example", "operator-capture"].includes(fixture.captureMode)) {
+    errors.push(`${filePath} captureMode must be example or operator-capture`);
+  }
+
+  if (!fixture.input || typeof fixture.input !== "object") {
+    errors.push(`${filePath} input is required`);
+  } else {
+    if (typeof fixture.input.path !== "string" || fixture.input.path.length === 0) {
+      errors.push(`${filePath} input.path is required`);
+    }
+    if (!["example", "operator-capture"].includes(fixture.input.captureMode)) {
+      errors.push(`${filePath} input.captureMode must be example or operator-capture`);
+    }
+    if (!isIsoTimestamp(fixture.input.generatedAt)) {
+      errors.push(`${filePath} input.generatedAt must be an ISO timestamp`);
+    }
+  }
+
+  if (!fixture.lifeline || typeof fixture.lifeline !== "object") {
+    errors.push(`${filePath} lifeline is required`);
+  } else {
+    for (const field of ["slug", "name", "repoFullName", "visibility", "defaultBranch"]) {
+      if (typeof fixture.lifeline[field] !== "string" || fixture.lifeline[field].length === 0) {
+        errors.push(`${filePath} lifeline.${field} is required`);
+      }
+    }
+    if (!isIsoTimestamp(fixture.lifeline.observedAt)) {
+      errors.push(`${filePath} lifeline.observedAt must be an ISO timestamp`);
+    }
+  }
+
+  if (!fixture.receipt || typeof fixture.receipt !== "object") {
+    errors.push(`${filePath} receipt is required`);
+  } else {
+    for (const field of ["targetRuntime", "environment", "action", "receiptId", "receiptPath", "summary"]) {
+      if (typeof fixture.receipt[field] !== "string" || fixture.receipt[field].length === 0) {
+        errors.push(`${filePath} receipt.${field} is required`);
+      }
+    }
+    if (!lifelineApprovalStates.has(fixture.receipt.approvalState)) {
+      errors.push(`${filePath} receipt.approvalState must be approved, pending, not-required, rejected, or unknown`);
+    }
+    if (!lifelineExecutionStates.has(fixture.receipt.executionState)) {
+      errors.push(`${filePath} receipt.executionState must be succeeded, warning, failed, pending, or not-run`);
+    }
+    if (!lifelineHealthcheckStates.has(fixture.receipt.healthcheckState)) {
+      errors.push(`${filePath} receipt.healthcheckState must be passed, warning, failed, not-applicable, or unknown`);
+    }
+    if (!lifelineRollbackStates.has(fixture.receipt.rollbackAvailability)) {
+      errors.push(`${filePath} receipt.rollbackAvailability must be available, unavailable, not-applicable, or unknown`);
+    }
+    if (!lifelineRiskClasses.has(fixture.receipt.riskClass)) {
+      errors.push(`${filePath} receipt.riskClass must be low, moderate, high, critical, or unknown`);
+    }
+    if (!isIsoTimestamp(fixture.receipt.observedAt)) {
+      errors.push(`${filePath} receipt.observedAt must be an ISO timestamp`);
+    }
+  }
+
+  if (!Array.isArray(fixture.warnings)) {
+    errors.push(`${filePath} warnings must be an array`);
+  }
+  if (!Array.isArray(fixture.blockers)) {
+    errors.push(`${filePath} blockers must be an array`);
+  }
+
+  if (!Array.isArray(fixture.recommendedRegistryUpdates) || fixture.recommendedRegistryUpdates.length === 0) {
+    errors.push(`${filePath} recommendedRegistryUpdates must include at least one suggested update`);
+  } else {
+    for (const [index, update] of fixture.recommendedRegistryUpdates.entries()) {
+      if (!update || typeof update !== "object") {
+        errors.push(`${filePath} recommendedRegistryUpdates[${index}] must be an object`);
+        continue;
+      }
+      if (typeof update.path !== "string" || update.path.length === 0) {
+        errors.push(`${filePath} recommendedRegistryUpdates[${index}].path is required`);
+      }
+      if (typeof update.summary !== "string" || update.summary.length === 0) {
+        errors.push(`${filePath} recommendedRegistryUpdates[${index}].summary is required`);
+      }
+      if (typeof update.requiresApproval !== "boolean") {
+        errors.push(`${filePath} recommendedRegistryUpdates[${index}].requiresApproval must be boolean`);
+      }
+    }
+  }
+}
+
 function validateHealthFacet(projectLabel, facetName, facet) {
   if (!facet || typeof facet !== "object") {
     errors.push(`${projectLabel}: missing health.${facetName}`);
@@ -674,6 +780,8 @@ if (gitignore) {
 }
 
 for (const runtimeArtifact of [
+  ".foundation/lifeline-receipt-projection.json",
+  ".foundation/lifeline-receipt-projection.md",
   ".foundation/proof-refresh-draft.json",
   ".foundation/proof-refresh-draft.md",
   ".foundation/playbook-ingestion-draft.json",
@@ -710,6 +818,10 @@ for (const fixtureFile of fixtureFiles) {
 
   if (fixtureFile === "fixtures/playbook-read-interface.example.json") {
     validatePlaybookReadInterfaceFixture(fixtureFile, fixture);
+  }
+
+  if (fixtureFile === "fixtures/lifeline-receipt-projection.example.json") {
+    validateLifelineReceiptProjectionFixture(fixtureFile, fixture);
   }
 
   if (fixtureFile === "fixtures/provider-capture.example.json") {

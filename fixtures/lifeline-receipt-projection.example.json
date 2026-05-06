@@ -1,0 +1,51 @@
+{
+  "$schema": "../packages/contracts/lifeline-receipt-projection.schema.json",
+  "schemaVersion": 1,
+  "status": "proposal-only",
+  "mutationAuthority": "none",
+  "captureMode": "example",
+  "generatedAt": "2026-05-06T15:00:00.000Z",
+  "input": {
+    "path": "fixtures/lifeline-receipt-projection.example.json",
+    "captureMode": "example",
+    "generatedAt": "2026-05-06T15:00:00.000Z"
+  },
+  "lifeline": {
+    "slug": "lifeline",
+    "name": "Fawxzzy Lifeline",
+    "repoFullName": "fawxzzy/fawxzzy-lifeline",
+    "visibility": "public",
+    "defaultBranch": "main",
+    "observedAt": "2026-05-06T15:00:00.000Z"
+  },
+  "receipt": {
+    "targetRuntime": "local-operator",
+    "environment": "staging-like",
+    "action": "release activate",
+    "receiptId": "lifeline-receipt-example-001",
+    "receiptPath": ".lifeline/receipts/release-activate-example.json",
+    "approvalState": "approved",
+    "executionState": "succeeded",
+    "healthcheckState": "passed",
+    "rollbackAvailability": "available",
+    "riskClass": "moderate",
+    "observedAt": "2026-05-06T15:00:00.000Z",
+    "summary": "Example Lifeline receipt shows an approved activation action with passing healthchecks and an available rollback path."
+  },
+  "warnings": [
+    "Example projection does not include a full receipt history or rollback drill evidence."
+  ],
+  "blockers": [],
+  "recommendedRegistryUpdates": [
+    {
+      "path": "projects[lifeline].nextActions[0]",
+      "summary": "Replace generic target-definition wording with explicit Lifeline receipt projection follow-through after reviewed receipts are supplied.",
+      "requiresApproval": true
+    },
+    {
+      "path": "projects[lifeline].scorecard.nextAction",
+      "summary": "Point Lifeline scorecard follow-up at reviewed receipt projection rather than generic target-definition wording.",
+      "requiresApproval": true
+    }
+  ]
+}

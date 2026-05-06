@@ -167,6 +167,10 @@ Failure mode:
 Goal:
 Record execution/deployment receipts from Lifeline without making Foundation the executor.
 
+Current build lane:
+
+- Phase 6A adds a proposal-only Lifeline receipt projection for execution receipts, approval state, rollback posture, and runtime-health evidence without executing Lifeline or mutating the Foundation registry.
+
 Foundation should display:
 
 - target runtime,
@@ -175,6 +179,18 @@ Foundation should display:
 - approval state,
 - rollback availability,
 - current deploy/runtime health.
+
+Rule:
+
+- Foundation projects Lifeline receipts; it does not execute Lifeline.
+
+Pattern:
+
+- `Lifeline receipt -> Foundation projection draft -> registry change bundle -> approved manual registry update`
+
+Failure mode:
+
+- Treating Foundation as the execution boundary duplicates Lifeline and weakens operator provenance.
 
 ## Phase 7 - Operator command and voice readiness
 

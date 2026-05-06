@@ -2,7 +2,7 @@
 
 Generated from `data/projects.json`. Do not hand-edit this file unless the generator is also updated.
 
-Updated: 2026-05-05T04:15:00.000Z
+Updated: 2026-05-06T15:20:00.000Z
 
 ## Summary
 
@@ -29,7 +29,7 @@ Updated: 2026-05-05T04:15:00.000Z
 | playbook | Fawxzzy Playbook | governance-runtime | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/fawxzzy-playbook | yes | - | provide Playbook verification receipts and read-first artifacts to the Foundation ingestion draft |
 | atlas | ATLAS | workspace-architecture | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/ATLAS | yes | - | sync Foundation registry from ATLAS workspace observations |
 | fitness | Fawxzzy Fitness | application | active | current | warning | warning 85/100 | active | fawxzzy/fawxzzy-fitness | yes | fawxzzy-fitness (primary), fawxzzy-fitness-prod-deploy (historical) | monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project |
-| lifeline | Fawxzzy Lifeline | operator-runtime | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/fawxzzy-lifeline | yes | - | define Foundation lifeline target once deployment runtime is chosen |
+| lifeline | Fawxzzy Lifeline | operator-runtime | active | not-applicable | healthy | healthy 90/100 | active | fawxzzy/fawxzzy-lifeline | yes | - | provide reviewed Lifeline receipts and rollback-state artifacts to the Foundation receipt projection |
 | mazer | Fawxzzy Mazer | application-game | active | current | healthy | healthy 100/100 | active | fawxzzy/fawxzzy-mazer | yes | fawxzzy-mazer | surface build/runtime proof in Foundation console |
 | trove | Fawxzzy Trove | content-data | active | current | healthy | healthy 100/100 | active | fawxzzy/fawxzzy-trove | yes | fawxzzy-trove | monitor future Trove deployment proof freshness |
 | nat-1-games | Nat 1 Games | application | observed-deployment | current | healthy | healthy 100/100 | observed-deployment | ZachariahRedfield/nat1-games | unknown | nat-1-games | refresh proof only from READY production deployments whose Vercel metadata still identifies ZachariahRedfield/nat1-games on main |
@@ -156,16 +156,16 @@ Updated: 2026-05-05T04:15:00.000Z
 - Observed: repo `verified`, deployment `not-applicable`, database `not-applicable`, proof `not-applicable`
 - Observed summary: Foundation currently verifies Lifeline source ownership, but execution receipts are not yet projected into the control plane.
 - Health judgment: overall `healthy`, quality `advisory`
-- Health summary: The intended operator-runtime role is clear, but Foundation still has partial observation of Lifeline outcomes.
-- Health warning: Foundation has not yet ingested Lifeline execution receipts or rollback-state evidence.
+- Health summary: The intended operator-runtime role is clear, but Foundation still needs supplied Lifeline receipts before its view of execution outcomes can move beyond a partial state.
+- Health warning: Foundation now has a Lifeline receipt projection lane, but no reviewed Lifeline receipts or rollback-state artifacts have been supplied yet.
 - Legacy compatibility status: `active`
 - Scorecard: `healthy` 90/100
-- Score Evidence completeness: `warn` 15/25 - Split-state truth is present, but Lifeline execution receipts and rollback evidence are not yet projected into Foundation.
+- Score Evidence completeness: `warn` 15/25 - Split-state truth is present, and Foundation now has a receipt projection lane, but no reviewed Lifeline receipts or rollback evidence have been supplied yet.
 - Score Proof freshness: `not-applicable` 25/25 - No deployment proof target is defined for Lifeline yet.
 - Score Deployment posture: `not-applicable` 25/25 - Foundation does not currently track a deployment lane for Lifeline.
 - Score Data and security posture: `not-applicable` 25/25 - No Lifeline database or privacy posture lane is modeled in Foundation yet.
-- Score warning: Foundation has not yet ingested Lifeline execution receipts or rollback-state evidence.
-- Score next action: Define Foundation Lifeline target once deployment runtime is chosen.
+- Score warning: Foundation now has a Lifeline receipt projection lane, but no reviewed Lifeline receipts or rollback-state artifacts have been supplied yet.
+- Score next action: Provide reviewed Lifeline receipts and rollback-state artifacts to the Foundation receipt projection.
 - Overall health facet: `tracked` - GitHub repo truth is recorded; deployment proof will follow once Lifeline runtime targets are formalized.
 - GitHub: `verified` - GitHub repo exists and is recorded in Foundation. (checked `2026-05-01T03:18:52.146Z`)
 - Vercel: `not-applicable` - No Vercel project is mapped for Lifeline. (checked `2026-05-01T03:18:52.146Z`)

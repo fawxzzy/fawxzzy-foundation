@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fawxzzy.dev/contracts/lifeline-receipt-projection.schema.json",
+  "title": "Foundation Lifeline Receipt Projection",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "status",
+    "mutationAuthority",
+    "captureMode",
+    "generatedAt",
+    "input",
+    "lifeline",
+    "receipt",
+    "warnings",
+    "blockers",
+    "recommendedRegistryUpdates"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "status": {
+      "type": "string",
+      "const": "proposal-only"
+    },
+    "mutationAuthority": {
+      "type": "string",
+      "const": "none"
+    },
+    "captureMode": {
+      "type": "string",
+      "enum": ["example", "operator-capture"]
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "input": {
+      "type": "object",
+      "required": ["path", "captureMode", "generatedAt"],
+      "properties": {
+        "path": { "type": "string" },
+        "captureMode": {
+          "type": "string",
+          "enum": ["example", "operator-capture"]
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "lifeline": {
+      "type": "object",
+      "required": ["slug", "name", "repoFullName", "visibility", "defaultBranch", "observedAt"],
+      "properties": {
+        "slug": { "type": "string" },
+        "name": { "type": "string" },
+        "repoFullName": { "type": "string" },
+        "visibility": { "type": "string" },
+        "defaultBranch": { "type": "string" },
+        "observedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "receipt": {
+      "type": "object",
+      "required": [
+        "targetRuntime",
+        "environment",
+        "action",
+        "receiptId",
+        "receiptPath",
+        "approvalState",
+        "executionState",
+        "healthcheckState",
+        "rollbackAvailability",
+        "riskClass",
+        "observedAt",
+        "summary"
+      ],
+      "properties": {
+        "targetRuntime": { "type": "string" },
+        "environment": { "type": "string" },
+        "action": { "type": "string" },
+        "receiptId": { "type": "string" },
+        "receiptPath": { "type": "string" },
+        "approvalState": {
+          "type": "string",
+          "enum": ["approved", "pending", "not-required", "rejected", "unknown"]
+        },
+        "executionState": {
+          "type": "string",
+          "enum": ["succeeded", "warning", "failed", "pending", "not-run"]
+        },
+        "healthcheckState": {
+          "type": "string",
+          "enum": ["passed", "warning", "failed", "not-applicable", "unknown"]
+        },
+        "rollbackAvailability": {
+          "type": "string",
+          "enum": ["available", "unavailable", "not-applicable", "unknown"]
+        },
+        "riskClass": {
+          "type": "string",
+          "enum": ["low", "moderate", "high", "critical", "unknown"]
+        },
+        "observedAt": { "type": "string", "format": "date-time" },
+        "summary": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "recommendedRegistryUpdates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "summary", "requiresApproval"],
+        "properties": {
+          "path": { "type": "string" },
+          "summary": { "type": "string" },
+          "requiresApproval": { "type": "boolean" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
