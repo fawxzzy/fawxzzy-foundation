@@ -1,6 +1,6 @@
 {
   "build": {
-    "generatedAt": "2026-05-06T19:19:23.676Z",
+    "generatedAt": "2026-05-06T19:49:20.938Z",
     "source": "data/projects.json"
   },
   "summary": {
@@ -728,7 +728,7 @@
           "Historical prod-deploy mapping remains documented until active inventory or remediation changes."
         ],
         "blockers": [],
-        "nextAction": "Track the active Supabase privacy and performance findings through the Fitness privacy remediation tracker and require reviewed proof before changing posture."
+        "nextAction": "Execute the Fitness-owned Supabase remediation plan in the Fitness repo at docs/security/supabase-remediation-plan.md, track the active privacy and performance findings through the remediation tracker, and require reviewed proof before changing posture."
       },
       "repo": {
         "owner": "fawxzzy",
@@ -818,7 +818,7 @@
       ],
       "nextActions": [
         "monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project",
-        "track active Supabase privacy and performance findings through the Fitness privacy remediation tracker",
+        "execute the Fitness-owned Supabase remediation plan in the Fitness repo at docs/security/supabase-remediation-plan.md and track active privacy and performance findings through the Fitness privacy remediation tracker",
         "keep the historical fawxzzy-fitness-prod-deploy mapping documented unless it reappears in active team inventory",
         "surface deployment health in Foundation console"
       ]
