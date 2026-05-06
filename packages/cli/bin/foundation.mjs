@@ -174,6 +174,23 @@ async function lifelineCommand(args) {
   await runScript("scripts/render-lifeline-receipt-projection.mjs", ["--input", inputPath]);
 }
 
+async function privacyCommand(args) {
+  const [subcommand, nested, action, ...rest] = args;
+  if (subcommand !== "remediation" || nested !== "track") {
+    throw new Error("Usage: foundation privacy remediation track --input <path>");
+  }
+  if (action !== "--input") {
+    throw new Error("Privacy remediation tracker requires --input <path>.");
+  }
+
+  const inputPath = rest[0];
+  if (!inputPath || inputPath.startsWith("--")) {
+    throw new Error("Missing path after --input.");
+  }
+
+  await runScript("scripts/render-privacy-remediation-tracker.mjs", ["--input", inputPath]);
+}
+
 async function registryCommand(args) {
   const [subcommand, ...rest] = args;
   if (subcommand !== "change-bundle") {
@@ -205,6 +222,8 @@ Commands:
                        Render a proposal-only Playbook ingestion draft
   lifeline receipt project --input <path>
                        Render a proposal-only Lifeline receipt projection
+  privacy remediation track --input <path>
+                       Render a proposal-only privacy remediation tracker
   registry change-bundle --input <path>
                        Render a proposal-only registry change bundle
   supabase inventory --draft --input <path>
@@ -223,6 +242,7 @@ try {
   else if (command === "proof") await proofRefresh(args);
   else if (command === "playbook") await playbookCommand(args);
   else if (command === "lifeline") await lifelineCommand(args);
+  else if (command === "privacy") await privacyCommand(args);
   else if (command === "registry") await registryCommand(args);
   else if (command === "supabase") await supabaseCommand(args);
   else if (command === "doctor") await doctor();

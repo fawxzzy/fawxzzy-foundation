@@ -1,11 +1,11 @@
 {
   "build": {
-    "generatedAt": "2026-05-06T16:10:13.961Z",
+    "generatedAt": "2026-05-06T19:19:23.676Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-06T15:20:00.000Z",
+    "updatedAt": "2026-05-06T19:20:00.000Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
@@ -172,6 +172,7 @@
         "data/projects.json",
         "packages/contracts/foundation.schema.json",
         "packages/contracts/lifeline-receipt-projection.schema.json",
+        "packages/contracts/privacy-remediation-tracker.schema.json",
         "packages/contracts/proof-refresh-draft.schema.json",
         "packages/contracts/playbook-read-interface.schema.json",
         "packages/contracts/registry-change-bundle.schema.json",
@@ -180,6 +181,7 @@
         "packages/contracts/supabase-inventory-draft.schema.json",
         "docs/roadmap/FOUNDATION_ROADMAP.md",
         "docs/operations/LIFELINE_RECEIPT_PROJECTION.md",
+        "docs/operations/PRIVACY_REMEDIATION_TRACKING.md",
         "docs/operations/PROOF_REFRESH.md",
         "docs/operations/PLAYBOOK_INGESTION.md",
         "docs/operations/REGISTRY_CHANGE_BUNDLES.md",
@@ -676,11 +678,11 @@
         "overall": "warning",
         "quality": "advisory",
         "warnings": [
-          "Supabase advisor evidence currently blocks stronger privacy posture claims for Fitness.",
+          "Supabase advisor evidence is now tracked through an explicit Fitness privacy remediation lane, and stronger privacy posture claims remain blocked until reviewed fixes are proved.",
           "Historical prod-deploy mapping remains documented until active inventory or remediation changes."
         ],
         "blockers": [],
-        "summary": "Deployment proof is clean, but privacy and database posture still require remediation tracking before Fitness can be treated as fully healthy."
+        "summary": "Deployment proof is clean, but privacy and database posture remain blocked on tracked remediation work before Fitness can be treated as fully healthy."
       },
       "scorecard": {
         "status": "scored",
@@ -718,15 +720,15 @@
             "state": "warn",
             "points": 10,
             "maxPoints": 25,
-            "summary": "Supabase advisor evidence is present, but current findings still block stronger privacy and data-security claims."
+            "summary": "Supabase advisor evidence is present, and the active findings are now tracked through an explicit remediation lane, but stronger privacy and data-security claims remain blocked."
           }
         ],
         "warnings": [
-          "Supabase advisor evidence currently blocks stronger privacy posture claims for Fitness.",
+          "Supabase advisor evidence is now tracked through an explicit Fitness privacy remediation lane, and stronger privacy posture claims remain blocked until reviewed fixes are proved.",
           "Historical prod-deploy mapping remains documented until active inventory or remediation changes."
         ],
         "blockers": [],
-        "nextAction": "Turn the blocked Supabase privacy posture into Fitness-owned remediation tracking."
+        "nextAction": "Track the active Supabase privacy and performance findings through the Fitness privacy remediation tracker and require reviewed proof before changing posture."
       },
       "repo": {
         "owner": "fawxzzy",
@@ -816,7 +818,7 @@
       ],
       "nextActions": [
         "monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project",
-        "turn the blocked Supabase privacy posture into Fitness-owned remediation tracking",
+        "track active Supabase privacy and performance findings through the Fitness privacy remediation tracker",
         "keep the historical fawxzzy-fitness-prod-deploy mapping documented unless it reappears in active team inventory",
         "surface deployment health in Foundation console"
       ]

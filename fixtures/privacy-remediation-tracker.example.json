@@ -1,0 +1,109 @@
+{
+  "$schema": "../packages/contracts/privacy-remediation-tracker.schema.json",
+  "schemaVersion": 1,
+  "status": "proposal-only",
+  "mutationAuthority": "none",
+  "captureMode": "example",
+  "generatedAt": "2026-05-06T19:00:00.000Z",
+  "input": {
+    "path": "fixtures/privacy-remediation-tracker.example.json",
+    "captureMode": "example",
+    "generatedAt": "2026-05-06T19:00:00.000Z"
+  },
+  "project": {
+    "slug": "fitness",
+    "name": "Fawxzzy Fitness",
+    "ownerRepo": "fawxzzy/fawxzzy-fitness",
+    "observedAt": "2026-05-06T19:00:00.000Z"
+  },
+  "privacyClaimPosture": "blocked",
+  "summary": "Example Fitness remediation tracker keeps privacy posture blocked until the known Supabase advisor findings are addressed and proved through reviewed evidence.",
+  "items": [
+    {
+      "findingClass": "function_search_path_mutable",
+      "severity": "high",
+      "affectedSurfaces": [
+        "public.claim_session_follow_up_jobs",
+        "public.enqueue_coaching_reminder"
+      ],
+      "ownerRepo": "fawxzzy/fawxzzy-fitness",
+      "remediationStatus": "open",
+      "proposedNextAction": "Pin secure search_path values on externally reachable SQL functions and capture reviewed proof after migration.",
+      "riskIfIgnored": "Mutable search_path can widen the blast radius of function execution and blocks stronger privacy claims.",
+      "evidenceReference": ".foundation/supabase-inventory-draft.json#advisors.security.findings.function_search_path_mutable",
+      "requiresFitnessOrSupabaseAction": true
+    },
+    {
+      "findingClass": "auth_leaked_password_protection",
+      "severity": "high",
+      "affectedSurfaces": [
+        "supabase-auth"
+      ],
+      "ownerRepo": "fawxzzy/fawxzzy-fitness",
+      "remediationStatus": "open",
+      "proposedNextAction": "Enable leaked password protection in Supabase Auth and record reviewed operator proof before changing privacy posture.",
+      "riskIfIgnored": "Weak password-leak safeguards keep account protection claims below proved status.",
+      "evidenceReference": ".foundation/supabase-inventory-draft.json#advisors.security.findings.auth_leaked_password_protection",
+      "requiresFitnessOrSupabaseAction": true
+    },
+    {
+      "findingClass": "auth_rls_initplan",
+      "severity": "moderate",
+      "affectedSurfaces": [
+        "public.sessions",
+        "public.routine_day_exercises"
+      ],
+      "ownerRepo": "fawxzzy/fawxzzy-fitness",
+      "remediationStatus": "planned",
+      "proposedNextAction": "Refactor affected public RLS policies so auth context is initialized once per query path where practical.",
+      "riskIfIgnored": "RLS performance costs can accumulate and make privacy-preserving access paths harder to sustain at scale.",
+      "evidenceReference": ".foundation/supabase-inventory-draft.json#advisors.performance.findings.auth_rls_initplan",
+      "requiresFitnessOrSupabaseAction": true
+    },
+    {
+      "findingClass": "unindexed_foreign_keys",
+      "severity": "moderate",
+      "affectedSurfaces": [
+        "public.sessions",
+        "public.workout_sets"
+      ],
+      "ownerRepo": "fawxzzy/fawxzzy-fitness",
+      "remediationStatus": "planned",
+      "proposedNextAction": "Add covering indexes for the remaining foreign-key paths and capture migration proof in the owner repo.",
+      "riskIfIgnored": "Join-heavy queries and policy evaluation paths may degrade under load.",
+      "evidenceReference": ".foundation/supabase-inventory-draft.json#advisors.performance.findings.unindexed_foreign_keys",
+      "requiresFitnessOrSupabaseAction": true
+    },
+    {
+      "findingClass": "unused_index",
+      "severity": "low",
+      "affectedSurfaces": [
+        "profiles_active_routine_idx"
+      ],
+      "ownerRepo": "fawxzzy/fawxzzy-fitness",
+      "remediationStatus": "deferred",
+      "proposedNextAction": "Review index usage during the broader performance pass and drop only after owner-side confirmation.",
+      "riskIfIgnored": "Unused indexes increase write overhead and complicate schema hygiene, but do not independently block privacy posture.",
+      "evidenceReference": ".foundation/supabase-inventory-draft.json#advisors.performance.findings.unused_index",
+      "requiresFitnessOrSupabaseAction": true
+    }
+  ],
+  "warnings": [
+    "Example tracker demonstrates remediation ownership and evidence linkage only; it does not prove fixes."
+  ],
+  "blockers": [
+    "Privacy claim posture remains blocked until reviewed remediation proof exists for the active security findings."
+  ],
+  "recommendedRegistryUpdates": [
+    {
+      "path": "projects[fitness].healthState.warnings[0]",
+      "summary": "Replace generic privacy warning wording with explicit remediation-lane tracking language after the tracker is reviewed.",
+      "requiresApproval": true
+    },
+    {
+      "path": "projects[fitness].scorecard.nextAction",
+      "summary": "Point the Fitness scorecard next action at the explicit remediation tracker rather than generic blocked-posture wording.",
+      "requiresApproval": true
+    }
+  ]
+}

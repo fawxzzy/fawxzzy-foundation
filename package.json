@@ -13,6 +13,7 @@
     "dev": "node scripts/serve-console.mjs",
     "console:serve": "node scripts/serve-console.mjs",
     "lifeline:receipt:project": "node scripts/render-lifeline-receipt-projection.mjs",
+    "privacy:remediation:track": "node scripts/render-privacy-remediation-tracker.mjs",
     "provider:observations:normalize": "node scripts/normalize-provider-observations.mjs",
     "playbook:ingestion:draft": "node scripts/render-playbook-ingestion-draft.mjs",
     "proof:refresh:draft": "node scripts/render-proof-refresh-draft.mjs",

@@ -157,6 +157,8 @@ export type FoundationLifelineExecutionState = "succeeded" | "warning" | "failed
 export type FoundationLifelineHealthcheckState = "passed" | "warning" | "failed" | "not-applicable" | "unknown";
 export type FoundationLifelineRollbackAvailability = "available" | "unavailable" | "not-applicable" | "unknown";
 export type FoundationLifelineRiskClass = "low" | "moderate" | "high" | "critical" | "unknown";
+export type FoundationPrivacyRemediationSeverity = "low" | "moderate" | "high" | "critical";
+export type FoundationPrivacyRemediationStatus = "open" | "planned" | "in-progress" | "blocked" | "deferred" | "resolved";
 
 export type FoundationProviderObservationFacetStatus =
   | "verified"
@@ -435,6 +437,51 @@ export type FoundationLifelineReceiptProjection = {
   warnings: string[];
   blockers: string[];
   recommendedRegistryUpdates: FoundationLifelineRegistryUpdate[];
+};
+
+export type FoundationPrivacyRemediationProject = {
+  slug: string;
+  name: string;
+  ownerRepo: string;
+  observedAt: string;
+};
+
+export type FoundationPrivacyRemediationItem = {
+  findingClass: string;
+  severity: FoundationPrivacyRemediationSeverity;
+  affectedSurfaces: string[];
+  ownerRepo: string;
+  remediationStatus: FoundationPrivacyRemediationStatus;
+  proposedNextAction: string;
+  riskIfIgnored: string;
+  evidenceReference: string;
+  requiresFitnessOrSupabaseAction: boolean;
+};
+
+export type FoundationPrivacyRemediationRegistryUpdate = {
+  path: string;
+  summary: string;
+  requiresApproval: boolean;
+};
+
+export type FoundationPrivacyRemediationTracker = {
+  schemaVersion: number;
+  status: "proposal-only";
+  mutationAuthority: "none";
+  captureMode: "example" | "operator-capture";
+  generatedAt: string;
+  input: {
+    path: string;
+    captureMode: "example" | "operator-capture";
+    generatedAt: string;
+  };
+  project: FoundationPrivacyRemediationProject;
+  privacyClaimPosture: "unclaimed" | "draft" | "proved" | "blocked";
+  summary: string;
+  items: FoundationPrivacyRemediationItem[];
+  warnings: string[];
+  blockers: string[];
+  recommendedRegistryUpdates: FoundationPrivacyRemediationRegistryUpdate[];
 };
 
 export type FoundationProjectHealth = {

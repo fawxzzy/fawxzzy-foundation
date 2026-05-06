@@ -88,6 +88,8 @@ const lifelineExecutionStates = new Set(["succeeded", "warning", "failed", "pend
 const lifelineHealthcheckStates = new Set(["passed", "warning", "failed", "not-applicable", "unknown"]);
 const lifelineRollbackStates = new Set(["available", "unavailable", "not-applicable", "unknown"]);
 const lifelineRiskClasses = new Set(["low", "moderate", "high", "critical", "unknown"]);
+const privacyRemediationSeverities = new Set(["low", "moderate", "high", "critical"]);
+const privacyRemediationStatuses = new Set(["open", "planned", "in-progress", "blocked", "deferred", "resolved"]);
 
 const requiredFiles = [
   "README.md",
@@ -99,6 +101,7 @@ const requiredFiles = [
   "packages/cli/bin/foundation.mjs",
   "packages/core/src/index.ts",
   "packages/contracts/lifeline-receipt-projection.schema.json",
+  "packages/contracts/privacy-remediation-tracker.schema.json",
   "packages/contracts/playbook-read-interface.schema.json",
   "packages/contracts/proof-refresh-draft.schema.json",
   "packages/contracts/registry-change-bundle.schema.json",
@@ -108,6 +111,7 @@ const requiredFiles = [
   "scripts/render-registry.mjs",
   "scripts/render-console-data.mjs",
   "scripts/render-lifeline-receipt-projection.mjs",
+  "scripts/render-privacy-remediation-tracker.mjs",
   "scripts/normalize-provider-observations.mjs",
   "scripts/render-playbook-ingestion-draft.mjs",
   "scripts/render-proof-refresh-draft.mjs",
@@ -118,6 +122,7 @@ const requiredFiles = [
   "docs/architecture/PROJECT_REGISTRY.md",
   "docs/roadmap/FOUNDATION_ROADMAP.md",
   "docs/operations/LIFELINE_RECEIPT_PROJECTION.md",
+  "docs/operations/PRIVACY_REMEDIATION_TRACKING.md",
   "docs/operations/PLAYBOOK_INGESTION.md",
   "docs/operations/PROOF_REFRESH.md",
   "docs/operations/REGISTRY_CHANGE_BUNDLES.md",
@@ -125,6 +130,7 @@ const requiredFiles = [
   "docs/operations/PROVIDER_OBSERVATIONS.md",
   "docs/operations/SUPABASE_INVENTORY.md",
   "fixtures/lifeline-receipt-projection.example.json",
+  "fixtures/privacy-remediation-tracker.example.json",
   "fixtures/playbook-read-interface.example.json",
   "fixtures/provider-capture.example.json",
   "fixtures/provider-observations.example.json",
@@ -619,6 +625,115 @@ function validateLifelineReceiptProjectionFixture(filePath, fixture) {
   }
 }
 
+function validatePrivacyRemediationTrackerFixture(filePath, fixture) {
+  if (fixture.schemaVersion !== 1) {
+    errors.push(`${filePath} schemaVersion must be 1`);
+  }
+  if (fixture.status !== "proposal-only") {
+    errors.push(`${filePath} status must be proposal-only`);
+  }
+  if (fixture.mutationAuthority !== "none") {
+    errors.push(`${filePath} mutationAuthority must be none`);
+  }
+  if (!["example", "operator-capture"].includes(fixture.captureMode)) {
+    errors.push(`${filePath} captureMode must be example or operator-capture`);
+  }
+
+  if (!fixture.input || typeof fixture.input !== "object") {
+    errors.push(`${filePath} input is required`);
+  } else {
+    if (typeof fixture.input.path !== "string" || fixture.input.path.length === 0) {
+      errors.push(`${filePath} input.path is required`);
+    }
+    if (!["example", "operator-capture"].includes(fixture.input.captureMode)) {
+      errors.push(`${filePath} input.captureMode must be example or operator-capture`);
+    }
+    if (!isIsoTimestamp(fixture.input.generatedAt)) {
+      errors.push(`${filePath} input.generatedAt must be an ISO timestamp`);
+    }
+  }
+
+  if (!fixture.project || typeof fixture.project !== "object") {
+    errors.push(`${filePath} project is required`);
+  } else {
+    for (const field of ["slug", "name", "ownerRepo"]) {
+      if (typeof fixture.project[field] !== "string" || fixture.project[field].length === 0) {
+        errors.push(`${filePath} project.${field} is required`);
+      }
+    }
+    if (!isIsoTimestamp(fixture.project.observedAt)) {
+      errors.push(`${filePath} project.observedAt must be an ISO timestamp`);
+    }
+  }
+
+  if (!["unclaimed", "draft", "proved", "blocked"].includes(fixture.privacyClaimPosture)) {
+    errors.push(`${filePath} privacyClaimPosture must be unclaimed, draft, proved, or blocked`);
+  }
+  if (typeof fixture.summary !== "string" || fixture.summary.length === 0) {
+    errors.push(`${filePath} summary is required`);
+  }
+  if (!Array.isArray(fixture.items) || fixture.items.length === 0) {
+    errors.push(`${filePath} items must include at least one remediation item`);
+  } else {
+    for (const [index, item] of fixture.items.entries()) {
+      if (!item || typeof item !== "object") {
+        errors.push(`${filePath} items[${index}] must be an object`);
+        continue;
+      }
+      if (typeof item.findingClass !== "string" || item.findingClass.length === 0) {
+        errors.push(`${filePath} items[${index}].findingClass is required`);
+      }
+      if (!privacyRemediationSeverities.has(item.severity)) {
+        errors.push(`${filePath} items[${index}].severity must be low, moderate, high, or critical`);
+      }
+      if (!Array.isArray(item.affectedSurfaces) || item.affectedSurfaces.length === 0) {
+        errors.push(`${filePath} items[${index}].affectedSurfaces must include at least one surface`);
+      }
+      if (typeof item.ownerRepo !== "string" || item.ownerRepo.length === 0) {
+        errors.push(`${filePath} items[${index}].ownerRepo is required`);
+      }
+      if (!privacyRemediationStatuses.has(item.remediationStatus)) {
+        errors.push(`${filePath} items[${index}].remediationStatus must be open, planned, in-progress, blocked, deferred, or resolved`);
+      }
+      for (const field of ["proposedNextAction", "riskIfIgnored", "evidenceReference"]) {
+        if (typeof item[field] !== "string" || item[field].length === 0) {
+          errors.push(`${filePath} items[${index}].${field} is required`);
+        }
+      }
+      if (typeof item.requiresFitnessOrSupabaseAction !== "boolean") {
+        errors.push(`${filePath} items[${index}].requiresFitnessOrSupabaseAction must be boolean`);
+      }
+    }
+  }
+
+  if (!Array.isArray(fixture.warnings)) {
+    errors.push(`${filePath} warnings must be an array`);
+  }
+  if (!Array.isArray(fixture.blockers)) {
+    errors.push(`${filePath} blockers must be an array`);
+  }
+
+  if (!Array.isArray(fixture.recommendedRegistryUpdates) || fixture.recommendedRegistryUpdates.length === 0) {
+    errors.push(`${filePath} recommendedRegistryUpdates must include at least one suggested update`);
+  } else {
+    for (const [index, update] of fixture.recommendedRegistryUpdates.entries()) {
+      if (!update || typeof update !== "object") {
+        errors.push(`${filePath} recommendedRegistryUpdates[${index}] must be an object`);
+        continue;
+      }
+      if (typeof update.path !== "string" || update.path.length === 0) {
+        errors.push(`${filePath} recommendedRegistryUpdates[${index}].path is required`);
+      }
+      if (typeof update.summary !== "string" || update.summary.length === 0) {
+        errors.push(`${filePath} recommendedRegistryUpdates[${index}].summary is required`);
+      }
+      if (typeof update.requiresApproval !== "boolean") {
+        errors.push(`${filePath} recommendedRegistryUpdates[${index}].requiresApproval must be boolean`);
+      }
+    }
+  }
+}
+
 function validateHealthFacet(projectLabel, facetName, facet) {
   if (!facet || typeof facet !== "object") {
     errors.push(`${projectLabel}: missing health.${facetName}`);
@@ -782,6 +897,8 @@ if (gitignore) {
 for (const runtimeArtifact of [
   ".foundation/lifeline-receipt-projection.json",
   ".foundation/lifeline-receipt-projection.md",
+  ".foundation/privacy-remediation-tracker.json",
+  ".foundation/privacy-remediation-tracker.md",
   ".foundation/proof-refresh-draft.json",
   ".foundation/proof-refresh-draft.md",
   ".foundation/playbook-ingestion-draft.json",
@@ -822,6 +939,10 @@ for (const fixtureFile of fixtureFiles) {
 
   if (fixtureFile === "fixtures/lifeline-receipt-projection.example.json") {
     validateLifelineReceiptProjectionFixture(fixtureFile, fixture);
+  }
+
+  if (fixtureFile === "fixtures/privacy-remediation-tracker.example.json") {
+    validatePrivacyRemediationTrackerFixture(fixtureFile, fixture);
   }
 
   if (fixtureFile === "fixtures/provider-capture.example.json") {

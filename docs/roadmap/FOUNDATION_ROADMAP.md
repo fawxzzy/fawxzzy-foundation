@@ -170,6 +170,7 @@ Record execution/deployment receipts from Lifeline without making Foundation the
 Current build lane:
 
 - Phase 6A adds a proposal-only Lifeline receipt projection for execution receipts, approval state, rollback posture, and runtime-health evidence without executing Lifeline or mutating the Foundation registry.
+- Phase 6B adds structured Fitness privacy remediation tracking so Supabase advisor findings can be owned, routed, and reviewed without mutating Supabase or the Fitness repo from Foundation.
 
 Foundation should display:
 
@@ -191,6 +192,18 @@ Pattern:
 Failure mode:
 
 - Treating Foundation as the execution boundary duplicates Lifeline and weakens operator provenance.
+
+Privacy remediation rule:
+
+- Foundation tracks Fitness privacy remediation; it does not mutate Supabase or Fitness.
+
+Privacy remediation pattern:
+
+- `Supabase advisor evidence -> remediation tracker -> registry change bundle -> approved owner-repo/Supabase action`
+
+Privacy remediation failure mode:
+
+- Marking privacy posture as proved before remediation evidence exists creates false trust.
 
 ## Phase 7 - Operator command and voice readiness
 
