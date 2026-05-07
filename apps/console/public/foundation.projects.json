@@ -1,11 +1,11 @@
 {
   "build": {
-    "generatedAt": "2026-05-07T02:29:59.887Z",
+    "generatedAt": "2026-05-07T05:21:51.888Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-06T21:05:00.000Z",
+    "updatedAt": "2026-05-07T14:05:00.000Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
@@ -678,12 +678,12 @@
         "overall": "warning",
         "quality": "advisory",
         "warnings": [
-          "Wave 1A search_path hardening and Wave 1C SECURITY DEFINER execute-permission remediation are now proved in Supabase advisor evidence, but leaked password protection still blocks stronger privacy posture claims.",
+          "Wave 1A search_path hardening and Wave 1C SECURITY DEFINER execute-permission remediation are now proved in Supabase advisor evidence, but leaked password protection remains disabled and Supabase rejected the operator enablement attempt because the Fitness org is on the free plan.",
           "Separate Fitness performance remediation lanes remain tracked for unindexed foreign keys, auth_rls_initplan policy overhead, and unused index review.",
           "Historical prod-deploy mapping remains documented until active inventory or remediation changes."
         ],
         "blockers": [],
-        "summary": "Deployment proof is clean and the two SQL remediation waves are proved, but the remaining auth operator finding and tracked performance lanes still keep Fitness privacy and database posture below healthy."
+        "summary": "Deployment proof is clean and the two SQL remediation waves are proved, but the leaked-password control is currently plan-blocked and the tracked performance lanes still keep Fitness privacy and database posture below healthy."
       },
       "scorecard": {
         "status": "scored",
@@ -721,16 +721,16 @@
             "state": "warn",
             "points": 10,
             "maxPoints": 25,
-            "summary": "Wave 1A cleared the four search_path findings and Wave 1C cleared the SECURITY DEFINER execute-permission warnings, but leaked password protection and the tracked performance remediation lanes still block stronger privacy and data-security claims."
+            "summary": "Wave 1A cleared the four search_path findings and Wave 1C cleared the SECURITY DEFINER execute-permission warnings, but leaked password protection is still disabled on the current free plan and the tracked performance remediation lanes still block stronger privacy and data-security claims."
           }
         ],
         "warnings": [
-          "Wave 1A search_path hardening and Wave 1C SECURITY DEFINER execute-permission remediation are now proved in Supabase advisor evidence, but leaked password protection still blocks stronger privacy posture claims.",
+          "Wave 1A search_path hardening and Wave 1C SECURITY DEFINER execute-permission remediation are now proved in Supabase advisor evidence, but leaked password protection remains disabled and Supabase rejected the operator enablement attempt because the Fitness org is on the free plan.",
           "Separate Fitness performance remediation lanes remain tracked for unindexed foreign keys, auth_rls_initplan policy overhead, and unused index review.",
           "Historical prod-deploy mapping remains documented until active inventory or remediation changes."
         ],
         "blockers": [],
-        "nextAction": "Enable Fitness leaked password protection through the Supabase auth operator lane, keep the separate performance remediation lanes moving, and require reviewed advisor proof before changing posture."
+        "nextAction": "Decide whether to upgrade the Fitness Supabase org to a Pro plan so leaked password protection can be enabled, keep the separate performance remediation lanes moving, and require reviewed advisor proof before changing posture."
       },
       "repo": {
         "owner": "fawxzzy",
@@ -820,7 +820,7 @@
       ],
       "nextActions": [
         "monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project",
-        "record the proved Wave 1A search_path remediation and Wave 1C SECURITY DEFINER execute-permission remediation, then execute the leaked password protection operator lane with reviewed proof",
+        "record the proved Wave 1A search_path remediation and Wave 1C SECURITY DEFINER execute-permission remediation, and treat leaked password protection as a reviewed free-plan blocker until the Fitness Supabase org is upgraded or the policy is intentionally accepted",
         "keep the Fitness performance remediation lanes moving for unindexed foreign keys, auth_rls_initplan policy overhead, and unused index review",
         "keep the historical fawxzzy-fitness-prod-deploy mapping documented unless it reappears in active team inventory",
         "surface deployment health in Foundation console"

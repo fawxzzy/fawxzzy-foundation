@@ -2,7 +2,7 @@
 
 Generated from `data/projects.json`. Do not hand-edit this file unless the generator is also updated.
 
-Updated: 2026-05-06T21:05:00.000Z
+Updated: 2026-05-07T14:05:00.000Z
 
 ## Summary
 
@@ -123,8 +123,8 @@ Updated: 2026-05-06T21:05:00.000Z
 - Observed: repo `verified`, deployment `ready`, database `observed`, proof `current`
 - Observed summary: Foundation observes a verified public repo, READY production deployment, current deployment proof, and an active Supabase project with advisor evidence.
 - Health judgment: overall `warning`, quality `advisory`
-- Health summary: Deployment proof is clean and the two SQL remediation waves are proved, but the remaining auth operator finding and tracked performance lanes still keep Fitness privacy and database posture below healthy.
-- Health warning: Wave 1A search_path hardening and Wave 1C SECURITY DEFINER execute-permission remediation are now proved in Supabase advisor evidence, but leaked password protection still blocks stronger privacy posture claims.
+- Health summary: Deployment proof is clean and the two SQL remediation waves are proved, but the leaked-password control is currently plan-blocked and the tracked performance lanes still keep Fitness privacy and database posture below healthy.
+- Health warning: Wave 1A search_path hardening and Wave 1C SECURITY DEFINER execute-permission remediation are now proved in Supabase advisor evidence, but leaked password protection remains disabled and Supabase rejected the operator enablement attempt because the Fitness org is on the free plan.
 - Health warning: Separate Fitness performance remediation lanes remain tracked for unindexed foreign keys, auth_rls_initplan policy overhead, and unused index review.
 - Health warning: Historical prod-deploy mapping remains documented until active inventory or remediation changes.
 - Legacy compatibility status: `active`
@@ -132,11 +132,11 @@ Updated: 2026-05-06T21:05:00.000Z
 - Score Evidence completeness: `pass` 25/25 - Split-state truth, production deployment evidence, and Supabase observation data are all present.
 - Score Proof freshness: `pass` 25/25 - Deployment proof is current and clean on the primary Fitness Vercel project.
 - Score Deployment posture: `pass` 25/25 - Primary production deployment is READY, while the legacy prod-deploy lane is retained only as historical inventory.
-- Score Data and security posture: `warn` 10/25 - Wave 1A cleared the four search_path findings and Wave 1C cleared the SECURITY DEFINER execute-permission warnings, but leaked password protection and the tracked performance remediation lanes still block stronger privacy and data-security claims.
-- Score warning: Wave 1A search_path hardening and Wave 1C SECURITY DEFINER execute-permission remediation are now proved in Supabase advisor evidence, but leaked password protection still blocks stronger privacy posture claims.
+- Score Data and security posture: `warn` 10/25 - Wave 1A cleared the four search_path findings and Wave 1C cleared the SECURITY DEFINER execute-permission warnings, but leaked password protection is still disabled on the current free plan and the tracked performance remediation lanes still block stronger privacy and data-security claims.
+- Score warning: Wave 1A search_path hardening and Wave 1C SECURITY DEFINER execute-permission remediation are now proved in Supabase advisor evidence, but leaked password protection remains disabled and Supabase rejected the operator enablement attempt because the Fitness org is on the free plan.
 - Score warning: Separate Fitness performance remediation lanes remain tracked for unindexed foreign keys, auth_rls_initplan policy overhead, and unused index review.
 - Score warning: Historical prod-deploy mapping remains documented until active inventory or remediation changes.
-- Score next action: Enable Fitness leaked password protection through the Supabase auth operator lane, keep the separate performance remediation lanes moving, and require reviewed advisor proof before changing posture.
+- Score next action: Decide whether to upgrade the Fitness Supabase org to a Pro plan so leaked password protection can be enabled, keep the separate performance remediation lanes moving, and require reviewed advisor proof before changing posture.
 - Overall health facet: `deployment-observed` - GitHub repo is public, the primary Vercel production deployment is proved, and the legacy fawxzzy-fitness-prod-deploy lane is now classified as historical.
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Primary Vercel project is visible under the fawxzzy team. The recorded fawxzzy-fitness-prod-deploy project ID now returns 404 and is absent from the current team inventory, so Foundation keeps it only as a historical mapping. (checked `2026-05-02T18:04:46.3873760Z`)
