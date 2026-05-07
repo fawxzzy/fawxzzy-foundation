@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-05-06T19:20:00.000Z",
-  "source": "phase-6b-fitness-privacy-remediation-tracking",
+  "updatedAt": "2026-05-06T21:05:00.000Z",
+  "source": "phase-6b-fitness-wave-1c-proof",
   "owner": "fawxzzy",
   "principles": [
     "private-first runtime artifacts",
@@ -659,11 +659,12 @@
         "overall": "warning",
         "quality": "advisory",
         "warnings": [
-          "Wave 1A search_path hardening is now proved in Supabase advisor evidence, but SECURITY DEFINER execute-permission findings and leaked password protection still block stronger privacy posture claims.",
+          "Wave 1A search_path hardening and Wave 1C SECURITY DEFINER execute-permission remediation are now proved in Supabase advisor evidence, but leaked password protection still blocks stronger privacy posture claims.",
+          "Separate Fitness performance remediation lanes remain tracked for unindexed foreign keys, auth_rls_initplan policy overhead, and unused index review.",
           "Historical prod-deploy mapping remains documented until active inventory or remediation changes."
         ],
         "blockers": [],
-        "summary": "Deployment proof is clean and Wave 1A search_path hardening is proved, but remaining security findings still keep Fitness privacy and database posture below healthy."
+        "summary": "Deployment proof is clean and the two SQL remediation waves are proved, but the remaining auth operator finding and tracked performance lanes still keep Fitness privacy and database posture below healthy."
       },
       "scorecard": {
         "status": "scored",
@@ -701,15 +702,16 @@
             "state": "warn",
             "points": 10,
             "maxPoints": 25,
-            "summary": "Wave 1A cleared the four search_path findings, but SECURITY DEFINER execute-permission warnings and leaked password protection still block stronger privacy and data-security claims."
+            "summary": "Wave 1A cleared the four search_path findings and Wave 1C cleared the SECURITY DEFINER execute-permission warnings, but leaked password protection and the tracked performance remediation lanes still block stronger privacy and data-security claims."
           }
         ],
         "warnings": [
-          "Wave 1A search_path hardening is now proved in Supabase advisor evidence, but SECURITY DEFINER execute-permission findings and leaked password protection still block stronger privacy posture claims.",
+          "Wave 1A search_path hardening and Wave 1C SECURITY DEFINER execute-permission remediation are now proved in Supabase advisor evidence, but leaked password protection still blocks stronger privacy posture claims.",
+          "Separate Fitness performance remediation lanes remain tracked for unindexed foreign keys, auth_rls_initplan policy overhead, and unused index review.",
           "Historical prod-deploy mapping remains documented until active inventory or remediation changes."
         ],
         "blockers": [],
-        "nextAction": "Execute the next Fitness-owned remediation lanes for SECURITY DEFINER execute permissions and leaked password protection, then require reviewed advisor proof before changing posture."
+        "nextAction": "Enable Fitness leaked password protection through the Supabase auth operator lane, keep the separate performance remediation lanes moving, and require reviewed advisor proof before changing posture."
       },
       "repo": {
         "owner": "fawxzzy",
@@ -798,7 +800,8 @@
       ],
       "nextActions": [
         "monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project",
-        "record the proved Wave 1A search_path remediation and execute the next Fitness-owned remediation lanes for SECURITY DEFINER execute permissions and leaked password protection",
+        "record the proved Wave 1A search_path remediation and Wave 1C SECURITY DEFINER execute-permission remediation, then execute the leaked password protection operator lane with reviewed proof",
+        "keep the Fitness performance remediation lanes moving for unindexed foreign keys, auth_rls_initplan policy overhead, and unused index review",
         "keep the historical fawxzzy-fitness-prod-deploy mapping documented unless it reappears in active team inventory",
         "surface deployment health in Foundation console"
       ]
