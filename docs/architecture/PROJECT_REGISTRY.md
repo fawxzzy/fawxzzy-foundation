@@ -59,7 +59,7 @@ Updated: 2026-05-07T14:05:00.000Z
 - Recorded Vercel mappings: `fawxzzy-foundation`
 - Deployment: `ready` - Latest production deployment is READY and reflects the proof-quality classifications commit. (checked `2026-05-01T05:45:05.8532243Z`)
 - Latest deployment facts: deployment `dpl_DSsSc2vNP3bGJZWZvAoCeFjrLuwJ`, target `production`, alias `fawxzzy-foundation.vercel.app`, commit `f5f2bdce36ea20fc1f3c081f6425d394bbcb38f4`, message "Add proof quality classifications"
-- Proof: `current` - Pinned promotion proof remains intact at abda5a5/dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 while the latest observed production display parity is f5f2bdc/dpl_DSsSc2vNP3bGJZWZvAoCeFjrLuwJ. (checked `2026-05-01T05:45:05.8532243Z`)
+- Proof: `current / stale` - Pinned promotion proof remains intact at abda5a5/dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 while the latest observed production display parity is f5f2bdc/dpl_DSsSc2vNP3bGJZWZvAoCeFjrLuwJ. (checked `2026-05-01T05:45:05.8532243Z`)
 - Proof freshness window: 168h
 - Last deployment proof captured: `2026-05-01T05:45:05.8532243Z`
 - Proof quality: `clean` - Pinned active-control-plane proof remains clean and unchanged.
@@ -123,20 +123,20 @@ Updated: 2026-05-07T14:05:00.000Z
 - Observed: repo `verified`, deployment `ready`, database `observed`, proof `current`
 - Observed summary: Foundation observes a verified public repo, READY production deployment, current deployment proof, and an active Supabase project with advisor evidence.
 - Health judgment: overall `warning`, quality `advisory`
-- Health summary: Deployment proof is clean and the completed SQL remediation waves are proved, but the leaked-password control is currently plan-blocked and the remaining performance lanes still keep Fitness privacy and database posture below healthy.
-- Health warning: Wave 1A search_path hardening, Wave 1C SECURITY DEFINER execute-permission remediation, and Wave 1B FK covering indexes are now proved in Supabase advisor evidence, but leaked password protection remains disabled and Supabase rejected the operator enablement attempt because the Fitness org is on the free plan.
-- Health warning: Remaining Fitness performance remediation lanes are now narrowed to auth_rls_initplan policy overhead and unused index review.
+- Health summary: Deployment proof is clean and the completed SQL remediation waves are proved, but the leaked-password control is currently plan-blocked and the remaining non-session RLS performance lanes still keep Fitness privacy and database posture below healthy.
+- Health warning: Wave 1A search_path hardening, Wave 1C SECURITY DEFINER execute-permission remediation, Wave 1B FK covering indexes, and Wave 2A-1 session-core RLS initplan rewrites are now proved in Supabase advisor evidence, but leaked password protection remains disabled and Supabase rejected the operator enablement attempt because the Fitness org is on the free plan.
+- Health warning: Remaining Fitness performance remediation lanes are now narrowed to auth_rls_initplan findings on routines, routine_days, routine_day_exercises, profiles, exercises, exercise_stats, and session_follow_up_jobs, plus observation-only unused index review.
 - Health warning: Historical prod-deploy mapping remains documented until active inventory or remediation changes.
 - Legacy compatibility status: `active`
 - Scorecard: `warning` 85/100
 - Score Evidence completeness: `pass` 25/25 - Split-state truth, production deployment evidence, and Supabase observation data are all present.
 - Score Proof freshness: `pass` 25/25 - Deployment proof is current and clean on the primary Fitness Vercel project.
 - Score Deployment posture: `pass` 25/25 - Primary production deployment is READY, while the legacy prod-deploy lane is retained only as historical inventory.
-- Score Data and security posture: `warn` 10/25 - Wave 1A cleared the four search_path findings, Wave 1C cleared the SECURITY DEFINER execute-permission warnings, and Wave 1B cleared the four unindexed foreign key findings, but leaked password protection is still disabled on the current free plan and the remaining performance remediation lanes still block stronger privacy and data-security claims.
-- Score warning: Wave 1A search_path hardening, Wave 1C SECURITY DEFINER execute-permission remediation, and Wave 1B FK covering indexes are now proved in Supabase advisor evidence, but leaked password protection remains disabled and Supabase rejected the operator enablement attempt because the Fitness org is on the free plan.
-- Score warning: Remaining Fitness performance remediation lanes are now narrowed to auth_rls_initplan policy overhead and unused index review.
+- Score Data and security posture: `warn` 10/25 - Wave 1A cleared the four search_path findings, Wave 1C cleared the SECURITY DEFINER execute-permission warnings, Wave 1B cleared the four unindexed foreign key findings, and Wave 2A-1 removed the 12 session-core auth_rls_initplan warnings, but leaked password protection is still disabled on the current free plan and the remaining non-session performance remediation lanes still block stronger privacy and data-security claims.
+- Score warning: Wave 1A search_path hardening, Wave 1C SECURITY DEFINER execute-permission remediation, Wave 1B FK covering indexes, and Wave 2A-1 session-core RLS initplan rewrites are now proved in Supabase advisor evidence, but leaked password protection remains disabled and Supabase rejected the operator enablement attempt because the Fitness org is on the free plan.
+- Score warning: Remaining Fitness performance remediation lanes are now narrowed to auth_rls_initplan findings on routines, routine_days, routine_day_exercises, profiles, exercises, exercise_stats, and session_follow_up_jobs, plus observation-only unused index review.
 - Score warning: Historical prod-deploy mapping remains documented until active inventory or remediation changes.
-- Score next action: Keep the leaked-password control recorded as a reviewed free-plan blocker unless Fitness crosses a launch/readiness gate, move the auth_rls_initplan and unused-index lanes separately, and require reviewed advisor proof before changing posture.
+- Score next action: Keep the leaked-password control recorded as a reviewed free-plan blocker unless Fitness crosses a launch/readiness gate, move the remaining non-session auth_rls_initplan batches next, keep unused-index review observation-only, and require reviewed advisor proof before changing posture.
 - Overall health facet: `deployment-observed` - GitHub repo is public, the primary Vercel production deployment is proved, and the legacy fawxzzy-fitness-prod-deploy lane is now classified as historical.
 - GitHub: `verified` - GitHub repo exists publicly on main. (checked `2026-05-01T03:45:12.577Z`)
 - Vercel: `verified` - Primary Vercel project is visible under the fawxzzy team. The recorded fawxzzy-fitness-prod-deploy project ID now returns 404 and is absent from the current team inventory, so Foundation keeps it only as a historical mapping. (checked `2026-05-02T18:04:46.3873760Z`)
@@ -144,7 +144,7 @@ Updated: 2026-05-07T14:05:00.000Z
 - Recorded Vercel mappings: `fawxzzy-fitness (primary)`, `fawxzzy-fitness-prod-deploy (historical)`
 - Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app and the primary project now reports clean commit provenance. (checked `2026-05-02T17:24:42.9220000Z`)
 - Latest deployment facts: deployment `dpl_B8f413NisExwpfyCzEw74JgRhpcS`, target `production`, alias `fawxzzy-fitness-local.vercel.app`, commit `01bf2dc272ad7c892bf2dac64d47b2b47d943cff`, message "Merge remote-tracking branch 'origin/main' into codex/supabase-canonical-upsert"
-- Proof: `current` - Foundation captured a current clean deployment proof snapshot for Fitness from the primary Vercel project, and the former prod-deploy lane is now recorded as historical rather than an active proof target. (checked `2026-05-02T18:04:46.3873760Z`)
+- Proof: `current / stale` - Foundation captured a current clean deployment proof snapshot for Fitness from the primary Vercel project, and the former prod-deploy lane is now recorded as historical rather than an active proof target. (checked `2026-05-02T18:04:46.3873760Z`)
 - Proof freshness window: 168h
 - Last deployment proof captured: `2026-05-02T17:24:42.9220000Z`
 - Proof quality: `clean` - READY proof from the primary project is current and clean, and the legacy prod-deploy lane is classified as historical inventory only.
@@ -197,7 +197,7 @@ Updated: 2026-05-07T14:05:00.000Z
 - Recorded Vercel mappings: `fawxzzy-mazer`
 - Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-mazer.vercel.app. (checked `2026-05-01T03:45:12.577Z`)
 - Latest deployment facts: deployment `dpl_9yFBd8hRjq1uKoibCZC7bFMBtrMR`, target `production`, alias `fawxzzy-mazer.vercel.app`, commit `f42f472bb057b2e4d57d8ac5c06253e2c3ef5166`, message "updated"
-- Proof: `current` - Foundation captured a current deployment proof snapshot for Mazer from the live production alias. (checked `2026-05-01T03:45:12.577Z`)
+- Proof: `current / stale` - Foundation captured a current deployment proof snapshot for Mazer from the live production alias. (checked `2026-05-01T03:45:12.577Z`)
 - Proof freshness window: 168h
 - Last deployment proof captured: `2026-05-01T03:45:12.577Z`
 - Proof quality: `clean` - READY proof is current and the checked deployment metadata appears clean.
@@ -226,7 +226,7 @@ Updated: 2026-05-07T14:05:00.000Z
 - Recorded Vercel mappings: `fawxzzy-trove`
 - Deployment: `ready` - Latest observed production deployment is READY on fawxzzy-trove.vercel.app and the checked deployment metadata appears clean. (checked `2026-05-02T17:19:13.7580000Z`)
 - Latest deployment facts: deployment `dpl_CjmRU5tRnirBC42hs2eWg4WKK4QL`, target `production`, alias `fawxzzy-trove.vercel.app`, commit `0e9ae02c4c70e604b458e6d9d0489651827134a3`, message "Merge pull request #3 from fawxzzy/codex/trove-pilot-release-cutover"
-- Proof: `current` - Foundation captured a current clean deployment proof snapshot for Trove from the live production alias. (checked `2026-05-02T17:19:13.7580000Z`)
+- Proof: `current / stale` - Foundation captured a current clean deployment proof snapshot for Trove from the live production alias. (checked `2026-05-02T17:19:13.7580000Z`)
 - Proof freshness window: 168h
 - Last deployment proof captured: `2026-05-02T17:19:13.7580000Z`
 - Proof quality: `clean` - READY proof is current and the checked deployment metadata appears clean.
@@ -255,7 +255,7 @@ Updated: 2026-05-07T14:05:00.000Z
 - Recorded Vercel mappings: `nat-1-games`
 - Deployment: `ready` - Latest observed production deployment is READY on nat-1-games.vercel.app. (checked `2026-05-01T03:45:12.577Z`)
 - Latest deployment facts: deployment `dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq`, target `production`, alias `nat-1-games.vercel.app`, commit `ce9643465d69f76a46d92d0db6ed855d117e1bbd`, message "Merge pull request #227 from ZachariahRedfield/codex/simplify-time-zone-selection-and-auto-select Improve Start Session UI and prevent mobile input zoom"
-- Proof: `current` - Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel, and the intentionally private GitHub source is accepted through Vercel provenance. (checked `2026-05-01T03:45:12.577Z`)
+- Proof: `current / stale` - Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel, and the intentionally private GitHub source is accepted through Vercel provenance. (checked `2026-05-01T03:45:12.577Z`)
 - Proof freshness window: 168h
 - Last deployment proof captured: `2026-05-01T03:45:12.577Z`
 - Proof quality: `accepted-private-source` - READY proof is current, and private-source provenance is explicitly accepted when Vercel metadata still identifies ZachariahRedfield/nat1-games on main.
