@@ -1,16 +1,16 @@
 {
   "build": {
-    "generatedAt": "2026-05-11T07:47:08.278Z",
+    "generatedAt": "2026-05-11T21:41:25.164Z",
     "source": "data/projects.json"
   },
   "summary": {
     "owner": "fawxzzy",
-    "updatedAt": "2026-05-07T14:05:00.000Z",
+    "updatedAt": "2026-05-11T21:39:01.1275399Z",
     "totalProjects": 8,
     "activeProjects": 7,
     "deploymentMappedProjects": 5,
-    "currentProofProjects": 0,
-    "staleProofProjects": 5,
+    "currentProofProjects": 5,
+    "staleProofProjects": 0,
     "pendingProofProjects": 0,
     "proofWarningProjects": 0,
     "proofWarningStateCounts": {},
@@ -126,28 +126,28 @@
         "vercel": {
           "status": "verified",
           "summary": "Vercel project is mapped under the fawxzzy team.",
-          "checkedAt": "2026-05-01T03:18:52.146Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "projectNames": [
             "fawxzzy-foundation"
           ]
         },
         "deployment": {
           "status": "ready",
-          "summary": "Latest production deployment is READY and reflects the proof-quality classifications commit.",
-          "checkedAt": "2026-05-01T05:45:05.8532243Z",
+          "summary": "Latest production deployment is READY and reflects the Fitness Wave 2A-4 proof refresh commit.",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "target": "production",
-          "deploymentId": "dpl_DSsSc2vNP3bGJZWZvAoCeFjrLuwJ",
+          "deploymentId": "dpl_5c92EdvaBSLNdJ6dGH8zxTkiYAbU",
           "alias": "fawxzzy-foundation.vercel.app",
-          "githubCommitSha": "f5f2bdce36ea20fc1f3c081f6425d394bbcb38f4",
-          "message": "Add proof quality classifications",
+          "githubCommitSha": "36ac2970c77160c4e7efdcc881eb3b53f3b3182f",
+          "message": "Record Fitness Wave 2A-4 advisor proof",
           "gitDirty": false
         },
         "proof": {
           "status": "current",
-          "summary": "Pinned promotion proof remains intact at abda5a5/dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 while the latest observed production display parity is f5f2bdc/dpl_DSsSc2vNP3bGJZWZvAoCeFjrLuwJ.",
-          "checkedAt": "2026-05-01T05:45:05.8532243Z",
+          "summary": "Pinned promotion proof remains intact at abda5a5/dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 while the latest observed production display parity is 36ac297/dpl_5c92EdvaBSLNdJ6dGH8zxTkiYAbU.",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "staleAfterHours": 168,
-          "lastDeploymentProofAt": "2026-05-01T05:45:05.8532243Z",
+          "lastDeploymentProofAt": "2026-05-11T21:39:01.1275399Z",
           "qualityStates": [
             "clean"
           ],
@@ -155,9 +155,9 @@
           "promotionProofCommitSha": "abda5a586716d356f7c2bb1e670f5783f80b0fed",
           "promotionProofDeploymentId": "dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2",
           "promotionProofPinnedAt": "2026-04-30T00:51:18Z",
-          "latestObservedDeploymentId": "dpl_DSsSc2vNP3bGJZWZvAoCeFjrLuwJ",
-          "latestObservedCommitSha": "f5f2bdce36ea20fc1f3c081f6425d394bbcb38f4",
-          "isStale": true
+          "latestObservedDeploymentId": "dpl_5c92EdvaBSLNdJ6dGH8zxTkiYAbU",
+          "latestObservedCommitSha": "36ac2970c77160c4e7efdcc881eb3b53f3b3182f",
+          "isStale": false
         }
       },
       "stack": [
@@ -195,7 +195,7 @@
           "GitHub Actions Foundation CI push run 25131302841 completed successfully for commit abda5a586716d356f7c2bb1e670f5783f80b0fed at 2026-04-29T20:10:19Z.",
           "Latest Vercel production deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 reached READY at 2026-04-30T00:51:18Z and serves https://fawxzzy-foundation.vercel.app.",
           "Clean deployment provenance is pinned to commit abda5a586716d356f7c2bb1e670f5783f80b0fed with source cli, actor codex, and no gitDirty flag.",
-          "Promotion proof is pinned to commit abda5a586716d356f7c2bb1e670f5783f80b0fed and deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2. Later production deployments may refresh the live console display from newer source commits, including f5f2bdce36ea20fc1f3c081f6425d394bbcb38f4, without changing that original promotion proof."
+          "Promotion proof is pinned to commit abda5a586716d356f7c2bb1e670f5783f80b0fed and deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2. Later production deployments may refresh the live console display from newer source commits, including 36ac2970c77160c4e7efdcc881eb3b53f3b3182f, without changing that original promotion proof."
         ],
         "sourceNote": "GitHub's legacy combined-status endpoint still reports pending with zero status contexts for this commit, but the public check-runs and workflow-run APIs show a completed successful Foundation CI push run. Those check surfaces are the authoritative proof here.",
         "registryCommit": {
@@ -205,7 +205,7 @@
         },
         "vercelObservation": {
           "projectName": "fawxzzy-foundation",
-          "status": "latest production deployment dpl_8CbDvRtaeq7gxSbCAg94r7vWR8A2 is READY for abda5a586716d356f7c2bb1e670f5783f80b0fed on alias fawxzzy-foundation.vercel.app",
+          "status": "latest production deployment dpl_5c92EdvaBSLNdJ6dGH8zxTkiYAbU is READY for 36ac2970c77160c4e7efdcc881eb3b53f3b3182f on alias fawxzzy-foundation.vercel.app",
           "visibleProjects": [
             "foundation",
             "fitness",
@@ -776,7 +776,7 @@
         "vercel": {
           "status": "verified",
           "summary": "Primary Vercel project is visible under the fawxzzy team. The recorded fawxzzy-fitness-prod-deploy project ID now returns 404 and is absent from the current team inventory, so Foundation keeps it only as a historical mapping.",
-          "checkedAt": "2026-05-02T18:04:46.3873760Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "projectNames": [
             "fawxzzy-fitness"
           ]
@@ -784,27 +784,27 @@
         "deployment": {
           "status": "ready",
           "summary": "Latest observed production deployment is READY on fawxzzy-fitness-local.vercel.app and the primary project now reports clean commit provenance.",
-          "checkedAt": "2026-05-02T17:24:42.9220000Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "target": "production",
-          "deploymentId": "dpl_B8f413NisExwpfyCzEw74JgRhpcS",
+          "deploymentId": "dpl_fDrvLGa6geKmvcxnzE7VM9zepwZZ",
           "alias": "fawxzzy-fitness-local.vercel.app",
-          "githubCommitSha": "01bf2dc272ad7c892bf2dac64d47b2b47d943cff",
-          "message": "Merge remote-tracking branch 'origin/main' into codex/supabase-canonical-upsert",
+          "githubCommitSha": "6712fbac0c49ee88b36d5b86a4899b9e4110086b",
+          "message": "fix: add touch fallback for session rail",
           "gitDirty": false
         },
         "proof": {
           "status": "current",
           "summary": "Foundation captured a current clean deployment proof snapshot for Fitness from the primary Vercel project, and the former prod-deploy lane is now recorded as historical rather than an active proof target.",
-          "checkedAt": "2026-05-02T18:04:46.3873760Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "staleAfterHours": 168,
-          "lastDeploymentProofAt": "2026-05-02T17:24:42.9220000Z",
+          "lastDeploymentProofAt": "2026-05-11T21:39:01.1275399Z",
           "qualityStates": [
             "clean"
           ],
           "qualitySummary": "READY proof from the primary project is current and clean, and the legacy prod-deploy lane is classified as historical inventory only.",
-          "latestObservedDeploymentId": "dpl_B8f413NisExwpfyCzEw74JgRhpcS",
-          "latestObservedCommitSha": "01bf2dc272ad7c892bf2dac64d47b2b47d943cff",
-          "isStale": true
+          "latestObservedDeploymentId": "dpl_fDrvLGa6geKmvcxnzE7VM9zepwZZ",
+          "latestObservedCommitSha": "6712fbac0c49ee88b36d5b86a4899b9e4110086b",
+          "isStale": false
         }
       },
       "stack": [
@@ -926,7 +926,7 @@
         "vercel": {
           "status": "verified",
           "summary": "Vercel project is visible under the fawxzzy team and exposes a current production target.",
-          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "projectNames": [
             "fawxzzy-mazer"
           ]
@@ -934,7 +934,7 @@
         "deployment": {
           "status": "ready",
           "summary": "Latest observed production deployment is READY on fawxzzy-mazer.vercel.app.",
-          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "target": "production",
           "deploymentId": "dpl_9yFBd8hRjq1uKoibCZC7bFMBtrMR",
           "alias": "fawxzzy-mazer.vercel.app",
@@ -944,16 +944,16 @@
         "proof": {
           "status": "current",
           "summary": "Foundation captured a current deployment proof snapshot for Mazer from the live production alias.",
-          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "staleAfterHours": 168,
-          "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
+          "lastDeploymentProofAt": "2026-05-11T21:39:01.1275399Z",
           "qualityStates": [
             "clean"
           ],
           "qualitySummary": "READY proof is current and the checked deployment metadata appears clean.",
           "latestObservedDeploymentId": "dpl_9yFBd8hRjq1uKoibCZC7bFMBtrMR",
           "latestObservedCommitSha": "f42f472bb057b2e4d57d8ac5c06253e2c3ef5166",
-          "isStale": true
+          "isStale": false
         }
       },
       "stack": [
@@ -1070,7 +1070,7 @@
         "vercel": {
           "status": "verified",
           "summary": "Vercel project is visible under the fawxzzy team and exposes a current production target.",
-          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "projectNames": [
             "fawxzzy-trove"
           ]
@@ -1078,27 +1078,27 @@
         "deployment": {
           "status": "ready",
           "summary": "Latest observed production deployment is READY on fawxzzy-trove.vercel.app and the checked deployment metadata appears clean.",
-          "checkedAt": "2026-05-02T17:19:13.7580000Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "target": "production",
-          "deploymentId": "dpl_CjmRU5tRnirBC42hs2eWg4WKK4QL",
+          "deploymentId": "dpl_6HffwG5aHXXBGF8fDVenMDyZ9xyh",
           "alias": "fawxzzy-trove.vercel.app",
-          "githubCommitSha": "0e9ae02c4c70e604b458e6d9d0489651827134a3",
-          "message": "Merge pull request #3 from fawxzzy/codex/trove-pilot-release-cutover",
+          "githubCommitSha": "ed51c69643047e1c59bb1caa310900ac6d526d8a",
+          "message": "Add layered Fitness preview board",
           "gitDirty": false
         },
         "proof": {
           "status": "current",
           "summary": "Foundation captured a current clean deployment proof snapshot for Trove from the live production alias.",
-          "checkedAt": "2026-05-02T17:19:13.7580000Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "staleAfterHours": 168,
-          "lastDeploymentProofAt": "2026-05-02T17:19:13.7580000Z",
+          "lastDeploymentProofAt": "2026-05-11T21:39:01.1275399Z",
           "qualityStates": [
             "clean"
           ],
           "qualitySummary": "READY proof is current and the checked deployment metadata appears clean.",
-          "latestObservedDeploymentId": "dpl_CjmRU5tRnirBC42hs2eWg4WKK4QL",
-          "latestObservedCommitSha": "0e9ae02c4c70e604b458e6d9d0489651827134a3",
-          "isStale": true
+          "latestObservedDeploymentId": "dpl_6HffwG5aHXXBGF8fDVenMDyZ9xyh",
+          "latestObservedCommitSha": "ed51c69643047e1c59bb1caa310900ac6d526d8a",
+          "isStale": false
         }
       },
       "stack": [
@@ -1210,7 +1210,7 @@
         "vercel": {
           "status": "verified",
           "summary": "Vercel project is visible under the fawxzzy team and exposes a current production target.",
-          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "projectNames": [
             "nat-1-games"
           ]
@@ -1218,7 +1218,7 @@
         "deployment": {
           "status": "ready",
           "summary": "Latest observed production deployment is READY on nat-1-games.vercel.app.",
-          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "target": "production",
           "deploymentId": "dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq",
           "alias": "nat-1-games.vercel.app",
@@ -1228,16 +1228,16 @@
         "proof": {
           "status": "current",
           "summary": "Foundation captured a current deployment proof snapshot for Nat 1 Games from Vercel, and the intentionally private GitHub source is accepted through Vercel provenance.",
-          "checkedAt": "2026-05-01T03:45:12.577Z",
+          "checkedAt": "2026-05-11T21:39:01.1275399Z",
           "staleAfterHours": 168,
-          "lastDeploymentProofAt": "2026-05-01T03:45:12.577Z",
+          "lastDeploymentProofAt": "2026-05-11T21:39:01.1275399Z",
           "qualityStates": [
             "accepted-private-source"
           ],
           "qualitySummary": "READY proof is current, and private-source provenance is explicitly accepted when Vercel metadata still identifies ZachariahRedfield/nat1-games on main.",
           "latestObservedDeploymentId": "dpl_4rZ9yz4QZch3G9Q22B8eVqPx7gsq",
           "latestObservedCommitSha": "ce9643465d69f76a46d92d0db6ed855d117e1bbd",
-          "isStale": true
+          "isStale": false
         }
       },
       "stack": [
