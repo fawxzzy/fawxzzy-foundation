@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "updatedAt": "2026-05-07T14:05:00.000Z",
-  "source": "phase-6b-fitness-wave-2a3-profile-catalog-proof",
+  "source": "phase-6b-fitness-wave-2a4-follow-up-proof",
   "owner": "fawxzzy",
   "principles": [
     "private-first runtime artifacts",
@@ -659,12 +659,12 @@
         "overall": "warning",
         "quality": "advisory",
         "warnings": [
-          "Wave 1A search_path hardening, Wave 1C SECURITY DEFINER execute-permission remediation, Wave 1B FK covering indexes, Wave 2A-1 session-core RLS initplan rewrites, Wave 2A-2 routine-core RLS initplan rewrites, and Wave 2A-3 profile/catalog RLS initplan rewrites are now proved in Supabase advisor evidence, but leaked password protection remains disabled and Supabase rejected the operator enablement attempt because the Fitness org is on the free plan.",
-          "Remaining Fitness performance remediation lanes are now narrowed to auth_rls_initplan findings on session_follow_up_jobs, plus observation-only unused index review.",
+          "Wave 1A search_path hardening, Wave 1C SECURITY DEFINER execute-permission remediation, Wave 1B FK covering indexes, Wave 2A-1 session-core RLS initplan rewrites, Wave 2A-2 routine-core RLS initplan rewrites, Wave 2A-3 profile/catalog RLS initplan rewrites, and Wave 2A-4 session-follow-up-job RLS initplan rewrites are now proved in Supabase advisor evidence, but leaked password protection remains disabled and Supabase rejected the operator enablement attempt because the Fitness org is on the free plan.",
+          "auth_rls_initplan findings are now cleared for Fitness; unused index observations remain review-only and do not change posture.",
           "Historical prod-deploy mapping remains documented until active inventory or remediation changes."
         ],
         "blockers": [],
-        "summary": "Deployment proof is clean and the completed SQL remediation waves are proved, but the leaked-password control is currently plan-blocked and the remaining non-session RLS performance lanes still keep Fitness privacy and database posture below healthy."
+        "summary": "Deployment proof is clean and the completed SQL remediation waves are proved, but the leaked-password control is currently plan-blocked and unused-index review remains observation-only, so Fitness privacy and database posture stay below healthy."
       },
       "scorecard": {
         "status": "scored",
@@ -702,16 +702,16 @@
             "state": "warn",
             "points": 10,
             "maxPoints": 25,
-            "summary": "Wave 1A cleared the four search_path findings, Wave 1C cleared the SECURITY DEFINER execute-permission warnings, Wave 1B cleared the four unindexed foreign key findings, Wave 2A-1 removed the 12 session-core auth_rls_initplan warnings, Wave 2A-2 removed the 12 routine-core auth_rls_initplan warnings, and Wave 2A-3 removed the 12 profile/catalog auth_rls_initplan warnings, but leaked password protection is still disabled on the current free plan and the remaining follow-up-job RLS performance lane still blocks stronger privacy and data-security claims."
+            "summary": "Wave 1A cleared the four search_path findings, Wave 1C cleared the SECURITY DEFINER execute-permission warnings, Wave 1B cleared the four unindexed foreign key findings, and Waves 2A-1 through 2A-4 cleared all auth_rls_initplan warnings, but leaked password protection is still disabled on the current free plan and unused-index findings remain observation-only."
           }
         ],
         "warnings": [
-          "Wave 1A search_path hardening, Wave 1C SECURITY DEFINER execute-permission remediation, Wave 1B FK covering indexes, Wave 2A-1 session-core RLS initplan rewrites, Wave 2A-2 routine-core RLS initplan rewrites, and Wave 2A-3 profile/catalog RLS initplan rewrites are now proved in Supabase advisor evidence, but leaked password protection remains disabled and Supabase rejected the operator enablement attempt because the Fitness org is on the free plan.",
-          "Remaining Fitness performance remediation lanes are now narrowed to auth_rls_initplan findings on session_follow_up_jobs, plus observation-only unused index review.",
+          "Wave 1A search_path hardening, Wave 1C SECURITY DEFINER execute-permission remediation, Wave 1B FK covering indexes, Wave 2A-1 session-core RLS initplan rewrites, Wave 2A-2 routine-core RLS initplan rewrites, Wave 2A-3 profile/catalog RLS initplan rewrites, and Wave 2A-4 session-follow-up-job RLS initplan rewrites are now proved in Supabase advisor evidence, but leaked password protection remains disabled and Supabase rejected the operator enablement attempt because the Fitness org is on the free plan.",
+          "auth_rls_initplan findings are now cleared for Fitness; unused index observations remain review-only and do not change posture.",
           "Historical prod-deploy mapping remains documented until active inventory or remediation changes."
         ],
         "blockers": [],
-        "nextAction": "Keep the leaked-password control recorded as a reviewed free-plan blocker unless Fitness crosses a launch/readiness gate, move the final session_follow_up_jobs auth_rls_initplan batch next, keep unused-index review observation-only, and require reviewed advisor proof before changing posture."
+        "nextAction": "Keep the leaked-password control recorded as a reviewed free-plan blocker unless Fitness crosses a launch/readiness gate, keep unused-index review observation-only, and require reviewed advisor proof before changing posture."
       },
       "repo": {
         "owner": "fawxzzy",
@@ -728,7 +728,7 @@
         "region": "us-west-2",
         "status": "ACTIVE_HEALTHY",
         "postgresVersion": "17.6.1.104",
-        "observedAt": "2026-05-11T01:17:06.1796799Z"
+        "observedAt": "2026-05-11T07:45:33.4547505Z"
       },
       "vercel": {
         "exists": true,
@@ -800,8 +800,8 @@
       ],
       "nextActions": [
         "monitor future Fitness deployment proof freshness on the primary fawxzzy-fitness project",
-        "record the proved Wave 1A search_path remediation, Wave 1C SECURITY DEFINER execute-permission remediation, Wave 1B FK covering index remediation, Wave 2A-1 session-core RLS initplan remediation, Wave 2A-2 routine-core RLS initplan remediation, and Wave 2A-3 profile/catalog RLS initplan remediation, and treat leaked password protection as a reviewed free-plan blocker until the Fitness Supabase org is upgraded or the policy is intentionally accepted",
-        "keep the remaining Fitness performance remediation lanes moving for the final session_follow_up_jobs auth_rls_initplan batch and observation-only unused index review",
+        "record the proved Wave 1A search_path remediation, Wave 1C SECURITY DEFINER execute-permission remediation, Wave 1B FK covering index remediation, Wave 2A-1 session-core RLS initplan remediation, Wave 2A-2 routine-core RLS initplan remediation, Wave 2A-3 profile/catalog RLS initplan remediation, and Wave 2A-4 session-follow-up-job RLS initplan remediation, and treat leaked password protection as a reviewed free-plan blocker until the Fitness Supabase org is upgraded or the policy is intentionally accepted",
+        "keep unused-index review observation-only unless a reviewed performance or maintenance lane changes that decision",
         "keep the historical fawxzzy-fitness-prod-deploy mapping documented unless it reappears in active team inventory",
         "surface deployment health in Foundation console"
       ]
