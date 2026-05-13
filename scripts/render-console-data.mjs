@@ -73,7 +73,7 @@ const projects = registry.projects.map((project) => ({
 
 const payload = {
   build: {
-    generatedAt: new Date().toISOString(),
+    generatedAt: registry.updatedAt,
     source: "data/projects.json"
   },
   summary: {
